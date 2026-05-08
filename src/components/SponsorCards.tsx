@@ -423,8 +423,8 @@ function V10() {
     <div className="overflow-hidden rounded-3xl bg-card shadow-[0_10px_28px_-14px_rgba(15,23,42,0.2)] ring-1 ring-border/60">
       <div className="relative flex items-center gap-3 bg-gradient-to-r from-navy-deep via-navy to-[oklch(0.3_0.09_268)] px-5 py-4">
         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-gold/15 to-transparent" />
-        <div className="relative grid h-12 w-12 place-items-center rounded-2xl bg-white text-navy-deep shadow-lg ring-2 ring-gold/40">
-          <span className="text-[14px] font-black">WL</span>
+        <div className="relative h-12 w-12 overflow-hidden rounded-2xl bg-white shadow-lg ring-2 ring-gold/40">
+          <img src={sponsorLogo} alt="Wizlife" className="h-full w-full object-cover" />
         </div>
         <div className="relative flex-1 text-white">
           <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gold">Sponsored by</div>
