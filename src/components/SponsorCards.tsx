@@ -1,16 +1,17 @@
-import { ArrowRight, Trophy, Users, Target, Clock, Sparkles, Crown, Star, ShieldCheck } from "lucide-react";
+import { ArrowRight, Trophy, Users, Target, Clock, Sparkles, Crown, ShieldCheck } from "lucide-react";
+import sponsorLogo from "@/assets/sponsor-logo.png";
 
 const TITLE_BN = "সুবহানাল্লাহি ওয়া বিহামদিহী";
 const SUB_BN = "সুবহানাল্লাহি ওয়া বিহামদিহী সুবহানাল্লাহিল আযীম — এই তাসবীহ পাঠে জান্নাতে খেজুর গাছ রোপিত হয়।";
 
 function Logo({ size = 28 }: { size?: number }) {
   return (
-    <div
-      className="grid place-items-center rounded-full bg-gradient-to-br from-navy to-navy-deep text-white shadow-sm"
+    <img
+      src={sponsorLogo}
+      alt="Sponsor"
+      className="rounded-full object-cover ring-1 ring-white/20"
       style={{ width: size, height: size }}
-    >
-      <Star className="h-3.5 w-3.5 fill-gold text-gold" />
-    </div>
+    />
   );
 }
 
@@ -365,12 +366,11 @@ function SponsorBrand({
   tagline = "Halal Lifestyle Brand",
   tone = "light",
 }: { name?: string; tagline?: string; tone?: "light" | "dark" }) {
-  const initials = name.slice(0, 2).toUpperCase();
   const isDark = tone === "dark";
   return (
     <div className="flex items-center gap-2.5">
-      <div className="relative grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-gold via-[oklch(0.82_0.13_82)] to-[oklch(0.68_0.16_70)] text-navy-deep shadow-md ring-2 ring-white/80">
-        <span className="text-[13px] font-black tracking-tight">{initials}</span>
+      <div className="relative h-11 w-11 overflow-hidden rounded-2xl bg-white shadow-md ring-2 ring-white/80">
+        <img src={sponsorLogo} alt={name} className="h-full w-full object-cover" />
         <span className="absolute -bottom-1 -right-1 grid h-4 w-4 place-items-center rounded-full bg-navy text-gold ring-2 ring-white">
           <ShieldCheck className="h-2.5 w-2.5" />
         </span>
@@ -423,8 +423,8 @@ function V10() {
     <div className="overflow-hidden rounded-3xl bg-card shadow-[0_10px_28px_-14px_rgba(15,23,42,0.2)] ring-1 ring-border/60">
       <div className="relative flex items-center gap-3 bg-gradient-to-r from-navy-deep via-navy to-[oklch(0.3_0.09_268)] px-5 py-4">
         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-gold/15 to-transparent" />
-        <div className="relative grid h-12 w-12 place-items-center rounded-2xl bg-white text-navy-deep shadow-lg ring-2 ring-gold/40">
-          <span className="text-[14px] font-black">WL</span>
+        <div className="relative h-12 w-12 overflow-hidden rounded-2xl bg-white shadow-lg ring-2 ring-gold/40">
+          <img src={sponsorLogo} alt="Wizlife" className="h-full w-full object-cover" />
         </div>
         <div className="relative flex-1 text-white">
           <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gold">Sponsored by</div>
@@ -501,8 +501,8 @@ function V12() {
   return (
     <div className="flex overflow-hidden rounded-3xl bg-card shadow-[0_10px_28px_-14px_rgba(15,23,42,0.18)] ring-1 ring-border/60">
       <div className="flex w-[110px] flex-col items-center justify-center gap-2 bg-gradient-to-b from-navy-deep to-navy p-4 text-white">
-        <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white text-navy-deep shadow-md ring-2 ring-gold/40">
-          <span className="text-[16px] font-black tracking-tight">WL</span>
+        <div className="h-14 w-14 overflow-hidden rounded-2xl bg-white shadow-md ring-2 ring-gold/40">
+          <img src={sponsorLogo} alt="Wizlife" className="h-full w-full object-cover" />
         </div>
         <div className="text-center leading-tight">
           <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-gold">Sponsor</div>
