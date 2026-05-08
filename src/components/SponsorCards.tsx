@@ -543,6 +543,10 @@ const VARIANTS = [
   { n: 6, title: "Elegant High-Trust", desc: "Verified sponsor, refined dividers", C: V6 },
   { n: 7, title: "Soft Light Blue", desc: "Airy, gentle navy accents", C: V7 },
   { n: 8, title: "Bold Mega Prize", desc: "Centered, high-conversion CTA", C: V8 },
+  { n: 9, title: "Logo-Led Trust", desc: "Prominent sponsor lockup up top", C: V9 },
+  { n: 10, title: "Sponsor Banner", desc: "Bold branded header strip", C: V10 },
+  { n: 11, title: "Premium Dark + Brand", desc: "Sponsor lockup on dark hero", C: V11 },
+  { n: 12, title: "Side Emblem", desc: "Vertical sponsor rail with logo", C: V12 },
 ];
 
 export default function SponsorCards() {
