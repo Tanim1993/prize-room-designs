@@ -359,6 +359,181 @@ function V8() {
   );
 }
 
+/* ---------- SponsorBrand — prominent logo lockup ---------- */
+function SponsorBrand({
+  name = "Wizlife",
+  tagline = "Halal Lifestyle Brand",
+  tone = "light",
+}: { name?: string; tagline?: string; tone?: "light" | "dark" }) {
+  const initials = name.slice(0, 2).toUpperCase();
+  const isDark = tone === "dark";
+  return (
+    <div className="flex items-center gap-2.5">
+      <div className="relative grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-gold via-[oklch(0.82_0.13_82)] to-[oklch(0.68_0.16_70)] text-navy-deep shadow-md ring-2 ring-white/80">
+        <span className="text-[13px] font-black tracking-tight">{initials}</span>
+        <span className="absolute -bottom-1 -right-1 grid h-4 w-4 place-items-center rounded-full bg-navy text-gold ring-2 ring-white">
+          <ShieldCheck className="h-2.5 w-2.5" />
+        </span>
+      </div>
+      <div className="leading-tight">
+        <div className={`text-[10px] font-semibold uppercase tracking-[0.14em] ${isDark ? "text-white/55" : "text-muted-foreground"}`}>
+          Sponsored by
+        </div>
+        <div className={`text-[14px] font-extrabold tracking-tight ${isDark ? "text-white" : "text-ink"}`}>
+          {name}
+        </div>
+        <div className={`text-[10.5px] ${isDark ? "text-white/50" : "text-muted-foreground"}`}>{tagline}</div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- VARIANT 9 — Logo-led trust card ---------- */
+function V9() {
+  return (
+    <div className="rounded-3xl bg-card p-5 shadow-[0_10px_28px_-14px_rgba(15,23,42,0.18)] ring-1 ring-border/60">
+      <div className="flex items-center justify-between">
+        <SponsorBrand name="Wizlife" tagline="Halal Lifestyle Brand" />
+        <span className="inline-flex items-center gap-1 rounded-full bg-navy-soft px-2 py-1 text-[10px] font-semibold text-navy">
+          <ShieldCheck className="h-3 w-3" /> Verified
+        </span>
+      </div>
+
+      <div className="my-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+      <h3 className="bn text-[18px] font-bold leading-snug text-ink">{TITLE_BN}</h3>
+      <p className="bn mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">{SUB_BN}</p>
+
+      <div className="mt-4 flex items-end justify-between rounded-2xl bg-navy-soft/70 px-4 py-3">
+        <div>
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Prize</div>
+          <div className="text-xl font-extrabold text-navy">৳40,000</div>
+        </div>
+        <button className="inline-flex items-center gap-1.5 rounded-full bg-navy px-4 py-2 text-xs font-semibold text-white">
+          Join Now <ArrowRight className="h-3.5 w-3.5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- VARIANT 10 — Sponsor banner header ---------- */
+function V10() {
+  return (
+    <div className="overflow-hidden rounded-3xl bg-card shadow-[0_10px_28px_-14px_rgba(15,23,42,0.2)] ring-1 ring-border/60">
+      <div className="relative flex items-center gap-3 bg-gradient-to-r from-navy-deep via-navy to-[oklch(0.3_0.09_268)] px-5 py-4">
+        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-gold/15 to-transparent" />
+        <div className="relative grid h-12 w-12 place-items-center rounded-2xl bg-white text-navy-deep shadow-lg ring-2 ring-gold/40">
+          <span className="text-[14px] font-black">WL</span>
+        </div>
+        <div className="relative flex-1 text-white">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gold">Sponsored by</div>
+          <div className="text-[15px] font-extrabold tracking-tight">Wizlife</div>
+        </div>
+        <span className="relative inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-semibold text-white ring-1 ring-white/15">
+          <ShieldCheck className="h-3 w-3 text-gold" /> Verified
+        </span>
+      </div>
+
+      <div className="p-5">
+        <h3 className="bn text-[18px] font-bold leading-snug text-ink">{TITLE_BN}</h3>
+        <p className="bn mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">{SUB_BN}</p>
+
+        <div className="mt-4 grid grid-cols-2 gap-2.5">
+          <div className="rounded-xl bg-navy-soft p-3">
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Prize</div>
+            <div className="text-lg font-extrabold text-navy">৳40,000</div>
+          </div>
+          <div className="rounded-xl bg-gold-soft/60 p-3">
+            <div className="text-[10px] uppercase tracking-wider text-[oklch(0.45_0.1_75)]">Goal</div>
+            <div className="text-lg font-extrabold text-[oklch(0.4_0.12_70)]">100/day</div>
+          </div>
+        </div>
+
+        <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3.5">
+          <Stat icon={Users} label="16 joined · 265d left" />
+          <button className="inline-flex items-center gap-1.5 rounded-full bg-navy px-4 py-2 text-xs font-semibold text-white">
+            Join Now <ArrowRight className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- VARIANT 11 — Premium dark with sponsor lockup ---------- */
+function V11() {
+  return (
+    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-deep via-navy to-[oklch(0.22_0.09_270)] p-5 text-white shadow-[0_22px_45px_-22px_rgba(8,12,40,0.6)]">
+      <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-gold/15 blur-3xl" />
+
+      <div className="relative flex items-center justify-between">
+        <SponsorBrand name="Wizlife" tagline="Halal Lifestyle Brand" tone="dark" />
+        <span className="inline-flex items-center gap-1 rounded-full bg-gold/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-gold ring-1 ring-gold/30">
+          <Crown className="h-3 w-3" /> Featured
+        </span>
+      </div>
+
+      <h3 className="bn relative mt-4 text-[19px] font-bold leading-snug">{TITLE_BN}</h3>
+      <p className="bn relative mt-1.5 line-clamp-2 text-[12.5px] leading-relaxed text-white/65">{SUB_BN}</p>
+
+      <div className="relative mt-4 flex items-center justify-between rounded-2xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur">
+        <div>
+          <div className="text-[10px] uppercase tracking-wider text-white/50">Total Prize Pool</div>
+          <div className="text-2xl font-extrabold tracking-tight text-gold-soft">৳40,000</div>
+          <div className="mt-0.5 text-[11px] text-white/55">Goal · 100 zikr / day</div>
+        </div>
+        <button className="inline-flex items-center gap-1.5 rounded-full bg-gold px-4 py-2.5 text-xs font-bold text-navy-deep shadow-lg shadow-gold/30">
+          Join Now <ArrowRight className="h-3.5 w-3.5" />
+        </button>
+      </div>
+
+      <div className="relative mt-3 flex items-center justify-between text-[11px] text-white/55">
+        <span className="inline-flex items-center gap-1"><Users className="h-3 w-3" /> 16 joined</span>
+        <span className="inline-flex items-center gap-1"><Clock className="h-3 w-3" /> 265 days left</span>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- VARIANT 12 — Side logo emblem ---------- */
+function V12() {
+  return (
+    <div className="flex overflow-hidden rounded-3xl bg-card shadow-[0_10px_28px_-14px_rgba(15,23,42,0.18)] ring-1 ring-border/60">
+      <div className="flex w-[110px] flex-col items-center justify-center gap-2 bg-gradient-to-b from-navy-deep to-navy p-4 text-white">
+        <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white text-navy-deep shadow-md ring-2 ring-gold/40">
+          <span className="text-[16px] font-black tracking-tight">WL</span>
+        </div>
+        <div className="text-center leading-tight">
+          <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-gold">Sponsor</div>
+          <div className="text-[12px] font-extrabold">Wizlife</div>
+        </div>
+        <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[9px] font-semibold text-white ring-1 ring-white/15">
+          <ShieldCheck className="h-2.5 w-2.5 text-gold" /> Verified
+        </span>
+      </div>
+
+      <div className="flex-1 p-4">
+        <div className="flex items-center justify-between">
+          <span className="rounded-full bg-gold-soft px-2 py-0.5 text-[10px] font-semibold text-[oklch(0.4_0.12_70)]">Prize Room</span>
+          <span className="text-[11px] text-muted-foreground">265d left</span>
+        </div>
+        <h3 className="bn mt-2 line-clamp-2 text-[15.5px] font-bold leading-snug text-ink">{TITLE_BN}</h3>
+
+        <div className="mt-3 flex items-end justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Prize</div>
+            <div className="text-lg font-extrabold text-navy">৳40,000</div>
+          </div>
+          <button className="inline-flex items-center gap-1 rounded-full bg-navy px-3 py-1.5 text-[11px] font-semibold text-white">
+            Join <ArrowRight className="h-3 w-3" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const VARIANTS = [
   { n: 1, title: "Clean Minimal White", desc: "Calm hierarchy, soft prize panel", C: V1 },
   { n: 2, title: "Premium Navy + Gold", desc: "Featured hero card with depth", C: V2 },
