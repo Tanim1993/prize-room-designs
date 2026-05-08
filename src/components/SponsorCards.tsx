@@ -375,10 +375,6 @@ function SponsorBrand({
           <ShieldCheck className="h-2.5 w-2.5" />
         </span>
       </div>
-        <span className="absolute -bottom-1 -right-1 grid h-4 w-4 place-items-center rounded-full bg-navy text-gold ring-2 ring-white">
-          <ShieldCheck className="h-2.5 w-2.5" />
-        </span>
-      </div>
       <div className="leading-tight">
         <div className={`text-[10px] font-semibold uppercase tracking-[0.14em] ${isDark ? "text-white/55" : "text-muted-foreground"}`}>
           Sponsored by
