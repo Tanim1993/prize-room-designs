@@ -1,16 +1,17 @@
-import { ArrowRight, Trophy, Users, Target, Clock, Sparkles, Crown, Star, ShieldCheck } from "lucide-react";
+import { ArrowRight, Trophy, Users, Target, Clock, Sparkles, Crown, ShieldCheck } from "lucide-react";
+import sponsorLogo from "@/assets/sponsor-logo.png";
 
 const TITLE_BN = "সুবহানাল্লাহি ওয়া বিহামদিহী";
 const SUB_BN = "সুবহানাল্লাহি ওয়া বিহামদিহী সুবহানাল্লাহিল আযীম — এই তাসবীহ পাঠে জান্নাতে খেজুর গাছ রোপিত হয়।";
 
 function Logo({ size = 28 }: { size?: number }) {
   return (
-    <div
-      className="grid place-items-center rounded-full bg-gradient-to-br from-navy to-navy-deep text-white shadow-sm"
+    <img
+      src={sponsorLogo}
+      alt="Sponsor"
+      className="rounded-full object-cover ring-1 ring-white/20"
       style={{ width: size, height: size }}
-    >
-      <Star className="h-3.5 w-3.5 fill-gold text-gold" />
-    </div>
+    />
   );
 }
 
