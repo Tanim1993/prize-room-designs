@@ -366,12 +366,15 @@ function SponsorBrand({
   tagline = "Halal Lifestyle Brand",
   tone = "light",
 }: { name?: string; tagline?: string; tone?: "light" | "dark" }) {
-  const initials = name.slice(0, 2).toUpperCase();
   const isDark = tone === "dark";
   return (
     <div className="flex items-center gap-2.5">
-      <div className="relative grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-gold via-[oklch(0.82_0.13_82)] to-[oklch(0.68_0.16_70)] text-navy-deep shadow-md ring-2 ring-white/80">
-        <span className="text-[13px] font-black tracking-tight">{initials}</span>
+      <div className="relative h-11 w-11 overflow-hidden rounded-2xl bg-white shadow-md ring-2 ring-white/80">
+        <img src={sponsorLogo} alt={name} className="h-full w-full object-cover" />
+        <span className="absolute -bottom-1 -right-1 grid h-4 w-4 place-items-center rounded-full bg-navy text-gold ring-2 ring-white">
+          <ShieldCheck className="h-2.5 w-2.5" />
+        </span>
+      </div>
         <span className="absolute -bottom-1 -right-1 grid h-4 w-4 place-items-center rounded-full bg-navy text-gold ring-2 ring-white">
           <ShieldCheck className="h-2.5 w-2.5" />
         </span>
