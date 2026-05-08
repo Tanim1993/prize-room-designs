@@ -501,8 +501,8 @@ function V12() {
   return (
     <div className="flex overflow-hidden rounded-3xl bg-card shadow-[0_10px_28px_-14px_rgba(15,23,42,0.18)] ring-1 ring-border/60">
       <div className="flex w-[110px] flex-col items-center justify-center gap-2 bg-gradient-to-b from-navy-deep to-navy p-4 text-white">
-        <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white text-navy-deep shadow-md ring-2 ring-gold/40">
-          <span className="text-[16px] font-black tracking-tight">WL</span>
+        <div className="h-14 w-14 overflow-hidden rounded-2xl bg-white shadow-md ring-2 ring-gold/40">
+          <img src={sponsorLogo} alt="Wizlife" className="h-full w-full object-cover" />
         </div>
         <div className="text-center leading-tight">
           <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-gold">Sponsor</div>
