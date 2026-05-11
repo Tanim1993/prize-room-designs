@@ -643,7 +643,223 @@ export default function SponsorCards() {
             </PhoneFrame>
           ))}
         </div>
+
+        <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Room Details Page — Sponsor Patterns</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Three approaches to surface sponsor branding, ads & sliders inside the room detail screen.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="Variant A · Sponsor banner under header"><RoomDetailA /></DetailFrame>
+          <DetailFrame label="Variant B · Sponsor strip + slider before rewards"><RoomDetailB /></DetailFrame>
+          <DetailFrame label="Variant C · Sticky sponsor footer + inline ad"><RoomDetailC /></DetailFrame>
+        </div>
       </div>
     </div>
+  );
+}
+
+/* ================================================================== */
+/*  ROOM DETAILS PAGE VARIANTS                                        */
+/* ================================================================== */
+
+function DetailFrame({ children, label }: { children: React.ReactNode; label: string }) {
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        {label}
+      </div>
+      <div className="w-[360px] overflow-hidden rounded-[28px] bg-[#F4F6FA] shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function DetailHeader() {
+  return (
+    <div style={{ background: NAVY }} className="px-5 pb-5 pt-4 text-white">
+      <div className="flex items-center justify-between text-[11px]">
+        <ChevronRight className="h-4 w-4 rotate-180" />
+        <span className="rounded-full bg-white/15 px-2 py-0.5 text-[10px]">Public</span>
+      </div>
+      <div className="mt-2 text-center">
+        <div className="bn text-[26px] font-bold leading-tight">أَسْتَغْفِرُ اللّٰه</div>
+        <div className="bn mt-1 text-[11px] text-white/70">আমি আল্লাহর কাছে ক্ষমা চাই</div>
+      </div>
+    </div>
+  );
+}
+
+function Section({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`rounded-2xl bg-white p-4 shadow-[0_2px_8px_-4px_rgba(15,23,42,0.1)] ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+function StartButton() {
+  return (
+    <button className="flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-[14px] font-bold text-white" style={{ background: NAVY }}>
+      <span className="grid h-5 w-5 place-items-center rounded-full bg-white/20 text-[10px]">▶</span>
+      Start Counting Zikr
+    </button>
+  );
+}
+
+function WeeklyRewards() {
+  const rows = [
+    { p: "1st", v: "৳50,000", c: "text-amber-600", dot: "bg-amber-400" },
+    { p: "2nd", v: "৳30,000", c: "text-slate-500", dot: "bg-slate-400" },
+    { p: "3rd", v: "৳10,000", c: "text-orange-700", dot: "bg-orange-500" },
+  ];
+  return (
+    <Section>
+      <div className="mb-2 flex items-center gap-2 text-[14px] font-bold text-slate-900">
+        <Trophy className="h-4 w-4 text-amber-500" /> Weekly Rewards
+      </div>
+      <div className="space-y-1.5">
+        {rows.map((r) => (
+          <div key={r.p} className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 text-[12.5px]">
+            <span className="text-slate-700">{r.p}</span>
+            <span className={`flex items-center gap-1.5 font-bold ${r.c}`}>
+              <span className={`h-2 w-2 rounded-full ${r.dot}`} /> {r.v}
+            </span>
+          </div>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function AboutRoom() {
+  return (
+    <Section>
+      <div className="flex items-center justify-between">
+        <span className="text-[13px] font-semibold text-slate-900">About this room</span>
+        <ChevronRight className="h-4 w-4 text-slate-400" />
+      </div>
+      <div className="mt-2 flex items-center gap-4 text-[11.5px] text-slate-500">
+        <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5" /> 16 members</span>
+        <span className="flex items-center gap-1"><Timer className="h-3.5 w-3.5" /> 20 days ago</span>
+      </div>
+      <p className="bn mt-2 text-[12.5px] text-slate-600">আমি আল্লাহর কাছে ক্ষমা চাই</p>
+    </Section>
+  );
+}
+
+function YourProgress() {
+  return (
+    <Section>
+      <div className="text-[12px] text-slate-500">Your Progress</div>
+      <div className="mt-1 text-[22px] font-extrabold text-slate-900">
+        0 <span className="text-[12px] font-medium text-slate-400">of 100</span>
+      </div>
+      <div className="mt-2 h-1 rounded-full bg-slate-100"><div className="h-full w-0 rounded-full bg-emerald-500" /></div>
+      <div className="mt-1 text-[10.5px] text-slate-400">0.0% Complete</div>
+    </Section>
+  );
+}
+
+/* ---------- Variant A: Sponsor banner directly under header ---------- */
+function RoomDetailA() {
+  return (
+    <>
+      <DetailHeader />
+      <div className="space-y-3 px-3 pb-6 pt-3">
+        <div className="overflow-hidden rounded-2xl bg-white shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+          <div className="flex items-center justify-between px-3 py-2 text-white" style={{ background: NAVY }}>
+            <div className="flex items-center gap-2">
+              <img src={sponsorLogo} alt="" className="h-6 w-6 rounded-full ring-1 ring-white/30" />
+              <div className="leading-tight">
+                <div className="text-[9px] uppercase tracking-wider text-white/60">Sponsored by</div>
+                <div className="text-[12px] font-bold">Wizlife</div>
+              </div>
+            </div>
+            <span className="rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-extrabold text-amber-950">
+              ৳90k Pool
+            </span>
+          </div>
+          <BannerSlider aspect="aspect-[16/8]" rounded="rounded-none" />
+        </div>
+        <AboutRoom />
+        <StartButton />
+        <YourProgress />
+        <WeeklyRewards />
+      </div>
+    </>
+  );
+}
+
+/* ---------- Variant B: Sponsor strip + slider before rewards ---------- */
+function RoomDetailB() {
+  return (
+    <>
+      <DetailHeader />
+      <div className="space-y-3 px-3 pb-6 pt-3">
+        <AboutRoom />
+        <StartButton />
+        <YourProgress />
+        <div className="overflow-hidden rounded-2xl bg-white p-3 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <img src={sponsorLogo} alt="" className="h-7 w-7 rounded-lg ring-1 ring-amber-200" />
+              <div className="leading-tight">
+                <div className="text-[9px] font-semibold uppercase tracking-wider text-slate-500">Rewards powered by</div>
+                <div className="flex items-center gap-1 text-[12.5px] font-bold text-slate-900">
+                  Wizlife <ShieldCheck className="h-3 w-3 text-emerald-600" />
+                </div>
+              </div>
+            </div>
+            <button className="rounded-md bg-slate-900 px-2.5 py-1 text-[10.5px] font-bold text-white">
+              Visit
+            </button>
+          </div>
+          <BannerSlider aspect="aspect-[16/8]" />
+        </div>
+        <WeeklyRewards />
+      </div>
+    </>
+  );
+}
+
+/* ---------- Variant C: Inline native ad + sticky sponsor footer ---------- */
+function RoomDetailC() {
+  return (
+    <>
+      <DetailHeader />
+      <div className="relative space-y-3 px-3 pb-3 pt-3">
+        <AboutRoom />
+        <StartButton />
+        <YourProgress />
+        <div className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)] ring-1 ring-amber-100">
+          <img src={bannerBaby} alt="" className="h-14 w-14 shrink-0 rounded-xl object-cover" />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[9px] font-semibold uppercase tracking-wider text-amber-700">Sponsored Ad</span>
+              <ShieldCheck className="h-3 w-3 text-emerald-600" />
+            </div>
+            <div className="bn truncate text-[13px] font-bold text-slate-900">১১ হাজার+ বেবি কেয়ার প্রোডাক্ট</div>
+            <div className="truncate text-[11px] text-slate-500">Rokomari · Tap to shop</div>
+          </div>
+          <ChevronRight className="h-4 w-4 text-slate-400" />
+        </div>
+        <WeeklyRewards />
+        <div className="flex items-center gap-2 rounded-2xl border border-amber-100 bg-white px-4 py-3">
+          <img src={sponsorLogo} alt="" className="h-8 w-8 rounded-lg ring-1 ring-amber-200" />
+          <div className="min-w-0 flex-1 leading-tight">
+            <div className="text-[9px] font-semibold uppercase tracking-wider text-slate-500">Sponsored by</div>
+            <div className="truncate text-[12px] font-bold text-slate-900">
+              Wizlife · Win up to ৳50,000 weekly
+            </div>
+          </div>
+          <button className="shrink-0 rounded-lg px-3 py-1.5 text-[11.5px] font-bold text-white" style={{ background: NAVY }}>
+            Learn
+          </button>
+        </div>
+      </div>
+    </>
   );
 }
