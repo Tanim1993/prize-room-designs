@@ -343,15 +343,145 @@ function P5_PrizeFooter() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Page — show 5 phone mockups side-by-side for comparison           */
+/*  COMPANY BANNER PATTERNS — banners shown ABOVE / BETWEEN room      */
+/*  cards (think ad slot inside the Rooms feed).                      */
 /* ------------------------------------------------------------------ */
 
-const VARIANTS: { label: string; node: React.ReactNode; desc: string }[] = [
+/* B1 — Full-width hero banner above the room list.
+   A premium navy banner with sponsor logo, prize headline, and CTA
+   sitting above the Featured rooms — clearly an "ad slot". */
+function B1_HeroBanner() {
+  return (
+    <div
+      className="relative overflow-hidden rounded-2xl p-4 text-white shadow-[0_14px_34px_-14px_rgba(15,58,95,0.55)]"
+      style={{ background: `linear-gradient(120deg, ${NAVY} 0%, #2B4D78 60%, #16294A 100%)` }}
+    >
+      <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-amber-300/20 blur-2xl" />
+      <div className="absolute right-3 top-3 rounded-full bg-white/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white/70 ring-1 ring-white/15">
+        Ad
+      </div>
+      <div className="flex items-center gap-3">
+        <img src={sponsorLogo} alt="" className="h-10 w-10 rounded-xl object-cover ring-1 ring-white/25" />
+        <div className="leading-tight">
+          <div className="text-[10px] uppercase tracking-wider text-white/60">Sponsored by</div>
+          <div className="text-[14px] font-extrabold">Wizlife</div>
+        </div>
+      </div>
+      <div className="mt-3">
+        <div className="text-[11px] uppercase tracking-wider text-amber-200/90">Monthly Zikr Reward</div>
+        <h3 className="mt-0.5 text-[19px] font-extrabold leading-tight">
+          Win up to <span className="text-amber-300">৳40,000</span>
+        </h3>
+        <p className="mt-1 text-[12px] leading-relaxed text-white/70">
+          Join the Wizlife sponsored rooms below and earn rewards.
+        </p>
+      </div>
+      <div className="mt-3 flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-[10.5px] text-white/65">
+          <ShieldCheck className="h-3.5 w-3.5 text-amber-300" /> Verified sponsor
+        </div>
+        <button className="rounded-lg bg-amber-300 px-3.5 py-1.5 text-[12px] font-extrabold text-amber-950">
+          Learn more
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* B2 — Slider / carousel company banner with dots.
+   Mimics a swipeable ad slot — multiple sponsor cards, pager dots. */
+function B2_SliderBanner() {
+  return (
+    <div className="rounded-2xl bg-white p-3 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="mb-2 flex items-center justify-between px-1">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          Sponsored
+        </span>
+        <span className="text-[10px] text-slate-400">1 / 3</span>
+      </div>
+      <div className="flex gap-2 overflow-hidden">
+        {/* Active slide */}
+        <div
+          className="relative w-[88%] shrink-0 overflow-hidden rounded-xl p-3 text-white"
+          style={{ background: `linear-gradient(120deg, ${NAVY}, #2B4D78)` }}
+        >
+          <div className="flex items-center gap-2">
+            <img src={sponsorLogo} alt="" className="h-8 w-8 rounded-lg object-cover ring-1 ring-white/25" />
+            <div className="leading-tight">
+              <div className="text-[9px] uppercase tracking-wider text-white/60">Wizlife presents</div>
+              <div className="text-[13px] font-bold">Ramadan Zikr Challenge</div>
+            </div>
+          </div>
+          <div className="mt-2 flex items-end justify-between">
+            <div>
+              <div className="text-[9px] uppercase tracking-wider text-white/55">Total Prize</div>
+              <div className="text-[16px] font-extrabold text-amber-300">৳40,000</div>
+            </div>
+            <button className="rounded-md bg-amber-300 px-2.5 py-1 text-[11px] font-extrabold text-amber-950">
+              Join
+            </button>
+          </div>
+        </div>
+        {/* Peek of next */}
+        <div className="w-[12%] shrink-0 rounded-xl bg-emerald-100" />
+      </div>
+      <div className="mt-2.5 flex items-center justify-center gap-1.5">
+        <span className="h-1.5 w-4 rounded-full bg-slate-800" />
+        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
+        <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />
+      </div>
+    </div>
+  );
+}
+
+/* B3 — Compact inline banner placed between rooms.
+   Looks like a horizontal sponsor strip slotted between cards in feed. */
+function B3_InlineStrip() {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)] ring-1 ring-amber-100">
+      <img src={sponsorLogo} alt="" className="h-11 w-11 shrink-0 rounded-xl object-cover ring-1 ring-amber-200" />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[9px] font-semibold uppercase tracking-wider text-slate-500">Sponsored</span>
+          <ShieldCheck className="h-3 w-3 text-emerald-600" />
+        </div>
+        <div className="truncate text-[13px] font-bold text-slate-900">
+          Wizlife · Win <span className="text-emerald-700">৳40,000</span> this month
+        </div>
+        <div className="truncate text-[11px] text-slate-500">Tap to explore prize rooms</div>
+      </div>
+      <button
+        className="shrink-0 rounded-lg px-3 py-1.5 text-[11.5px] font-bold text-white"
+        style={{ background: NAVY }}
+      >
+        Visit
+      </button>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page — show phone mockups side-by-side for comparison             */
+/* ------------------------------------------------------------------ */
+
+type Variant = {
+  label: string;
+  desc: string;
+  node?: React.ReactNode;
+  // banner variants render the banner ABOVE the room list instead of as a card
+  bannerTop?: React.ReactNode;
+  bannerMid?: React.ReactNode;
+};
+
+const VARIANTS: Variant[] = [
   { label: "Variant 1", desc: "Subtle sponsor chip + side prize", node: <P1_SubtleChip /> },
   { label: "Variant 2", desc: "Navy sponsor band on top", node: <P2_NavyBand /> },
   { label: "Variant 3", desc: "Premium navy hero w/ CTA", node: <P3_PremiumNavy /> },
   { label: "Variant 4", desc: "Gold side ribbon", node: <P4_SideRibbon /> },
   { label: "Variant 5", desc: "Cream prize footer + CTA", node: <P5_PrizeFooter /> },
+  { label: "Variant 6", desc: "Company hero banner (top)", bannerTop: <B1_HeroBanner /> },
+  { label: "Variant 7", desc: "Sponsor slider banner", bannerTop: <B2_SliderBanner /> },
+  { label: "Variant 8", desc: "Inline sponsor strip (between rooms)", bannerMid: <B3_InlineStrip /> },
 ];
 
 export default function SponsorCards() {
