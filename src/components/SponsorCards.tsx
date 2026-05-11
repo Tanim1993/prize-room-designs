@@ -1218,3 +1218,280 @@ function HomeV3() {
     </div>
   );
 }
+
+/* ---------------- Home V4 — Editorial Serif (no ads) ---------------- */
+function HomeV4() {
+  return (
+    <div className="bg-[#FBF8F2] font-serif text-slate-900">
+      <div className="px-5 pb-6 pt-6">
+        <div className="flex items-center justify-between">
+          <div className="text-[10px] uppercase tracking-[0.3em] text-slate-500">Mon · 11 May</div>
+          <Bell className="h-4 w-4 text-slate-500" />
+        </div>
+        <div className="mt-6">
+          <div className="text-[11px] uppercase tracking-[0.25em] text-emerald-800">Today</div>
+          <h1 className="mt-1 text-[28px] font-bold leading-tight tracking-tight">
+            Begin with <em className="text-emerald-800">Bismillah</em>
+          </h1>
+          <p className="mt-2 text-[12px] leading-relaxed text-slate-600 font-sans">
+            A quiet morning, a still heart. Continue where you left off.
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-3 px-4 pb-6 font-sans">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="flex items-center justify-between text-[11px] text-slate-500">
+            <span>Dhuhr · in 2h 14m</span>
+            <span>Dhaka</span>
+          </div>
+          <div className="mt-1 text-[26px] font-bold tracking-tight">11:57 <span className="text-[14px] font-normal text-slate-500">AM</span></div>
+          <div className="mt-3 grid grid-cols-5 gap-1 text-center text-[10px]">
+            {PRAYERS.map((p) => (
+              <div key={p.name} className={`rounded-lg py-1.5 ${p.active ? "bg-emerald-50 text-emerald-800 font-semibold" : "text-slate-500"}`}>
+                <div>{p.name}</div>
+                <div className="text-[9px] opacity-70">{p.time}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="text-[10px] uppercase tracking-wider text-slate-500">Continue zikr</div>
+          <div className="bn mt-1 text-[18px] font-bold">سُبْحَانَ اللّٰه</div>
+          <div className="mt-2 h-1 rounded-full bg-slate-100"><div className="h-1 w-[32%] rounded-full bg-emerald-700" /></div>
+          <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+            <span>32 / 100</span>
+            <button className="font-semibold text-emerald-800">Continue →</button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          {[
+            { l: "Rooms", s: "12 active" },
+            { l: "Quran", s: "Surah 18" },
+            { l: "Duas", s: "Daily" },
+            { l: "Tasbih", s: "Counter" },
+          ].map((x) => (
+            <div key={x.l} className="rounded-2xl border border-slate-200 bg-white p-3">
+              <div className="text-[13px] font-bold">{x.l}</div>
+              <div className="text-[10.5px] text-slate-500">{x.s}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <HomeBottomNav tone="light" />
+    </div>
+  );
+}
+
+/* ---------------- Home V5 — Mosque Hero Gradient ---------------- */
+function HomeV5() {
+  return (
+    <div className="bg-[#F4F6FA]">
+      <div className="relative overflow-hidden rounded-b-[32px] px-5 pb-10 pt-5 text-white"
+           style={{ background: "linear-gradient(180deg, #1B3A6B 0%, #2D5A9E 60%, #6B9FD8 100%)" }}>
+        <div className="pointer-events-none absolute -right-10 top-6 text-[80px] opacity-20">🕌</div>
+        <div className="pointer-events-none absolute right-6 top-3 text-amber-200/80">✦</div>
+        <div className="pointer-events-none absolute right-20 top-10 text-amber-200/60">✦</div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="grid h-9 w-9 place-items-center rounded-full bg-white/15 ring-1 ring-white/25">KT</div>
+            <div className="text-[12px] font-semibold">As-salamu alaykum</div>
+          </div>
+          <Bell className="h-4 w-4" />
+        </div>
+        <div className="mt-6 text-center">
+          <div className="text-[10px] uppercase tracking-[0.25em] text-amber-200/90">Maghrib in</div>
+          <div className="mt-1 text-[40px] font-extrabold tracking-tight">06<span className="opacity-50">:</span>14<span className="text-[16px] opacity-60">:22</span></div>
+          <div className="text-[11px] text-white/70">Sunset 6:23 PM · Dhaka</div>
+        </div>
+        <div className="mt-5 flex items-center justify-around rounded-2xl bg-white/10 px-3 py-2.5 text-[10.5px] backdrop-blur ring-1 ring-white/15">
+          {PRAYERS.map((p) => (
+            <div key={p.name} className={`flex flex-col items-center ${p.active ? "text-amber-200" : "text-white/75"}`}>
+              <span className="font-semibold">{p.name}</span>
+              <span className="text-[9px] opacity-80">{p.time.replace(" AM", "").replace(" PM", "")}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="-mt-5 space-y-3 px-4 pb-6">
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { l: "Quran", e: "📖" },
+            { l: "Qibla", e: "🧭" },
+            { l: "Tasbih", e: "📿" },
+            { l: "Duas", e: "🤲" },
+            { l: "Rooms", e: "👥" },
+            { l: "Khatm", e: "✨" },
+          ].map((x) => (
+            <button key={x.l} className="flex flex-col items-center gap-1 rounded-2xl bg-white py-3 text-[11px] font-semibold text-slate-700 shadow-sm">
+              <span className="text-[20px]">{x.e}</span>
+              {x.l}
+            </button>
+          ))}
+        </div>
+        <div className="rounded-2xl bg-white p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div className="text-[12px] font-bold text-slate-900">Verse of the Day</div>
+            <span className="text-[10px] text-slate-500">2:286</span>
+          </div>
+          <p className="mt-2 text-[12.5px] leading-relaxed text-slate-700">
+            "Allah does not burden a soul beyond that it can bear."
+          </p>
+        </div>
+      </div>
+      <HomeBottomNav tone="light" />
+    </div>
+  );
+}
+
+/* ---------------- Home V6 — Bento Grid ---------------- */
+function HomeV6() {
+  return (
+    <div className="bg-[#0F172A] text-white">
+      <div className="px-4 pb-5 pt-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-[11px] text-white/55">Good morning</div>
+            <div className="text-[16px] font-bold">Khaled</div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Search className="h-4 w-4 text-white/60" />
+            <div className="grid h-8 w-8 place-items-center rounded-full bg-amber-300 text-[#0F172A] text-[11px] font-extrabold">KT</div>
+          </div>
+        </div>
+
+        <div className="mt-4 grid grid-cols-6 gap-2">
+          {/* Big prayer */}
+          <div className="col-span-4 rounded-2xl bg-gradient-to-br from-indigo-600 to-indigo-900 p-3">
+            <div className="text-[10px] uppercase tracking-wider text-indigo-200">Next · Dhuhr</div>
+            <div className="mt-1 text-[22px] font-extrabold">11:57 AM</div>
+            <div className="text-[10.5px] text-indigo-200/80">in 2h 14m</div>
+          </div>
+          {/* Streak */}
+          <div className="col-span-2 rounded-2xl bg-amber-300 p-3 text-amber-950">
+            <div className="text-[10px] font-semibold uppercase">Streak</div>
+            <div className="mt-1 text-[22px] font-extrabold leading-none">14<span className="text-[12px]">d</span></div>
+            <div className="text-[10px] opacity-80">🔥 best 21</div>
+          </div>
+          {/* Tasbih */}
+          <div className="col-span-3 rounded-2xl bg-white/[0.06] p-3 ring-1 ring-white/10">
+            <div className="text-[10px] uppercase tracking-wider text-white/55">Today's Tasbih</div>
+            <div className="bn mt-1 text-[16px] font-bold">سُبْحَانَ اللّٰه</div>
+            <div className="mt-2 flex items-center justify-between text-[10.5px]">
+              <span className="text-white/65">32 / 100</span>
+              <span className="text-emerald-300">→</span>
+            </div>
+          </div>
+          {/* Quran */}
+          <div className="col-span-3 rounded-2xl bg-emerald-700 p-3">
+            <div className="text-[10px] uppercase tracking-wider text-emerald-200">Quran</div>
+            <div className="mt-1 text-[14px] font-bold">Surah Al-Kahf</div>
+            <div className="text-[10.5px] text-emerald-100/80">Page 12 of 22</div>
+          </div>
+          {/* Qibla */}
+          <div className="col-span-2 rounded-2xl bg-white/[0.06] p-3 ring-1 ring-white/10">
+            <Compass className="h-5 w-5 text-amber-300" />
+            <div className="mt-1 text-[12px] font-bold">Qibla</div>
+            <div className="text-[10px] text-white/55">295° NW</div>
+          </div>
+          {/* Rooms */}
+          <div className="col-span-2 rounded-2xl bg-white/[0.06] p-3 ring-1 ring-white/10">
+            <Users className="h-5 w-5 text-emerald-300" />
+            <div className="mt-1 text-[12px] font-bold">Rooms</div>
+            <div className="text-[10px] text-white/55">12 active</div>
+          </div>
+          {/* Duas */}
+          <div className="col-span-2 rounded-2xl bg-white/[0.06] p-3 ring-1 ring-white/10">
+            <Heart className="h-5 w-5 text-rose-300" />
+            <div className="mt-1 text-[12px] font-bold">Duas</div>
+            <div className="text-[10px] text-white/55">Daily</div>
+          </div>
+        </div>
+
+        <div className="mt-3 rounded-2xl bg-white/[0.06] p-3 ring-1 ring-white/10">
+          <div className="text-[10px] uppercase tracking-wider text-white/55">Verse of the day</div>
+          <p className="mt-1 text-[12.5px] leading-relaxed text-white/85">
+            "Indeed, with hardship comes ease." — 94:6
+          </p>
+        </div>
+      </div>
+      <HomeBottomNav tone="dark" />
+    </div>
+  );
+}
+
+/* ---------------- Home V7 — Focused Streak ---------------- */
+function HomeV7() {
+  const days = ["M", "T", "W", "T", "F", "S", "S"];
+  const done = [true, true, true, true, true, false, false];
+  return (
+    <div className="bg-white">
+      <div className="px-5 pb-6 pt-6">
+        <div className="flex items-center justify-between">
+          <div className="text-[12px] font-bold text-slate-900">Hi, Khaled</div>
+          <Bell className="h-4 w-4 text-slate-500" />
+        </div>
+        <div className="mt-8 text-center">
+          <div className="relative mx-auto h-44 w-44">
+            <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
+              <circle cx="50" cy="50" r="44" stroke="#F1F5F9" strokeWidth="8" fill="none" />
+              <circle cx="50" cy="50" r="44" stroke="url(#g7)" strokeWidth="8" fill="none"
+                      strokeLinecap="round" strokeDasharray="276" strokeDashoffset="76" />
+              <defs>
+                <linearGradient id="g7" x1="0" x2="1">
+                  <stop offset="0%" stopColor="#10B981" />
+                  <stop offset="100%" stopColor="#059669" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Today</div>
+              <div className="text-[34px] font-extrabold text-slate-900 leading-none">72%</div>
+              <div className="mt-1 text-[10.5px] text-emerald-700 font-semibold">+ 12 from yesterday</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 flex items-center justify-between rounded-2xl bg-slate-50 p-3">
+          <div>
+            <div className="text-[11px] text-slate-500">Current streak</div>
+            <div className="text-[18px] font-extrabold text-slate-900">🔥 14 days</div>
+          </div>
+          <div className="flex gap-1.5">
+            {days.map((d, i) => (
+              <div key={i} className="flex flex-col items-center gap-1">
+                <div className={`grid h-6 w-6 place-items-center rounded-full text-[10px] font-bold ${done[i] ? "bg-emerald-600 text-white" : "bg-white text-slate-400 ring-1 ring-slate-200"}`}>
+                  {done[i] ? "✓" : ""}
+                </div>
+                <span className="text-[9px] text-slate-500">{d}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2.5 px-4 pb-6">
+        <div className="text-[12px] font-bold text-slate-900">Today's goals</div>
+        {[
+          { l: "Morning Adhkar", p: 100, c: "bg-emerald-500" },
+          { l: "Surah Al-Kahf", p: 60, c: "bg-indigo-500" },
+          { l: "100× Subhan'Allah", p: 32, c: "bg-amber-500" },
+        ].map((g) => (
+          <div key={g.l} className="rounded-2xl bg-slate-50 p-3">
+            <div className="flex items-center justify-between text-[12px] font-semibold text-slate-800">
+              <span>{g.l}</span>
+              <span className="text-[11px] text-slate-500">{g.p}%</span>
+            </div>
+            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white">
+              <div className={`h-full rounded-full ${g.c}`} style={{ width: `${g.p}%` }} />
+            </div>
+          </div>
+        ))}
+      </div>
+      <HomeBottomNav tone="light" />
+    </div>
+  );
+}
