@@ -2312,7 +2312,7 @@ function SponsorChannelV2() {
   return (
     <div className="bg-[#F4F6FA]">
       {/* Header */}
-      <div style={{ background: NAVY }} className="relative px-5 pb-16 pt-4 text-white">
+      <div style={{ background: NAVY }} className="relative px-5 pb-24 pt-4 text-white">
         <div className="flex items-center justify-between text-[11px]">
           <ChevronRight className="h-4 w-4 rotate-180" />
           <span className="font-semibold uppercase tracking-[0.18em] opacity-80">Presented By</span>
@@ -2331,7 +2331,7 @@ function SponsorChannelV2() {
       {/* Flagship room card overlap */}
       <div className="px-4">
         <div
-          className="-mt-12 overflow-hidden rounded-2xl p-4 text-white shadow-[0_10px_30px_-15px_rgba(0,0,0,0.4)]"
+          className="-mt-14 overflow-hidden rounded-2xl p-4 text-white shadow-[0_10px_30px_-15px_rgba(0,0,0,0.4)]"
           style={{ background: "linear-gradient(135deg,#1F3A5F 0%,#3B5A8A 100%)" }}
         >
           <div className="text-[10px] font-semibold uppercase tracking-wider text-amber-300">Flagship Room</div>
