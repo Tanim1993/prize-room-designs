@@ -700,6 +700,18 @@ export default function SponsorCards() {
           <DetailFrame label="LB 3 · Dark Stadium + Streaks"><LeaderboardV3 /></DetailFrame>
           <DetailFrame label="LB 4 · Timeline of Champions"><LeaderboardV4 /></DetailFrame>
         </div>
+
+        <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Sponsor Channel / Profile — Variants</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Tapping a sponsor banner opens a channel page (YouTube-style) with bio, stats, and all rooms by that sponsor.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="Sponsor 1 · YouTube-style Channel"><SponsorChannelV1 /></DetailFrame>
+          <DetailFrame label="Sponsor 2 · Premium Brand Page"><SponsorChannelV2 /></DetailFrame>
+          <DetailFrame label="Sponsor 3 · Magazine / Editorial"><SponsorChannelV3 /></DetailFrame>
+        </div>
       </div>
     </div>
   );
@@ -2153,6 +2165,344 @@ function LeaderboardV4() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  SPONSOR CHANNEL / PROFILE VARIANTS                                */
+/* ================================================================== */
+
+const SPONSOR_ROOMS = [
+  { title: "Ramadan Zikr Challenge", prize: "৳40,000", joined: "12.4k", status: "live",     when: "Live now",        emoji: "🌙" },
+  { title: "Subhanallah 100k Sprint", prize: "৳15,000", joined: "8.1k",  status: "live",     when: "2 days left",     emoji: "📿" },
+  { title: "Durood Marathon",         prize: "৳10,000", joined: "—",     status: "upcoming", when: "Starts in 3 days",emoji: "🤲" },
+  { title: "Tahajjud Streak",         prize: "৳25,000", joined: "—",     status: "upcoming", when: "Starts Jun 1",    emoji: "✨" },
+  { title: "Eid Special · Astaghfar", prize: "৳30,000", joined: "21.7k", status: "ended",    when: "Ended · Apr 12",  emoji: "🕋" },
+];
+
+const SPONSOR_INFO = {
+  name: "Wizlife",
+  handle: "@wizlife",
+  followers: "1.2M",
+  rooms: 24,
+  prizeGiven: "৳12,40,000",
+  bioShort: "Bangladesh's Islamic lifestyle brand. We sponsor monthly Zikr rooms and reward the most consistent worshippers.",
+  founded: "2019",
+  location: "Dhaka, Bangladesh",
+  website: "wizlife.com.bd",
+};
+
+function VerifiedTick({ size = 14 }: { size?: number }) {
+  return (
+    <span style={{ width: size, height: size }} className="inline-grid place-items-center rounded-full bg-blue-500 text-white">
+      <svg viewBox="0 0 24 24" fill="none" className="h-2.5 w-2.5"><path d="M5 12l5 5L20 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    </span>
+  );
+}
+
+function StatusPill({ status }: { status: string }) {
+  if (status === "live")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-semibold text-red-600">
+        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" /> LIVE
+      </span>
+    );
+  if (status === "upcoming")
+    return <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">UPCOMING</span>;
+  return <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-500">ENDED</span>;
+}
+
+/* ---------- Variant 1: YouTube-style channel ---------- */
+function SponsorChannelV1() {
+  const [tab, setTab] = useState<"active" | "upcoming" | "past" | "about">("active");
+  const filtered = SPONSOR_ROOMS.filter((r) =>
+    tab === "active" ? r.status === "live" : tab === "upcoming" ? r.status === "upcoming" : tab === "past" ? r.status === "ended" : true
+  );
+  return (
+    <div className="bg-white">
+      {/* Top nav */}
+      <div className="flex items-center justify-between bg-white px-4 py-3 text-slate-800">
+        <ChevronRight className="h-5 w-5 rotate-180" />
+        <span className="text-[13px] font-semibold">Sponsor</span>
+        <Bell className="h-5 w-5" />
+      </div>
+
+      {/* Cover */}
+      <div className="relative h-32 w-full overflow-hidden bg-slate-200">
+        <img src={bannerBaby} alt="" className="h-full w-full object-cover" />
+      </div>
+
+      {/* Identity */}
+      <div className="px-4 pb-3 pt-3">
+        <div className="-mt-10 flex items-end gap-3">
+          <img src={sponsorLogo} className="h-16 w-16 rounded-full border-4 border-white object-cover shadow-md" alt="" />
+          <div className="pb-1">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[16px] font-bold text-slate-900">{SPONSOR_INFO.name}</span>
+              <VerifiedTick />
+            </div>
+            <div className="text-[11px] text-slate-500">{SPONSOR_INFO.handle} · {SPONSOR_INFO.followers} followers</div>
+          </div>
+        </div>
+
+        <div className="mt-2 text-[11px] text-slate-500">
+          {SPONSOR_INFO.rooms} rooms · {SPONSOR_INFO.prizeGiven} given as prizes
+        </div>
+
+        <p className="mt-2 line-clamp-2 text-[12px] leading-snug text-slate-700">
+          {SPONSOR_INFO.bioShort} <span className="font-semibold text-slate-900">...more</span>
+        </p>
+
+        <div className="mt-3 flex gap-2">
+          <button className="flex-1 rounded-full bg-slate-900 py-2 text-[12px] font-semibold text-white">Subscribe</button>
+          <button className="rounded-full border border-slate-200 px-4 py-2 text-[12px] font-semibold text-slate-700">Share</button>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="sticky top-0 z-10 flex border-b border-slate-100 bg-white px-4 text-[12px] font-medium">
+        {(["active", "upcoming", "past", "about"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`relative mr-4 py-2.5 capitalize ${tab === t ? "text-slate-900" : "text-slate-400"}`}
+          >
+            {t}
+            {tab === t && <span className="absolute inset-x-0 -bottom-px h-0.5 bg-slate-900" />}
+          </button>
+        ))}
+      </div>
+
+      {/* Content */}
+      <div className="space-y-2.5 bg-[#F4F6FA] px-3 py-3 pb-6">
+        {tab === "about" ? (
+          <div className="space-y-2 rounded-xl bg-white p-3 text-[12px] text-slate-700">
+            <p>{SPONSOR_INFO.bioShort}</p>
+            <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
+              <div><div className="text-slate-400">Founded</div><div className="font-semibold text-slate-800">{SPONSOR_INFO.founded}</div></div>
+              <div><div className="text-slate-400">Location</div><div className="font-semibold text-slate-800">{SPONSOR_INFO.location}</div></div>
+              <div className="col-span-2"><div className="text-slate-400">Website</div><div className="font-semibold text-blue-600">{SPONSOR_INFO.website}</div></div>
+            </div>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="rounded-xl bg-white py-8 text-center text-[12px] text-slate-400">Nothing here yet.</div>
+        ) : (
+          filtered.map((r, i) => (
+            <div key={i} className="flex items-center gap-3 rounded-xl bg-white p-2.5 shadow-[0_2px_8px_-4px_rgba(15,23,42,0.15)]">
+              <div className="grid h-14 w-20 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 text-2xl">{r.emoji}</div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <StatusPill status={r.status} />
+                  <span className="text-[10px] text-slate-400">{r.when}</span>
+                </div>
+                <div className="mt-0.5 truncate text-[13px] font-semibold text-slate-900">{r.title}</div>
+                <div className="text-[11px] text-slate-500">Prize {r.prize}{r.joined !== "—" && ` · ${r.joined} joined`}</div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Variant 2: Premium navy/gold brand page ---------- */
+function SponsorChannelV2() {
+  return (
+    <div className="bg-[#F4F6FA]">
+      {/* Header */}
+      <div style={{ background: NAVY }} className="relative px-5 pb-16 pt-4 text-white">
+        <div className="flex items-center justify-between text-[11px]">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <span className="font-semibold uppercase tracking-[0.18em] opacity-80">Presented By</span>
+          <Sparkles className="h-4 w-4" />
+        </div>
+        <div className="mt-4 flex flex-col items-center">
+          <img src={sponsorLogo} className="h-16 w-16 rounded-full ring-4 ring-white/15" alt="" />
+          <div className="mt-2 flex items-center gap-1.5">
+            <span className="text-[18px] font-bold">{SPONSOR_INFO.name}</span>
+            <VerifiedTick />
+          </div>
+          <div className="text-[11px] text-white/70">{SPONSOR_INFO.handle}</div>
+        </div>
+      </div>
+
+      {/* Flagship room card overlap */}
+      <div className="px-4">
+        <div
+          className="-mt-12 overflow-hidden rounded-2xl p-4 text-white shadow-[0_10px_30px_-15px_rgba(0,0,0,0.4)]"
+          style={{ background: "linear-gradient(135deg,#1F3A5F 0%,#3B5A8A 100%)" }}
+        >
+          <div className="text-[10px] font-semibold uppercase tracking-wider text-amber-300">Flagship Room</div>
+          <div className="mt-1 text-[16px] font-bold leading-tight">Ramadan Zikr Challenge</div>
+          <div className="mt-2 flex items-end justify-between">
+            <div>
+              <div className="text-[10px] uppercase text-white/60">Total Prize</div>
+              <div className="text-[20px] font-extrabold text-amber-300">৳40,000</div>
+            </div>
+            <button className="rounded-full bg-amber-300 px-4 py-1.5 text-[12px] font-bold text-slate-900">Join</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats strip */}
+      <div className="mx-4 mt-3 grid grid-cols-3 overflow-hidden rounded-xl bg-white text-center text-[11px]">
+        {[
+          { v: SPONSOR_INFO.rooms, l: "Active Rooms" },
+          { v: SPONSOR_INFO.prizeGiven, l: "Prize Given" },
+          { v: "186", l: "Winners" },
+        ].map((s, i) => (
+          <div key={i} className={`py-3 ${i < 2 ? "border-r border-slate-100" : ""}`}>
+            <div className="text-[14px] font-bold text-slate-900">{s.v}</div>
+            <div className="text-slate-400">{s.l}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Rooms carousel */}
+      <div className="mt-4">
+        <div className="mb-2 flex items-center justify-between px-4">
+          <h3 className="text-[13px] font-bold text-slate-900">All Rooms</h3>
+          <span className="text-[11px] font-semibold text-slate-500">See all</span>
+        </div>
+        <div className="flex gap-3 overflow-x-auto px-4 pb-2 [&::-webkit-scrollbar]:hidden">
+          {SPONSOR_ROOMS.map((r, i) => (
+            <div key={i} className="w-[180px] shrink-0 overflow-hidden rounded-xl bg-white shadow-[0_4px_14px_-8px_rgba(15,23,42,0.2)]">
+              <div className="grid h-20 place-items-center bg-gradient-to-br from-slate-100 to-slate-200 text-3xl">{r.emoji}</div>
+              <div className="p-2.5">
+                <StatusPill status={r.status} />
+                <div className="mt-1 truncate text-[12px] font-semibold text-slate-900">{r.title}</div>
+                <div className="text-[10px] text-slate-500">Prize {r.prize}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Past winners */}
+      <div className="mt-4 px-4 pb-6">
+        <h3 className="mb-2 text-[13px] font-bold text-slate-900">Past Winners</h3>
+        <div className="grid grid-cols-4 gap-2 rounded-xl bg-white p-3">
+          {LB_PLAYERS.slice(0, 8).map((p, i) => (
+            <div key={i} className="flex flex-col items-center gap-1">
+              <div className="grid h-12 w-12 place-items-center rounded-full bg-slate-100 text-[11px] font-bold text-slate-700">{p.avatar}</div>
+              <div className="text-[9px] font-semibold text-slate-700">{p.name.split(" ")[0]}</div>
+              <div className="text-[9px] text-amber-600">৳5k</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Floating CTA */}
+      <div className="sticky bottom-0 border-t border-slate-100 bg-white/95 p-3 backdrop-blur">
+        <button className="w-full rounded-full bg-amber-400 py-2.5 text-[13px] font-bold text-slate-900">
+          + Follow Sponsor
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Variant 3: Magazine / Editorial ---------- */
+function SponsorChannelV3() {
+  const live = SPONSOR_ROOMS.find((r) => r.status === "live")!;
+  const others = SPONSOR_ROOMS.filter((r) => r !== live);
+  return (
+    <div className="bg-white">
+      {/* Banner */}
+      <div className="relative h-44 w-full overflow-hidden">
+        <img src={bannerBooks} className="h-full w-full object-cover" alt="" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        <button className="absolute left-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-black/40 text-white backdrop-blur">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+        </button>
+        <div className="absolute bottom-3 left-4 right-4 text-white">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-amber-200">Sponsor Profile</div>
+          <div className="flex items-end gap-2">
+            <h2 className="font-serif text-[28px] font-bold leading-tight">{SPONSOR_INFO.name}</h2>
+            <VerifiedTick />
+          </div>
+        </div>
+      </div>
+
+      {/* Two-column meta */}
+      <div className="grid grid-cols-5 gap-3 px-4 py-4">
+        <p className="col-span-3 text-[12px] leading-relaxed text-slate-700">{SPONSOR_INFO.bioShort}</p>
+        <div className="col-span-2 space-y-1.5 border-l border-slate-100 pl-3 text-[10px]">
+          <div><div className="text-slate-400">FOUNDED</div><div className="font-bold text-slate-800">{SPONSOR_INFO.founded}</div></div>
+          <div><div className="text-slate-400">BASE</div><div className="font-bold text-slate-800">{SPONSOR_INFO.location}</div></div>
+          <div><div className="text-slate-400">WEB</div><div className="font-bold text-blue-600">{SPONSOR_INFO.website}</div></div>
+        </div>
+      </div>
+
+      <button className="mx-4 mb-4 w-[calc(100%-2rem)] rounded-md border border-slate-900 py-2 text-[12px] font-semibold text-slate-900">
+        Subscribe · {SPONSOR_INFO.followers}
+      </button>
+
+      {/* Now Running */}
+      <div className="px-4">
+        <div className="mb-2 flex items-baseline gap-2">
+          <h3 className="font-serif text-[16px] font-bold text-slate-900">Now Running</h3>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
+        <div className="overflow-hidden rounded-lg border border-slate-200">
+          <div className="grid h-28 place-items-center bg-gradient-to-br from-amber-50 to-rose-50 text-5xl">{live.emoji}</div>
+          <div className="p-3">
+            <StatusPill status={live.status} />
+            <div className="mt-1 font-serif text-[16px] font-bold text-slate-900">{live.title}</div>
+            <div className="mt-0.5 text-[11px] text-slate-500">Prize {live.prize} · {live.joined} joined · {live.when}</div>
+            <button className="mt-2 w-full rounded-md bg-slate-900 py-1.5 text-[12px] font-semibold text-white">Enter Room</button>
+          </div>
+        </div>
+      </div>
+
+      {/* More rooms */}
+      <div className="px-4 pt-4">
+        <div className="mb-2 flex items-baseline gap-2">
+          <h3 className="font-serif text-[16px] font-bold text-slate-900">More by {SPONSOR_INFO.name}</h3>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {others.map((r, i) => (
+            <div key={i} className="overflow-hidden rounded-lg border border-slate-200">
+              <div className="grid h-16 place-items-center bg-slate-50 text-2xl">{r.emoji}</div>
+              <div className="p-2">
+                <StatusPill status={r.status} />
+                <div className="mt-1 line-clamp-1 text-[11px] font-semibold text-slate-900">{r.title}</div>
+                <div className="text-[10px] text-slate-500">{r.prize}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Hall of champions */}
+      <div className="px-4 pt-4">
+        <div className="mb-2 flex items-baseline gap-2">
+          <h3 className="font-serif text-[16px] font-bold text-slate-900">Hall of Champions</h3>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
+        <div className="space-y-1.5">
+          {LB_PLAYERS.slice(0, 4).map((p, i) => (
+            <div key={i} className="flex items-center gap-3 border-b border-slate-100 py-1.5 last:border-0">
+              <div className="grid h-8 w-8 place-items-center rounded-full bg-slate-100 text-[10px] font-bold text-slate-700">{p.avatar}</div>
+              <div className="min-w-0 flex-1">
+                <div className="text-[12px] font-semibold text-slate-900">{p.name}</div>
+                <div className="text-[10px] text-slate-400">Week {18 - i} · {p.count.toLocaleString()} zikr</div>
+              </div>
+              <div className="text-[11px] font-bold text-amber-600">৳5,000</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer socials */}
+      <div className="mt-5 flex items-center justify-center gap-5 border-t border-slate-100 py-4 text-slate-400">
+        {[Globe2, Heart, Award, BookOpen].map((Ic, i) => (
+          <Ic key={i} className="h-4 w-4" />
+        ))}
+      </div>
     </div>
   );
 }
