@@ -674,6 +674,10 @@ export default function SponsorCards() {
           <DetailFrame label="Home 1 · Gamified Dark"><HomeV1 /></DetailFrame>
           <DetailFrame label="Home 2 · Calm Minimal Light"><HomeV2 /></DetailFrame>
           <DetailFrame label="Home 3 · Modern Card Stack"><HomeV3 /></DetailFrame>
+          <DetailFrame label="Home 4 · Editorial Serif (no ads)"><HomeV4 /></DetailFrame>
+          <DetailFrame label="Home 5 · Mosque Hero Gradient"><HomeV5 /></DetailFrame>
+          <DetailFrame label="Home 6 · Bento Grid"><HomeV6 /></DetailFrame>
+          <DetailFrame label="Home 7 · Focused Streak"><HomeV7 /></DetailFrame>
         </div>
       </div>
     </div>
