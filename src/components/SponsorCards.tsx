@@ -16,6 +16,14 @@ import {
   ShieldCheck,
   Gift,
   Crown,
+  Bell,
+  Moon,
+  Sun,
+  Compass,
+  BookOpen,
+  Heart,
+  Award,
+  TrendingUp,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
@@ -655,6 +663,18 @@ export default function SponsorCards() {
           <DetailFrame label="Variant B · Sponsor strip + slider before rewards"><RoomDetailB /></DetailFrame>
           <DetailFrame label="Variant C · Sticky sponsor footer + inline ad"><RoomDetailC /></DetailFrame>
         </div>
+
+        <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Home Page — Design Variants</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Three home screen directions: gamified dark, calm minimal, and modern card stack.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="Home 1 · Gamified Dark"><HomeV1 /></DetailFrame>
+          <DetailFrame label="Home 2 · Calm Minimal Light"><HomeV2 /></DetailFrame>
+          <DetailFrame label="Home 3 · Modern Card Stack"><HomeV3 /></DetailFrame>
+        </div>
       </div>
     </div>
   );
@@ -861,5 +881,336 @@ function RoomDetailC() {
         </div>
       </div>
     </>
+  );
+}
+
+/* ================================================================== */
+/*  HOME PAGE VARIANTS                                                */
+/* ================================================================== */
+
+const PRAYERS = [
+  { name: "Fajr", time: "4:15 AM" },
+  { name: "Dhuhr", time: "11:57 AM", active: true },
+  { name: "Asr", time: "4:33 PM" },
+  { name: "Maghrib", time: "6:23 PM" },
+  { name: "Isha", time: "7:39 PM" },
+];
+
+function HomeBottomNav({ tone = "light" }: { tone?: "light" | "dark" }) {
+  const cls = tone === "dark"
+    ? "border-white/10 bg-[#0F1F3A] text-white/60"
+    : "border-black/5 bg-white text-slate-400";
+  const active = tone === "dark" ? "text-amber-300" : "text-[" + NAVY + "]";
+  return (
+    <div className={`flex items-center justify-around border-t py-3 text-[11px] ${cls}`}>
+      <div className={`flex flex-col items-center gap-1 ${tone === "dark" ? "text-amber-300" : ""}`} style={tone !== "dark" ? { color: NAVY } : undefined}>
+        <Home className="h-5 w-5" /><span className="font-semibold">Home</span>
+      </div>
+      <div className="flex flex-col items-center gap-1"><Compass className="h-5 w-5" /><span>Rooms</span></div>
+      <div className="flex flex-col items-center gap-1"><Trophy className="h-5 w-5" /><span>Leaderboard</span></div>
+      <div className="flex flex-col items-center gap-1"><User className="h-5 w-5" /><span>Profile</span></div>
+    </div>
+  );
+}
+
+/* ---------------- Home V1 — Gamified Dark ---------------- */
+function HomeV1() {
+  return (
+    <div className="bg-[#0B1B36] text-white">
+      <div className="space-y-4 px-4 pb-6 pt-5">
+        {/* Profile/level card */}
+        <div className="rounded-2xl bg-gradient-to-br from-[#16305A] to-[#0E2244] p-3 ring-1 ring-white/10">
+          <div className="flex items-center gap-3">
+            <div className="grid h-14 w-14 place-items-center rounded-full bg-amber-300 text-[#0B1B36] font-extrabold ring-2 ring-amber-400/60">
+              KT
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-[14px] font-bold">Khaled TAMIN</div>
+              <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-white/70">
+                🇧🇩 Level 19
+              </div>
+              <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/10">
+                <div className="h-full w-[78%] rounded-full bg-gradient-to-r from-amber-300 to-amber-500" />
+              </div>
+              <div className="mt-1 text-[10px] text-white/55">312 / 400 XP</div>
+            </div>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <div className="flex items-center justify-center gap-1.5 rounded-lg bg-white/5 px-2 py-1.5 text-[11px] font-semibold ring-1 ring-white/10">
+              <Trophy className="h-3.5 w-3.5 text-amber-300" /> 318.2M
+            </div>
+            <div className="flex items-center justify-center gap-1.5 rounded-lg bg-white/5 px-2 py-1.5 text-[11px] font-semibold ring-1 ring-white/10">
+              <Award className="h-3.5 w-3.5 text-amber-300" /> Leaderboard
+            </div>
+          </div>
+        </div>
+
+        {/* Prayer times */}
+        <div className="rounded-2xl bg-[#13264A] p-3 ring-1 ring-white/10">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-[13px] font-bold">
+              <Moon className="h-4 w-4 text-amber-300" /> Prayer Times
+            </div>
+            <button className="text-[10px] text-white/55">Hide</button>
+          </div>
+          <div className="space-y-1.5">
+            {PRAYERS.map((p) => (
+              <div key={p.name} className={`flex items-center justify-between rounded-lg px-2.5 py-1.5 text-[12px] ${p.active ? "bg-amber-300/15 ring-1 ring-amber-300/30" : ""}`}>
+                <span className={p.active ? "font-bold text-amber-200" : "text-white/80"}>• {p.name}</span>
+                <span className={`font-semibold ${p.active ? "text-amber-200" : "text-white/60"}`}>
+                  {p.active && <Sun className="mr-1 inline h-3 w-3" />}{p.time}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick actions */}
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { i: <BookOpen className="h-4 w-4" />, l: "My Rooms" },
+            { i: <Search className="h-4 w-4" />, l: "Explore" },
+            { i: <Star className="h-4 w-4" />, l: "Featured" },
+          ].map((x) => (
+            <button key={x.l} className="flex flex-col items-center gap-1.5 rounded-xl bg-[#13264A] py-3 text-[11px] font-semibold ring-1 ring-white/10">
+              <span className="grid h-8 w-8 place-items-center rounded-lg bg-amber-300/15 text-amber-300">{x.i}</span>
+              {x.l}
+            </button>
+          ))}
+        </div>
+
+        {/* Create / Join */}
+        <div className="grid grid-cols-2 gap-2">
+          <div className="rounded-2xl bg-gradient-to-br from-[#16305A] to-[#0E2244] p-3 ring-1 ring-white/10">
+            <div className="flex items-center gap-1.5 text-[12px] font-bold"><Plus className="h-3.5 w-3.5" /> Create Room</div>
+            <div className="mt-0.5 text-[10px] text-white/60">Start a Zikr session</div>
+            <button className="mt-2 w-full rounded-lg bg-amber-300 py-1.5 text-[11px] font-extrabold text-[#0B1B36]">Create</button>
+          </div>
+          <div className="rounded-2xl bg-gradient-to-br from-[#16305A] to-[#0E2244] p-3 ring-1 ring-white/10">
+            <div className="flex items-center gap-1.5 text-[12px] font-bold"><Users className="h-3.5 w-3.5" /> Join Room</div>
+            <div className="mt-0.5 text-[10px] text-white/60">Public & private</div>
+            <button className="mt-2 w-full rounded-lg bg-white/10 py-1.5 text-[11px] font-bold ring-1 ring-white/15">Join</button>
+          </div>
+        </div>
+
+        {/* Featured rooms */}
+        <div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-[13px] font-bold">
+              <Star className="h-4 w-4 fill-amber-300 text-amber-300" /> Featured Rooms
+            </div>
+            <span className="text-[11px] text-amber-300">View All ›</span>
+          </div>
+          <div className="overflow-hidden rounded-2xl bg-white text-slate-900 shadow-lg">
+            <BannerSlider aspect="aspect-[16/8]" rounded="rounded-none" />
+            <div className="p-3">
+              <div className="bn truncate text-[13px] font-bold">নবরানিকেকনপ্রাপ্পণ ওয়া প্রভৃতি বা…</div>
+              <div className="mt-1 flex items-center gap-2 text-[10.5px] text-slate-500">
+                <span>Sponsored by</span>
+                <img src={sponsorLogo} alt="" className="h-3.5 w-3.5 rounded-full" />
+                <span className="font-semibold text-slate-700">WafiLife</span>
+              </div>
+              <div className="mt-2 flex items-center justify-between rounded-lg bg-amber-100 px-2.5 py-1.5">
+                <span className="flex items-center gap-1 text-[11px] font-extrabold text-amber-900">
+                  <Trophy className="h-3.5 w-3.5" /> Prize: 100,000 BDT
+                </span>
+                <span className="text-[10px] text-amber-800">16 users · 100/day</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <HomeBottomNav tone="dark" />
+    </div>
+  );
+}
+
+/* ---------------- Home V2 — Calm Minimal Light ---------------- */
+function HomeV2() {
+  return (
+    <div className="bg-[#FAFAF7]">
+      {/* Soft hero */}
+      <div className="px-5 pb-6 pt-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="grid h-10 w-10 place-items-center rounded-full bg-emerald-100 text-emerald-700 font-bold">KT</div>
+            <div className="leading-tight">
+              <div className="text-[10px] uppercase tracking-wider text-slate-500">As-salamu alaykum</div>
+              <div className="text-[13px] font-bold text-slate-900">Khaled</div>
+            </div>
+          </div>
+          <Bell className="h-4.5 w-4.5 text-slate-500" />
+        </div>
+        <div className="mt-5 text-center">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-700/80">Next Prayer · Dhuhr</div>
+          <div className="mt-1 text-[34px] font-extralight tracking-tight text-slate-900">11:57 <span className="text-[16px] font-light text-slate-500">AM</span></div>
+          <div className="mt-1 text-[11px] text-slate-500">in 2h 14m · Dhaka</div>
+        </div>
+        <div className="mt-4 grid grid-cols-5 gap-1 rounded-2xl bg-white p-2 ring-1 ring-slate-100">
+          {PRAYERS.map((p) => (
+            <div key={p.name} className={`flex flex-col items-center gap-0.5 rounded-xl py-2 text-[10px] ${p.active ? "bg-emerald-50 text-emerald-800" : "text-slate-500"}`}>
+              <span className="font-semibold">{p.name}</span>
+              <span className="text-[9.5px] opacity-80">{p.time}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-3 px-4 pb-6">
+        {/* Today's zikr highlight */}
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-900 p-4 text-white">
+          <div className="text-[10px] uppercase tracking-wider text-emerald-200/80">Today's Zikr</div>
+          <div className="bn mt-1.5 text-[20px] font-bold leading-tight">سُبْحَانَ اللّٰه</div>
+          <div className="bn mt-0.5 text-[11px] text-emerald-100/80">100 বার পড়ুন</div>
+          <div className="mt-3 flex items-center justify-between">
+            <div className="flex items-center gap-1 text-[11px] text-emerald-100/80">
+              <Heart className="h-3.5 w-3.5 fill-emerald-300 text-emerald-300" /> 32 / 100
+            </div>
+            <button className="rounded-full bg-white px-3 py-1 text-[11px] font-bold text-emerald-800">Continue</button>
+          </div>
+        </div>
+
+        {/* Quick tiles */}
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { l: "My Rooms", i: <BookOpen className="h-4 w-4" /> },
+            { l: "Explore", i: <Compass className="h-4 w-4" /> },
+            { l: "Featured", i: <Star className="h-4 w-4" /> },
+          ].map((x) => (
+            <button key={x.l} className="flex flex-col items-center gap-1.5 rounded-2xl bg-white py-3 text-[11px] font-semibold text-slate-700 ring-1 ring-slate-100">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-emerald-50 text-emerald-700">{x.i}</span>
+              {x.l}
+            </button>
+          ))}
+        </div>
+
+        {/* Featured */}
+        <div className="flex items-center justify-between pt-2">
+          <div className="text-[13px] font-bold text-slate-900">Featured Rooms</div>
+          <span className="text-[11px] text-emerald-700">View all</span>
+        </div>
+        <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-100">
+          <BannerSlider aspect="aspect-[16/8]" rounded="rounded-none" />
+          <div className="p-3">
+            <div className="flex items-center gap-1.5 text-[10px] text-slate-500">
+              <ShieldCheck className="h-3 w-3 text-emerald-600" /> Sponsored · WafiLife
+            </div>
+            <div className="bn mt-1 truncate text-[13.5px] font-bold text-slate-900">গভীর ১০,০০০ বার গণনা</div>
+            <div className="mt-2 flex items-center justify-between">
+              <span className="text-[11px] font-bold text-emerald-700">৳1,00,000 Prize</span>
+              <span className="text-[10px] text-slate-500">2 users · 1000 total</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <HomeBottomNav tone="light" />
+    </div>
+  );
+}
+
+/* ---------------- Home V3 — Modern Card Stack ---------------- */
+function HomeV3() {
+  return (
+    <div className="bg-[#F4F6FA]">
+      <div style={{ background: NAVY }} className="rounded-b-[28px] px-5 pb-8 pt-5 text-white">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="grid h-9 w-9 place-items-center rounded-full bg-amber-300 text-[#0B1B36] text-[12px] font-extrabold">KT</div>
+            <div className="leading-tight">
+              <div className="text-[11px] text-white/65">Welcome back</div>
+              <div className="text-[13px] font-bold">Khaled TAMIN</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Search className="h-4.5 w-4.5" />
+            <Bell className="h-4.5 w-4.5" />
+          </div>
+        </div>
+        <div className="mt-4 flex items-center justify-between rounded-2xl bg-white/[0.07] p-3 ring-1 ring-white/10">
+          <div>
+            <div className="text-[10px] uppercase tracking-wider text-white/60">Total Zikr</div>
+            <div className="mt-0.5 text-[20px] font-extrabold text-amber-300">318.2M</div>
+          </div>
+          <div className="h-8 w-px bg-white/10" />
+          <div>
+            <div className="text-[10px] uppercase tracking-wider text-white/60">Level</div>
+            <div className="mt-0.5 flex items-center gap-1 text-[16px] font-extrabold">
+              19 <TrendingUp className="h-3.5 w-3.5 text-emerald-300" />
+            </div>
+          </div>
+          <div className="h-8 w-px bg-white/10" />
+          <div>
+            <div className="text-[10px] uppercase tracking-wider text-white/60">Rank</div>
+            <div className="mt-0.5 text-[16px] font-extrabold">#142</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="-mt-4 space-y-3 px-4 pb-6">
+        {/* Sponsor banner up top */}
+        <div className="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-slate-100">
+          <BannerSlider aspect="aspect-[16/7]" rounded="rounded-none" />
+        </div>
+
+        {/* Prayer + Qibla compact */}
+        <div className="grid grid-cols-5 gap-2">
+          <div className="col-span-3 rounded-2xl bg-white p-3 ring-1 ring-slate-100">
+            <div className="flex items-center justify-between text-[11px] text-slate-500">
+              <span className="flex items-center gap-1"><Moon className="h-3.5 w-3.5 text-amber-500" /> Dhuhr</span>
+              <span>Dhaka</span>
+            </div>
+            <div className="mt-1 text-[20px] font-extrabold text-slate-900">11:57 AM</div>
+            <div className="text-[10.5px] text-emerald-700">in 2h 14m</div>
+          </div>
+          <div className="col-span-2 flex flex-col items-center justify-center rounded-2xl p-3 text-white" style={{ background: NAVY }}>
+            <Compass className="h-6 w-6 text-amber-300" />
+            <div className="mt-1 text-[11px] font-bold">Qibla</div>
+            <div className="text-[10px] text-white/60">295° NW</div>
+          </div>
+        </div>
+
+        {/* Action grid */}
+        <div className="grid grid-cols-4 gap-2">
+          {[
+            { l: "Rooms", i: <BookOpen className="h-4 w-4" />, c: "text-indigo-600 bg-indigo-50" },
+            { l: "Tasbih", i: <Sparkles className="h-4 w-4" />, c: "text-amber-600 bg-amber-50" },
+            { l: "Quran", i: <BookOpen className="h-4 w-4" />, c: "text-emerald-600 bg-emerald-50" },
+            { l: "Duas", i: <Heart className="h-4 w-4" />, c: "text-rose-600 bg-rose-50" },
+          ].map((x) => (
+            <button key={x.l} className="flex flex-col items-center gap-1.5 rounded-2xl bg-white py-3 text-[10.5px] font-semibold text-slate-700 ring-1 ring-slate-100">
+              <span className={`grid h-8 w-8 place-items-center rounded-xl ${x.c}`}>{x.i}</span>
+              {x.l}
+            </button>
+          ))}
+        </div>
+
+        {/* Featured stack */}
+        <div className="flex items-center justify-between pt-1">
+          <div className="text-[13px] font-bold text-slate-900">Featured Rooms</div>
+          <span className="text-[11px] font-semibold" style={{ color: NAVY }}>View All ›</span>
+        </div>
+        <div className="space-y-2">
+          {[1, 2].map((i) => (
+            <div key={i} className="flex items-center gap-3 rounded-2xl bg-white p-3 ring-1 ring-slate-100">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-amber-100 text-lg">📿</div>
+              <div className="min-w-0 flex-1">
+                <div className="bn truncate text-[13px] font-bold text-slate-900">
+                  {i === 1 ? "নবরানিকেকনপ্রাপ্পণ ওয়া…" : "গভীর ১০,০০০ বার গণনা"}
+                </div>
+                <div className="mt-0.5 flex items-center gap-1.5 text-[10px] text-slate-500">
+                  <img src={sponsorLogo} alt="" className="h-3 w-3 rounded-full" />
+                  Sponsored · WafiLife
+                </div>
+                <div className="mt-1 inline-flex items-center gap-1 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-900">
+                  <Trophy className="h-3 w-3" /> 1,00,000 BDT
+                </div>
+              </div>
+              <ChevronRight className="h-4 w-4 text-slate-400" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <HomeBottomNav tone="light" />
+    </div>
   );
 }
