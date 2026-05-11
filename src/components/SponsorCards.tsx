@@ -687,6 +687,19 @@ export default function SponsorCards() {
           </p>
         </header>
         <AdminCreateRoom />
+
+        <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Room Leaderboard — Design Variants</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Four directions for ranking + weekly winners hall of fame.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="LB 1 · Podium + Weekly Tabs"><LeaderboardV1 /></DetailFrame>
+          <DetailFrame label="LB 2 · Hall of Fame Carousel"><LeaderboardV2 /></DetailFrame>
+          <DetailFrame label="LB 3 · Dark Stadium + Streaks"><LeaderboardV3 /></DetailFrame>
+          <DetailFrame label="LB 4 · Timeline of Champions"><LeaderboardV4 /></DetailFrame>
+        </div>
       </div>
     </div>
   );
@@ -1807,6 +1820,339 @@ function AdminCreateRoom() {
           </div>
         </aside>
       </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  ROOM LEADERBOARD VARIANTS                                         */
+/* ================================================================== */
+
+const LB_PLAYERS = [
+  { name: "Abdullah R.", count: 12480, avatar: "AR", country: "🇧🇩", streak: 18 },
+  { name: "Fatima Z.",   count: 11920, avatar: "FZ", country: "🇸🇦", streak: 22 },
+  { name: "Yusuf K.",    count: 10870, avatar: "YK", country: "🇹🇷", streak: 14 },
+  { name: "Aisha M.",    count: 9640,  avatar: "AM", country: "🇲🇾", streak: 9  },
+  { name: "Bilal H.",    count: 9120,  avatar: "BH", country: "🇵🇰", streak: 11 },
+  { name: "Maryam S.",   count: 8550,  avatar: "MS", country: "🇮🇩", streak: 7  },
+  { name: "Omar T.",     count: 8210,  avatar: "OT", country: "🇪🇬", streak: 5  },
+  { name: "Layla A.",    count: 7890,  avatar: "LA", country: "🇦🇪", streak: 12 },
+];
+
+const WEEKLY_WINNERS = [
+  { week: "Week 18 · Apr 28 – May 4", name: "Abdullah R.",  count: 48210, prize: "৳5,000",  avatar: "AR" },
+  { week: "Week 17 · Apr 21 – Apr 27", name: "Fatima Z.",    count: 46980, prize: "৳5,000",  avatar: "FZ" },
+  { week: "Week 16 · Apr 14 – Apr 20", name: "Yusuf K.",     count: 44120, prize: "৳5,000",  avatar: "YK" },
+  { week: "Week 15 · Apr 7 – Apr 13",  name: "Maryam S.",    name2: "Maryam", count: 41560, prize: "৳5,000", avatar: "MS" },
+];
+
+/* ---------- Variant 1: Podium + Weekly Tabs ---------- */
+function LeaderboardV1() {
+  const [tab, setTab] = useState<"this" | "last" | "all">("this");
+  const top3 = LB_PLAYERS.slice(0, 3);
+  const rest = LB_PLAYERS.slice(3);
+  return (
+    <div className="bg-white">
+      <div style={{ background: NAVY }} className="px-5 pb-6 pt-4 text-white">
+        <div className="flex items-center justify-between text-[11px]">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <span className="font-semibold">Leaderboard</span>
+          <Trophy className="h-4 w-4" />
+        </div>
+        <div className="mt-2 text-center">
+          <div className="text-[13px] opacity-80">Astaghfirullah Room</div>
+          <div className="text-[18px] font-bold">Weekly Champions</div>
+          <div className="mt-1 text-[10.5px] opacity-70">Resets in 2d 14h · Prize ৳5,000</div>
+        </div>
+        <div className="mt-4 grid grid-cols-3 items-end gap-2">
+          {[1,0,2].map((i) => {
+            const p = top3[i];
+            const isFirst = i === 0;
+            return (
+              <div key={p.name} className="flex flex-col items-center">
+                <div className={`relative flex items-center justify-center rounded-full bg-white text-slate-900 font-bold ring-2 ${isFirst ? "h-14 w-14 text-base ring-amber-300" : "h-11 w-11 text-sm ring-white/40"}`}>
+                  {p.avatar}
+                  {isFirst && <Crown className="absolute -top-3 h-4 w-4 text-amber-300" fill="currentColor" />}
+                </div>
+                <div className="mt-1 truncate text-[11px] font-semibold">{p.name.split(" ")[0]}</div>
+                <div className="text-[10px] opacity-70">{p.count.toLocaleString()}</div>
+                <div className={`mt-1 w-full rounded-t-md ${isFirst ? "h-12 bg-amber-300" : "h-7 bg-white/25"} flex items-center justify-center text-[11px] font-bold ${isFirst ? "text-slate-900" : ""}`}>
+                  {i + 1}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="px-4 pb-6 pt-4">
+        <div className="flex rounded-full bg-slate-100 p-1 text-[11px] font-semibold">
+          {[["this","This Week"],["last","Last Week"],["all","All Time"]].map(([k,l]) => (
+            <button key={k} onClick={() => setTab(k as any)} className={`flex-1 rounded-full px-3 py-1.5 ${tab===k?"bg-white text-slate-900 shadow":"text-slate-500"}`}>{l}</button>
+          ))}
+        </div>
+        <div className="mt-3 space-y-1.5">
+          {rest.map((p, i) => (
+            <div key={p.name} className="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-2">
+              <div className="w-5 text-center text-[12px] font-bold text-slate-400">{i + 4}</div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-[11px] font-bold text-slate-700">{p.avatar}</div>
+              <div className="flex-1 truncate text-[12px] font-semibold text-slate-800">{p.name} <span className="ml-1">{p.country}</span></div>
+              <div className="text-[11px] font-bold text-slate-700">{p.count.toLocaleString()}</div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 flex items-center gap-3 rounded-xl bg-emerald-50 px-3 py-2 ring-1 ring-emerald-200">
+          <div className="w-5 text-center text-[12px] font-bold text-emerald-700">42</div>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 text-[11px] font-bold text-white">YOU</div>
+          <div className="flex-1 text-[12px] font-semibold text-emerald-900">Your rank · 4,210</div>
+          <TrendingUp className="h-3.5 w-3.5 text-emerald-700" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Variant 2: Hall of Fame Carousel ---------- */
+function LeaderboardV2() {
+  return (
+    <div className="bg-[#FAFAF7]">
+      <div className="px-5 pb-3 pt-4">
+        <div className="flex items-center justify-between text-[12px] font-semibold text-slate-700">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <span>Leaderboard</span>
+          <Bell className="h-4 w-4" />
+        </div>
+      </div>
+
+      {/* Hall of fame */}
+      <div className="px-4">
+        <div className="flex items-center justify-between">
+          <div className="text-[13px] font-bold text-slate-900">🏆 Hall of Fame</div>
+          <span className="text-[10.5px] text-slate-500">Weekly Winners</span>
+        </div>
+        <div className="mt-2 -mx-4 overflow-x-auto px-4 pb-2">
+          <div className="flex gap-3">
+            {WEEKLY_WINNERS.map((w) => (
+              <div key={w.week} className="w-[180px] shrink-0 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 p-3 ring-1 ring-amber-200">
+                <div className="text-[9.5px] font-semibold uppercase tracking-wider text-amber-800">{w.week.split(" · ")[0]}</div>
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-[12px] font-bold text-white ring-2 ring-white">{w.avatar}</div>
+                  <div>
+                    <div className="text-[12px] font-bold text-slate-900">{w.name}</div>
+                    <div className="text-[10px] text-slate-600">{w.count.toLocaleString()} zikr</div>
+                  </div>
+                </div>
+                <div className="mt-2 flex items-center justify-between rounded-lg bg-white/60 px-2 py-1">
+                  <span className="text-[10px] text-slate-600">Prize</span>
+                  <span className="text-[11px] font-bold text-amber-700">{w.prize}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Live ranking */}
+      <div className="mt-2 px-4 pb-6">
+        <div className="flex items-center justify-between">
+          <div className="text-[13px] font-bold text-slate-900">Live Ranking</div>
+          <div className="flex items-center gap-1 text-[10px] text-emerald-600">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            this week
+          </div>
+        </div>
+        <div className="mt-2 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-100">
+          {LB_PLAYERS.slice(0, 6).map((p, i) => {
+            const max = LB_PLAYERS[0].count;
+            const pct = (p.count / max) * 100;
+            return (
+              <div key={p.name} className="relative flex items-center gap-3 border-b border-slate-50 px-3 py-2.5 last:border-0">
+                <div className={`w-6 text-center text-[12px] font-bold ${i<3?"text-amber-500":"text-slate-400"}`}>{i+1}</div>
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-[11px] font-bold text-slate-700">{p.avatar}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-[12px] font-semibold text-slate-800">{p.name}</div>
+                  <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-slate-100">
+                    <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-500" style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[11.5px] font-bold text-slate-900">{p.count.toLocaleString()}</div>
+                  <div className="text-[9px] text-slate-400">🔥 {p.streak}d</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Variant 3: Dark Stadium + Streaks ---------- */
+function LeaderboardV3() {
+  return (
+    <div className="bg-[#0B1B36] text-white">
+      <div className="px-5 pb-4 pt-4">
+        <div className="flex items-center justify-between text-[12px]">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <span className="font-semibold">Stadium</span>
+          <Award className="h-4 w-4 text-amber-300" />
+        </div>
+      </div>
+
+      {/* Champion spotlight */}
+      <div className="mx-4 rounded-2xl bg-gradient-to-br from-amber-400/20 to-transparent p-4 ring-1 ring-amber-300/30">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-400 text-[16px] font-bold text-slate-900">AR</div>
+            <Crown className="absolute -top-2 -right-2 h-5 w-5 text-amber-300" fill="currentColor" />
+          </div>
+          <div className="flex-1">
+            <div className="text-[10px] uppercase tracking-wider text-amber-300">Reigning Champion</div>
+            <div className="text-[15px] font-bold">Abdullah R. 🇧🇩</div>
+            <div className="mt-0.5 text-[10.5px] text-white/70">3 weeks in a row · 18 day streak</div>
+          </div>
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+          <div className="rounded-lg bg-white/5 py-1.5">
+            <div className="text-[9px] text-white/60">Total</div>
+            <div className="text-[11px] font-bold">142K</div>
+          </div>
+          <div className="rounded-lg bg-white/5 py-1.5">
+            <div className="text-[9px] text-white/60">Best Day</div>
+            <div className="text-[11px] font-bold">8,420</div>
+          </div>
+          <div className="rounded-lg bg-white/5 py-1.5">
+            <div className="text-[9px] text-white/60">Won</div>
+            <div className="text-[11px] font-bold text-amber-300">৳15K</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Weekly winners strip */}
+      <div className="mt-4 px-4">
+        <div className="text-[11px] font-semibold uppercase tracking-wider text-white/60">Past Weeks</div>
+        <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+          {WEEKLY_WINNERS.map((w, i) => (
+            <div key={w.week} className="w-[120px] shrink-0 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
+              <div className="text-[9px] text-white/50">W{18 - i}</div>
+              <div className="mt-1 flex items-center gap-1.5">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-slate-900">{w.avatar}</div>
+                <div>
+                  <div className="text-[10.5px] font-semibold leading-tight">{w.name.split(" ")[0]}</div>
+                  <div className="text-[9px] text-amber-300">{w.prize}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Ranking */}
+      <div className="mt-4 px-4 pb-6">
+        <div className="flex items-center justify-between text-[11px]">
+          <span className="font-semibold uppercase tracking-wider text-white/60">This Week</span>
+          <span className="text-white/50">2d 14h left</span>
+        </div>
+        <div className="mt-2 space-y-1.5">
+          {LB_PLAYERS.slice(0, 6).map((p, i) => (
+            <div key={p.name} className={`flex items-center gap-3 rounded-xl px-3 py-2 ${i<3?"bg-amber-400/10 ring-1 ring-amber-300/20":"bg-white/5"}`}>
+              <div className={`flex h-6 w-6 items-center justify-center rounded-md text-[11px] font-bold ${i===0?"bg-amber-400 text-slate-900":i===1?"bg-slate-300 text-slate-900":i===2?"bg-amber-700 text-white":"bg-white/10 text-white/70"}`}>{i+1}</div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-[10.5px] font-bold">{p.avatar}</div>
+              <div className="flex-1 truncate text-[12px] font-semibold">{p.name}</div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-orange-300">🔥{p.streak}</span>
+                <span className="text-[11.5px] font-bold">{(p.count/1000).toFixed(1)}K</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Variant 4: Timeline of Champions ---------- */
+function LeaderboardV4() {
+  const [view, setView] = useState<"now" | "history">("now");
+  return (
+    <div className="bg-white">
+      <div className="px-5 pb-3 pt-4">
+        <div className="flex items-center justify-between">
+          <ChevronRight className="h-4 w-4 rotate-180 text-slate-700" />
+          <div className="text-[13px] font-bold text-slate-900">Leaderboard</div>
+          <Trophy className="h-4 w-4 text-amber-500" />
+        </div>
+        <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1 text-[11px] font-semibold">
+          <button onClick={() => setView("now")} className={`rounded-lg py-1.5 ${view==="now"?"bg-white text-slate-900 shadow":"text-slate-500"}`}>Current Week</button>
+          <button onClick={() => setView("history")} className={`rounded-lg py-1.5 ${view==="history"?"bg-white text-slate-900 shadow":"text-slate-500"}`}>Champions History</button>
+        </div>
+      </div>
+
+      {view === "now" ? (
+        <div className="px-4 pb-6">
+          {/* Prize pot */}
+          <div className="mt-2 flex items-center justify-between rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-500 p-3 text-white">
+            <div>
+              <div className="text-[10px] uppercase tracking-wider opacity-80">Prize Pool</div>
+              <div className="text-[18px] font-bold">৳12,000</div>
+            </div>
+            <div className="text-right">
+              <div className="text-[10px] opacity-80">Ends in</div>
+              <div className="text-[14px] font-bold">2d 14h</div>
+            </div>
+          </div>
+
+          {/* Top 3 horizontal cards */}
+          <div className="mt-3 space-y-1.5">
+            {LB_PLAYERS.slice(0,3).map((p,i) => (
+              <div key={p.name} className={`flex items-center gap-3 rounded-2xl p-3 ${i===0?"bg-amber-50 ring-1 ring-amber-200":i===1?"bg-slate-50 ring-1 ring-slate-200":"bg-orange-50 ring-1 ring-orange-200"}`}>
+                <div className={`flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-bold ${i===0?"bg-amber-400 text-white":i===1?"bg-slate-400 text-white":"bg-orange-400 text-white"}`}>{i+1}</div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[12px] font-bold text-slate-700 ring-2 ring-white">{p.avatar}</div>
+                <div className="flex-1">
+                  <div className="text-[13px] font-bold text-slate-900">{p.name}</div>
+                  <div className="text-[10px] text-slate-600">{p.country} · 🔥 {p.streak} day streak</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[13px] font-bold text-slate-900">{p.count.toLocaleString()}</div>
+                  <div className="text-[10px] font-semibold text-emerald-600">৳{i===0?"5,000":i===1?"3,000":"2,000"}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Rest */}
+          <div className="mt-2 space-y-1">
+            {LB_PLAYERS.slice(3).map((p, i) => (
+              <div key={p.name} className="flex items-center gap-3 px-2 py-1.5">
+                <div className="w-5 text-center text-[11px] font-semibold text-slate-400">{i+4}</div>
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 text-[10px] font-bold text-slate-700">{p.avatar}</div>
+                <div className="flex-1 truncate text-[11.5px] font-medium text-slate-700">{p.name}</div>
+                <div className="text-[11px] font-semibold text-slate-600">{p.count.toLocaleString()}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="px-4 pb-6">
+          <div className="mt-2 text-[11px] text-slate-500">A timeline of every weekly champion since the room opened.</div>
+          <div className="relative mt-3 pl-5">
+            <div className="absolute left-1.5 top-2 bottom-2 w-px bg-slate-200" />
+            {WEEKLY_WINNERS.map((w, i) => (
+              <div key={w.week} className="relative pb-4 last:pb-0">
+                <div className={`absolute -left-[14px] top-1 h-3 w-3 rounded-full ring-2 ring-white ${i===0?"bg-amber-400":"bg-slate-300"}`} />
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{w.week}</div>
+                <div className="mt-1 flex items-center gap-2 rounded-xl bg-slate-50 p-2.5">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-400 text-[11px] font-bold text-white">{w.avatar}</div>
+                  <div className="flex-1">
+                    <div className="text-[12px] font-bold text-slate-900">{w.name} {i===0 && <Crown className="inline h-3 w-3 text-amber-500" />}</div>
+                    <div className="text-[10px] text-slate-500">{w.count.toLocaleString()} zikr · won {w.prize}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
