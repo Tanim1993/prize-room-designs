@@ -1503,3 +1503,310 @@ function HomeV7() {
     </div>
   );
 }
+
+/* ================================================================== */
+/*  ADMIN — CREATE FEATURED / SPONSORED ROOM                          */
+/* ================================================================== */
+
+function Field({ label, hint, required, children }: { label: string; hint?: string; required?: boolean; children: React.ReactNode }) {
+  return (
+    <div>
+      <label className="mb-1 flex items-center justify-between text-[12px] font-semibold text-slate-700">
+        <span>{label}{required && <span className="ml-0.5 text-rose-500">*</span>}</span>
+        {hint && <span className="text-[10.5px] font-normal text-slate-400">{hint}</span>}
+      </label>
+      {children}
+    </div>
+  );
+}
+
+const inputCls = "w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-[13px] text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/15";
+
+function FormCard({ title, icon, desc, children }: { title: string; icon: React.ReactNode; desc?: string; children: React.ReactNode }) {
+  return (
+    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="mb-4 flex items-center gap-3 border-b border-slate-100 pb-3">
+        <span className="grid h-9 w-9 place-items-center rounded-lg bg-emerald-50 text-emerald-700">{icon}</span>
+        <div>
+          <h3 className="text-[14px] font-bold text-slate-900">{title}</h3>
+          {desc && <p className="text-[11.5px] text-slate-500">{desc}</p>}
+        </div>
+      </div>
+      <div className="space-y-4">{children}</div>
+    </section>
+  );
+}
+
+function AdminCreateRoom() {
+  const steps = [
+    { n: 1, l: "Basic Info", done: true },
+    { n: 2, l: "Branding & Sponsor", done: true },
+    { n: 3, l: "Rewards & Prizes", active: true },
+    { n: 4, l: "Eligibility & Rules" },
+    { n: 5, l: "Schedule & Publish" },
+  ];
+
+  return (
+    <div className="mx-auto w-full max-w-[1200px] rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
+      {/* Top bar */}
+      <div className="mb-6 flex items-center justify-between rounded-2xl bg-white p-4 ring-1 ring-slate-200">
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-700">Admin · New Featured Room</div>
+          <h2 className="text-[20px] font-bold text-slate-900">Create a Sponsored Zikr Room</h2>
+        </div>
+        <div className="flex items-center gap-2">
+          <button className="rounded-lg border border-slate-200 px-3 py-1.5 text-[12px] font-semibold text-slate-700 hover:bg-slate-50">Save Draft</button>
+          <button className="rounded-lg bg-emerald-600 px-4 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-700">Preview</button>
+          <button className="rounded-lg bg-slate-900 px-4 py-1.5 text-[12px] font-semibold text-white">Publish</button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-12 gap-6">
+        {/* Stepper */}
+        <aside className="col-span-3">
+          <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-200">
+            <div className="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-500">Setup Progress</div>
+            <ol className="space-y-1">
+              {steps.map((s) => (
+                <li key={s.n}
+                    className={`flex items-center gap-3 rounded-lg px-2.5 py-2 text-[12.5px] ${s.active ? "bg-emerald-50 text-emerald-800 font-semibold" : "text-slate-600"}`}>
+                  <span className={`grid h-6 w-6 place-items-center rounded-full text-[11px] font-bold ${s.done ? "bg-emerald-600 text-white" : s.active ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-500"}`}>
+                    {s.done ? "✓" : s.n}
+                  </span>
+                  {s.l}
+                </li>
+              ))}
+            </ol>
+            <div className="mt-4 rounded-lg bg-emerald-50 p-3 text-[11px] text-emerald-800">
+              💡 You can save as draft anytime. Room goes live only after publish.
+            </div>
+          </div>
+        </aside>
+
+        {/* Form */}
+        <div className="col-span-6 space-y-5">
+          <FormCard title="Basic Info" icon={<BookOpen className="h-4 w-4" />} desc="Core details users will see in the room list.">
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Room Name" required hint="Max 60 chars">
+                <input className={inputCls} placeholder="Daily Zikr Challenge" />
+              </Field>
+              <Field label="Room Slug" hint="Auto-generated">
+                <input className={inputCls} placeholder="daily-zikr-challenge" />
+              </Field>
+            </div>
+            <Field label="Zikr Type" required>
+              <select className={inputCls}>
+                <option>Subhanallah</option>
+                <option>Alhamdulillah</option>
+                <option>Allahu Akbar</option>
+                <option>Astaghfirullah</option>
+                <option>Custom</option>
+              </select>
+            </Field>
+            <Field label="Arabic Text" required>
+              <input className={`${inputCls} bn text-right`} placeholder="سُبْحَانَ اللّٰه" dir="rtl" />
+            </Field>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Bangla Translation"><input className={inputCls} placeholder="আমি আল্লাহর প্রশংসা করি" /></Field>
+              <Field label="English Translation"><input className={inputCls} placeholder="Glory be to Allah" /></Field>
+            </div>
+            <Field label="Description" hint="Max 300 chars">
+              <textarea rows={3} className={inputCls} placeholder="Short description shown on room detail screen..." />
+            </Field>
+            <div className="grid grid-cols-3 gap-3">
+              <Field label="Count Type" required>
+                <select className={inputCls}><option>Fixed Target</option><option>Open / Unlimited</option><option>Time-bound</option></select>
+              </Field>
+              <Field label="Daily Goal" required><input type="number" className={inputCls} placeholder="100" /></Field>
+              <Field label="Total Target"><input type="number" className={inputCls} placeholder="10,000" /></Field>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <Field label="Duration (days)" required><input type="number" className={inputCls} placeholder="30" /></Field>
+              <Field label="Visibility" required>
+                <select className={inputCls}><option>Public</option><option>Private (invite)</option><option>Featured</option></select>
+              </Field>
+              <Field label="Room Scope">
+                <select className={inputCls}><option>Global</option><option>Country</option><option>City</option></select>
+              </Field>
+            </div>
+            <Field label="Target Country / Region">
+              <select className={inputCls}><option>Bangladesh</option><option>Indonesia</option><option>Saudi Arabia</option><option>Worldwide</option></select>
+            </Field>
+          </FormCard>
+
+          <FormCard title="Branding & Sponsor" icon={<ShieldCheck className="h-4 w-4" />} desc="Sponsor identity and branding shown on the room.">
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Presented By" required><input className={inputCls} placeholder="As Sunnah" /></Field>
+              <Field label="Sponsored By" required><input className={inputCls} placeholder="WafiLife" /></Field>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Sponsor Logo" required hint="PNG/SVG · max 2 MB">
+                <div className="flex h-[42px] items-center gap-3 rounded-lg border border-dashed border-slate-300 bg-slate-50 px-3 text-[12px] text-slate-500">
+                  <span className="grid h-7 w-7 place-items-center rounded bg-white ring-1 ring-slate-200">⬆</span>
+                  Click to upload or drag & drop
+                </div>
+              </Field>
+              <Field label="Cover / Banner Image" hint="16:9 recommended">
+                <div className="flex h-[42px] items-center gap-3 rounded-lg border border-dashed border-slate-300 bg-slate-50 px-3 text-[12px] text-slate-500">
+                  <span className="grid h-7 w-7 place-items-center rounded bg-white ring-1 ring-slate-200">🖼</span>
+                  Upload banner
+                </div>
+              </Field>
+            </div>
+            <Field label="Banner Slider Images" hint="Up to 5 images for in-room slider">
+              <div className="flex flex-wrap gap-2">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="grid h-16 w-24 place-items-center rounded-lg bg-slate-100 text-[11px] text-slate-400 ring-1 ring-slate-200">Slide {i}</div>
+                ))}
+                <button className="grid h-16 w-24 place-items-center rounded-lg border-2 border-dashed border-slate-300 text-slate-400">+ Add</button>
+              </div>
+            </Field>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Sponsor Website"><input className={inputCls} placeholder="https://wafilife.com" /></Field>
+              <Field label="CTA Button Text"><input className={inputCls} placeholder="Visit Sponsor" /></Field>
+            </div>
+            <Field label="Brand Color"><div className="flex items-center gap-2"><input type="color" defaultValue="#1F3A5F" className="h-10 w-14 cursor-pointer rounded-lg border border-slate-200" /><input className={inputCls} defaultValue="#1F3A5F" /></div></Field>
+            <Field label="Sponsor Note (optional)" hint="Shown as a small caption">
+              <textarea rows={2} className={inputCls} placeholder="A message from the sponsor..." />
+            </Field>
+            <label className="flex items-center gap-2 text-[12px] text-slate-700"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" /> Show "Verified sponsor" badge</label>
+          </FormCard>
+
+          <FormCard title="Rewards & Prizes" icon={<Trophy className="h-4 w-4" />} desc="Configure the prize pool and per-rank breakdown.">
+            <div className="grid grid-cols-3 gap-3">
+              <Field label="Total Prize Money" required>
+                <div className="flex"><input type="number" className={`${inputCls} rounded-r-none`} placeholder="100000" /><select className="rounded-r-lg border border-l-0 border-slate-200 bg-slate-50 px-2 text-[12px]"><option>BDT</option><option>USD</option></select></div>
+              </Field>
+              <Field label="Prize Type" required>
+                <select className={inputCls}><option>Cash</option><option>Voucher</option><option>Product</option><option>Mixed</option></select>
+              </Field>
+              <Field label="Number of Winners" required><input type="number" className={inputCls} placeholder="10" /></Field>
+            </div>
+            <Field label="Distribution Method">
+              <div className="grid grid-cols-3 gap-2 text-[12px]">
+                {["Top N rank", "Lottery", "Threshold"].map((x, i) => (
+                  <label key={x} className={`flex items-center gap-2 rounded-lg border px-3 py-2 cursor-pointer ${i === 0 ? "border-emerald-600 bg-emerald-50 text-emerald-800" : "border-slate-200 text-slate-600"}`}>
+                    <input type="radio" name="dist" defaultChecked={i === 0} className="accent-emerald-600" />
+                    {x}
+                  </label>
+                ))}
+              </div>
+            </Field>
+            <Field label="Prize Breakdown" hint="Per-rank reward">
+              <div className="space-y-2">
+                {[{ r: "1st", v: "50,000" }, { r: "2nd", v: "30,000" }, { r: "3rd", v: "10,000" }].map((p) => (
+                  <div key={p.r} className="grid grid-cols-12 gap-2">
+                    <input className={`${inputCls} col-span-2 text-center`} defaultValue={p.r} />
+                    <input className={`${inputCls} col-span-7`} defaultValue={`৳${p.v}`} />
+                    <select className={`${inputCls} col-span-2`}><option>Cash</option><option>Voucher</option></select>
+                    <button className="col-span-1 rounded-lg text-slate-400 hover:text-rose-500">✕</button>
+                  </div>
+                ))}
+                <button className="text-[12px] font-semibold text-emerald-700">+ Add Prize Rule</button>
+              </div>
+            </Field>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Prize Distribution Date" required><input type="date" className={inputCls} /></Field>
+              <Field label="Payout Method"><select className={inputCls}><option>bKash</option><option>Nagad</option><option>Bank Transfer</option><option>Manual</option></select></Field>
+            </div>
+            <label className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2.5 text-[12px] text-slate-700">
+              <span>Prize Derbitary <span className="text-slate-400">(allow sponsor to override)</span></span>
+              <span className="relative inline-flex h-5 w-9 cursor-pointer items-center rounded-full bg-emerald-600"><span className="inline-block h-4 w-4 translate-x-4 rounded-full bg-white" /></span>
+            </label>
+          </FormCard>
+
+          <FormCard title="Eligibility & Rules" icon={<ShieldCheck className="h-4 w-4" />} desc="Who can join and rules they must follow.">
+            <Field label="Who Can Join" required>
+              <div className="space-y-1.5 text-[12.5px] text-slate-700">
+                {["Must complete profile", "Must verify email", "Must verify phone", "Must upload profile photo", "Minimum account age (7 days)"].map((x, i) => (
+                  <label key={x} className="flex items-center gap-2"><input type="checkbox" defaultChecked={i < 3} className="h-4 w-4 accent-emerald-600" /> {x}</label>
+                ))}
+              </div>
+            </Field>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Minimum Age"><input type="number" className={inputCls} placeholder="13" /></Field>
+              <Field label="Max Participants"><input type="number" className={inputCls} placeholder="No limit" /></Field>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Country Restriction"><select className={inputCls}><option>Anyone</option><option>Bangladesh only</option><option>Whitelist countries</option></select></Field>
+              <Field label="Anti-Cheat Level"><select className={inputCls}><option>Standard</option><option>Strict (motion + tap)</option><option>Manual review</option></select></Field>
+            </div>
+            <Field label="Terms & Conditions URL"><input className={inputCls} placeholder="https://..." /></Field>
+          </FormCard>
+
+          <FormCard title="Schedule & Publish" icon={<Timer className="h-4 w-4" />} desc="When the room opens and how it's promoted.">
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Start Date & Time" required><input type="datetime-local" className={inputCls} /></Field>
+              <Field label="End Date & Time" required><input type="datetime-local" className={inputCls} /></Field>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Time Zone"><select className={inputCls}><option>Asia/Dhaka (GMT+6)</option><option>UTC</option></select></Field>
+              <Field label="Featured Priority" hint="Higher = top of feed"><input type="number" className={inputCls} placeholder="10" /></Field>
+            </div>
+            <div className="space-y-1.5 text-[12.5px] text-slate-700">
+              {["Pin to Featured tab", "Send push notification at launch", "Show on home banner slider", "Allow social sharing"].map((x, i) => (
+                <label key={x} className="flex items-center gap-2"><input type="checkbox" defaultChecked={i < 3} className="h-4 w-4 accent-emerald-600" /> {x}</label>
+              ))}
+            </div>
+          </FormCard>
+
+          <div className="sticky bottom-4 flex items-center justify-between rounded-2xl bg-white p-3 ring-1 ring-slate-200 shadow-lg">
+            <button className="text-[12.5px] font-semibold text-slate-500 hover:text-slate-700">← Back</button>
+            <div className="flex items-center gap-2">
+              <button className="rounded-lg border border-slate-200 px-3 py-1.5 text-[12px] font-semibold text-slate-700">Save Draft</button>
+              <button className="rounded-lg bg-emerald-600 px-4 py-1.5 text-[12px] font-semibold text-white">Next: Eligibility →</button>
+            </div>
+          </div>
+        </div>
+
+        {/* Live preview */}
+        <aside className="col-span-3">
+          <div className="sticky top-4 rounded-2xl bg-white p-3 ring-1 ring-slate-200">
+            <div className="mb-2 flex items-center justify-between px-1">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Live Preview</div>
+              <span className="text-[10px] text-emerald-700">As users see it</span>
+            </div>
+            <div className="overflow-hidden rounded-2xl bg-[#F4F6FA] p-2 ring-1 ring-slate-100">
+              <div className="overflow-hidden rounded-xl bg-white shadow-sm">
+                <div className="flex items-center justify-between px-3 py-2 text-white" style={{ background: NAVY }}>
+                  <div className="flex items-center gap-2">
+                    <img src={sponsorLogo} alt="" className="h-5 w-5 rounded-full ring-1 ring-white/30" />
+                    <div className="leading-tight">
+                      <div className="text-[8px] uppercase tracking-wider text-white/60">Sponsored by</div>
+                      <div className="text-[11px] font-bold">WafiLife</div>
+                    </div>
+                  </div>
+                  <span className="rounded-full bg-amber-300 px-1.5 py-0.5 text-[9px] font-extrabold text-amber-950">৳1,00,000</span>
+                </div>
+                <div className="p-3">
+                  <div className="bn truncate text-[12.5px] font-bold text-slate-900">Daily Zikr Challenge</div>
+                  <div className="bn mt-0.5 text-[10px] text-slate-500">سُبْحَانَ اللّٰه · 100/day</div>
+                  <div className="mt-2 flex items-center gap-3 text-[10px] text-slate-500">
+                    <span className="flex items-center gap-1"><Users className="h-3 w-3" /> 16</span>
+                    <span className="flex items-center gap-1"><Flag className="h-3 w-3" /> 100/d</span>
+                    <span className="flex items-center gap-1"><Timer className="h-3 w-3" /> 30d</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 space-y-2 text-[11px]">
+              <div className="rounded-lg bg-slate-50 p-2.5">
+                <div className="text-[10px] uppercase tracking-wider text-slate-500">Validation</div>
+                <div className="mt-1 space-y-0.5 text-slate-700">
+                  <div className="flex items-center gap-1.5 text-emerald-700">✓ Basic info complete</div>
+                  <div className="flex items-center gap-1.5 text-emerald-700">✓ Sponsor branded</div>
+                  <div className="flex items-center gap-1.5 text-amber-700">⚠ Eligibility pending</div>
+                  <div className="flex items-center gap-1.5 text-slate-400">○ Schedule</div>
+                </div>
+              </div>
+              <div className="rounded-lg bg-emerald-50 p-2.5 text-emerald-800">
+                <div className="font-semibold">Estimated reach</div>
+                <div className="mt-0.5 text-[10.5px]">~12,400 active users in Bangladesh</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}
