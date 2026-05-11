@@ -679,6 +679,14 @@ export default function SponsorCards() {
           <DetailFrame label="Home 6 · Bento Grid"><HomeV6 /></DetailFrame>
           <DetailFrame label="Home 7 · Focused Streak"><HomeV7 /></DetailFrame>
         </div>
+
+        <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Admin · Create Featured Room</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Redesigned admin flow — all required fields organised into clear sections with a live preview.
+          </p>
+        </header>
+        <AdminCreateRoom />
       </div>
     </div>
   );
