@@ -18,6 +18,9 @@ import {
   Crown,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
+import bannerBaby from "@/assets/banner-baby.png";
+import bannerBooks from "@/assets/banner-books.png";
+import { useEffect, useState } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Shared bits matching the user's current Zikr Rooms app aesthetic  */
