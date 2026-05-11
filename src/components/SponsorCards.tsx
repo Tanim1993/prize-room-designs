@@ -2312,7 +2312,7 @@ function SponsorChannelV2() {
   return (
     <div className="bg-[#F4F6FA]">
       {/* Header */}
-      <div style={{ background: NAVY }} className="relative px-5 pb-16 pt-4 text-white">
+      <div style={{ background: NAVY }} className="relative px-5 pb-24 pt-4 text-white">
         <div className="flex items-center justify-between text-[11px]">
           <ChevronRight className="h-4 w-4 rotate-180" />
           <span className="font-semibold uppercase tracking-[0.18em] opacity-80">Presented By</span>
