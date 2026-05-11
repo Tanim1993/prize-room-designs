@@ -663,6 +663,18 @@ export default function SponsorCards() {
           <DetailFrame label="Variant B · Sponsor strip + slider before rewards"><RoomDetailB /></DetailFrame>
           <DetailFrame label="Variant C · Sticky sponsor footer + inline ad"><RoomDetailC /></DetailFrame>
         </div>
+
+        <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Home Page — Design Variants</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Three home screen directions: gamified dark, calm minimal, and modern card stack.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="Home 1 · Gamified Dark"><HomeV1 /></DetailFrame>
+          <DetailFrame label="Home 2 · Calm Minimal Light"><HomeV2 /></DetailFrame>
+          <DetailFrame label="Home 3 · Modern Card Stack"><HomeV3 /></DetailFrame>
+        </div>
       </div>
     </div>
   );
