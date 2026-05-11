@@ -700,6 +700,18 @@ export default function SponsorCards() {
           <DetailFrame label="LB 3 · Dark Stadium + Streaks"><LeaderboardV3 /></DetailFrame>
           <DetailFrame label="LB 4 · Timeline of Champions"><LeaderboardV4 /></DetailFrame>
         </div>
+
+        <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Sponsor Channel / Profile — Variants</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Tapping a sponsor banner opens a channel page (YouTube-style) with bio, stats, and all rooms by that sponsor.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="Sponsor 1 · YouTube-style Channel"><SponsorChannelV1 /></DetailFrame>
+          <DetailFrame label="Sponsor 2 · Premium Brand Page"><SponsorChannelV2 /></DetailFrame>
+          <DetailFrame label="Sponsor 3 · Magazine / Editorial"><SponsorChannelV3 /></DetailFrame>
+        </div>
       </div>
     </div>
   );
