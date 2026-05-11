@@ -498,10 +498,10 @@ export default function SponsorCards() {
         <div className="flex flex-wrap justify-center gap-8">
           {VARIANTS.map((v) => (
             <PhoneFrame key={v.label} label={`${v.label} · ${v.desc}`}>
-              {/* sponsored variant sits at the TOP of the Featured feed */}
+              {v.bannerTop}
               {v.node}
-              {/* followed by normal rooms so the context matches the real app */}
               <NormalRoomCard />
+              {v.bannerMid}
               <NormalRoomCard />
             </PhoneFrame>
           ))}
