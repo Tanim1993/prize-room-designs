@@ -687,6 +687,19 @@ export default function SponsorCards() {
           </p>
         </header>
         <AdminCreateRoom />
+
+        <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Room Leaderboard — Design Variants</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Four directions for ranking + weekly winners hall of fame.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="LB 1 · Podium + Weekly Tabs"><LeaderboardV1 /></DetailFrame>
+          <DetailFrame label="LB 2 · Hall of Fame Carousel"><LeaderboardV2 /></DetailFrame>
+          <DetailFrame label="LB 3 · Dark Stadium + Streaks"><LeaderboardV3 /></DetailFrame>
+          <DetailFrame label="LB 4 · Timeline of Champions"><LeaderboardV4 /></DetailFrame>
+        </div>
       </div>
     </div>
   );
