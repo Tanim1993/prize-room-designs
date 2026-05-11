@@ -18,6 +18,9 @@ import {
   Crown,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
+import bannerBaby from "@/assets/banner-baby.png";
+import bannerBooks from "@/assets/banner-books.png";
+import { useEffect, useState } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Shared bits matching the user's current Zikr Rooms app aesthetic  */
@@ -464,6 +467,137 @@ function B3_InlineStrip() {
 /*  Page — show phone mockups side-by-side for comparison             */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/*  AUTO-SLIDING BANNER + ROOM INFO COMBOS                            */
+/* ------------------------------------------------------------------ */
+
+const BANNERS = [bannerBaby, bannerBooks, sponsorLogo];
+
+function useAutoSlide(length: number, ms = 2500) {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((p) => (p + 1) % length), ms);
+    return () => clearInterval(t);
+  }, [length, ms]);
+  return [i, setI] as const;
+}
+
+function BannerSlider({ rounded = "rounded-xl", aspect = "aspect-[16/9]" }: { rounded?: string; aspect?: string }) {
+  const [i] = useAutoSlide(BANNERS.length);
+  return (
+    <div className={`relative ${aspect} w-full overflow-hidden ${rounded} bg-slate-100`}>
+      <div
+        className="flex h-full w-full transition-transform duration-500 ease-out"
+        style={{ transform: `translateX(-${i * 100}%)` }}
+      >
+        {BANNERS.map((src, idx) => (
+          <img key={idx} src={src} alt="" className="h-full w-full shrink-0 object-cover" />
+        ))}
+      </div>
+      <div className="absolute left-2 top-2 rounded-full bg-black/45 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
+        Sponsored
+      </div>
+      <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5">
+        {BANNERS.map((_, idx) => (
+          <span
+            key={idx}
+            className={`h-1.5 rounded-full transition-all ${idx === i ? "w-4 bg-white" : "w-1.5 bg-white/55"}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* B4 — Banner slider sits INSIDE the room card, above room info. */
+function B4_BannerInsideRoom() {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_6px_18px_-10px_rgba(15,23,42,0.25)]">
+      <div className="p-2 pb-0">
+        <BannerSlider />
+      </div>
+      <div className="p-4 pt-3">
+        <div className="flex items-start gap-3">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+          <div className="min-w-0 flex-1">
+            <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+            <span className="mt-1 inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-amber-900" style={{ background: FEATURED_YELLOW }}>
+              <Star className="h-3 w-3 fill-amber-500 text-amber-500" /> Featured · ৳40,000 Prize
+            </span>
+          </div>
+          <ChevronRight className="h-5 w-5 text-slate-400" />
+        </div>
+        <div className="mt-3"><StatRow /></div>
+      </div>
+    </div>
+  );
+}
+
+/* B5 — Room info on top, banner slider below (inside same card). */
+function B5_RoomThenBanner() {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_6px_18px_-10px_rgba(15,23,42,0.25)]">
+      <div className="p-4 pb-3">
+        <div className="flex items-start gap-3">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+          <div className="min-w-0 flex-1">
+            <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+            <span className="mt-1 inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-amber-900" style={{ background: FEATURED_YELLOW }}>
+              <Star className="h-3 w-3 fill-amber-500 text-amber-500" /> Featured
+            </span>
+          </div>
+          <ChevronRight className="h-5 w-5 text-slate-400" />
+        </div>
+        <p className="bn mt-2 line-clamp-2 text-[12.5px] leading-relaxed text-slate-600">
+          প্রতিদিন ১০০ বার পড়ুন এবং পুরস্কার জিতুন ইনশাআল্লাহ।
+        </p>
+        <div className="mt-2.5"><StatRow /></div>
+      </div>
+      <div className="px-2 pb-2">
+        <BannerSlider rounded="rounded-xl" aspect="aspect-[16/8]" />
+      </div>
+    </div>
+  );
+}
+
+/* B6 — Sponsor header strip + banner slider + room info, all bundled.
+   Premium "prize room" card with full sponsor presence. */
+function B6_FullSponsorRoom() {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_10px_24px_-12px_rgba(15,23,42,0.3)] ring-1 ring-slate-100">
+      <div className="flex items-center justify-between px-3 py-2 text-white" style={{ background: NAVY }}>
+        <div className="flex items-center gap-2">
+          <img src={sponsorLogo} alt="" className="h-6 w-6 rounded-full object-cover ring-1 ring-white/30" />
+          <div className="leading-tight">
+            <div className="text-[9px] uppercase tracking-wider text-white/60">Sponsored by</div>
+            <div className="text-[12px] font-bold">Wizlife</div>
+          </div>
+          <ShieldCheck className="ml-1 h-3.5 w-3.5 text-amber-300" />
+        </div>
+        <span className="rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-extrabold text-amber-950">
+          ৳40,000
+        </span>
+      </div>
+      <div className="p-2 pb-0">
+        <BannerSlider aspect="aspect-[16/8]" />
+      </div>
+      <div className="p-4 pt-3">
+        <div className="flex items-start gap-3">
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+          <div className="min-w-0 flex-1">
+            <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+            <p className="bn mt-0.5 line-clamp-1 text-[12px] text-slate-500">প্রতিদিন ১০০ বার পড়ুন</p>
+          </div>
+          <button className="shrink-0 rounded-lg px-3 py-1.5 text-[11.5px] font-bold text-white" style={{ background: NAVY }}>
+            Join
+          </button>
+        </div>
+        <div className="mt-3"><StatRow /></div>
+      </div>
+    </div>
+  );
+}
+
 type Variant = {
   label: string;
   desc: string;
@@ -482,6 +616,9 @@ const VARIANTS: Variant[] = [
   { label: "Variant 6", desc: "Company hero banner (top)", bannerTop: <B1_HeroBanner /> },
   { label: "Variant 7", desc: "Sponsor slider banner", bannerTop: <B2_SliderBanner /> },
   { label: "Variant 8", desc: "Inline sponsor strip (between rooms)", bannerMid: <B3_InlineStrip /> },
+  { label: "Variant 9", desc: "Banner slider INSIDE room (top)", node: <B4_BannerInsideRoom /> },
+  { label: "Variant 10", desc: "Room info, then banner slider", node: <B5_RoomThenBanner /> },
+  { label: "Variant 11", desc: "Sponsor header + slider + room", node: <B6_FullSponsorRoom /> },
 ];
 
 export default function SponsorCards() {
