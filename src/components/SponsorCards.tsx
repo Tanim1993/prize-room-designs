@@ -16,6 +16,14 @@ import {
   ShieldCheck,
   Gift,
   Crown,
+  Bell,
+  Moon,
+  Sun,
+  Compass,
+  BookOpen,
+  Heart,
+  Award,
+  TrendingUp,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
