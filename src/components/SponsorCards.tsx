@@ -2955,6 +2955,7 @@ function SponsorChannelV3() {
 /* ================================================================== */
 
 const FLOW_ACCENTS: Record<number, { bg: string; text: string; ring: string; label: string }> = {
+  0: { bg: "bg-slate-100",   text: "text-slate-700",    ring: "ring-slate-200",    label: "Core App Screens · V2 redesign" },
   1: { bg: "bg-indigo-50",   text: "text-indigo-700",   ring: "ring-indigo-200",   label: "Member · Discover & Join" },
   2: { bg: "bg-amber-50",    text: "text-amber-700",    ring: "ring-amber-200",    label: "Member · Live Season" },
   3: { bg: "bg-emerald-50",  text: "text-emerald-700",  ring: "ring-emerald-200",  label: "Member · Between Seasons" },
