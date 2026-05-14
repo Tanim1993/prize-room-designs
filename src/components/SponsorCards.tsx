@@ -1294,7 +1294,8 @@ export default function SponsorCards() {
       <div className="mx-auto max-w-[1800px]">
         {view === "v2" && <V2FlowDeck />}
         {view === "v1" && (<>
-        <header className="mb-8 text-center">
+        <SectionNav />
+        <header id="sec-sponsored" className="mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsored / Prize Room — In-App Patterns</h1>
           <p className="mt-1 text-sm text-slate-500">
             Five sponsor + prize card patterns shown inside your real Zikr Rooms feed for direct comparison.
