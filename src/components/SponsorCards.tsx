@@ -4013,7 +4013,7 @@ function RDShell({ step, title, bn, children }: { step: number; title: string; b
   return (
     <StepFrame flow={0} step={step} title={title} bnTitle={bn}>
       {/* Room hero — shared */}
-      <div className="rounded-2xl bg-gradient-to-br from-indigo-700 to-indigo-900 p-3 text-white">
+      <div className="rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 p-3 text-white">
         <div className="flex items-center justify-between">
           <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
             <InfinityIcon className="h-2.5 w-2.5" />Forever Room
