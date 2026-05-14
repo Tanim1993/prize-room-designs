@@ -2861,6 +2861,25 @@ function LeaderboardV4() {
 /* ================================================================== */
 
 /* ---------- Organic A · Lifetime Counter (no sponsor) ---------- */
+const LB_RANGES = ["All-time", "Today", "Yesterday", "This week", "Last week", "This month", "Last month"];
+
+function TimeRangeChips({ active = "All-time", tone = "light" }: { active?: string; tone?: "light" | "dark" | "amber" }) {
+  const styles = tone === "dark"
+    ? { wrap: "bg-white/5 ring-white/10", on: "bg-amber-300 text-amber-950", off: "text-white/70 hover:bg-white/10" }
+    : tone === "amber"
+    ? { wrap: "bg-white ring-amber-200", on: "bg-amber-500 text-white", off: "text-slate-600 hover:bg-amber-50" }
+    : { wrap: "bg-white ring-slate-200", on: "bg-emerald-600 text-white", off: "text-slate-600 hover:bg-emerald-50" };
+  return (
+    <div className={`flex gap-1 overflow-x-auto rounded-full p-1 ring-1 ${styles.wrap} [&::-webkit-scrollbar]:hidden`} style={{ scrollbarWidth: "none" }}>
+      {LB_RANGES.map((r) => (
+        <button key={r} className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10.5px] font-semibold transition ${r === active ? styles.on : styles.off}`}>
+          {r}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function LBOrganicA() {
   return (
     <div className="bg-white">
