@@ -2861,6 +2861,25 @@ function LeaderboardV4() {
 /* ================================================================== */
 
 /* ---------- Organic A · Lifetime Counter (no sponsor) ---------- */
+const LB_RANGES = ["All-time", "Today", "Yesterday", "This week", "Last week", "This month", "Last month"];
+
+function TimeRangeChips({ active = "All-time", tone = "light" }: { active?: string; tone?: "light" | "dark" | "amber" }) {
+  const styles = tone === "dark"
+    ? { wrap: "bg-white/5 ring-white/10", on: "bg-amber-300 text-amber-950", off: "text-white/70 hover:bg-white/10" }
+    : tone === "amber"
+    ? { wrap: "bg-white ring-amber-200", on: "bg-amber-500 text-white", off: "text-slate-600 hover:bg-amber-50" }
+    : { wrap: "bg-white ring-slate-200", on: "bg-emerald-600 text-white", off: "text-slate-600 hover:bg-emerald-50" };
+  return (
+    <div className={`flex gap-1 overflow-x-auto rounded-full p-1 ring-1 ${styles.wrap} [&::-webkit-scrollbar]:hidden`} style={{ scrollbarWidth: "none" }}>
+      {LB_RANGES.map((r) => (
+        <button key={r} className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[10.5px] font-semibold transition ${r === active ? styles.on : styles.off}`}>
+          {r}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function LBOrganicA() {
   return (
     <div className="bg-white">
@@ -2881,6 +2900,7 @@ function LBOrganicA() {
       </div>
 
       <div className="-mt-5 px-4">
+        <div className="mb-2"><TimeRangeChips active="All-time" /></div>
         <div className="rounded-2xl bg-white p-3 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.25)] ring-1 ring-slate-100">
           <div className="grid grid-cols-3 gap-2 text-center">
             {LB_PLAYERS.slice(0, 3).map((p, i) => (
@@ -2953,6 +2973,7 @@ function LBOrganicB() {
       </div>
 
       <div className="px-4 pt-4">
+        <div className="mb-2"><TimeRangeChips active="This month" /></div>
         <div className="text-[12px] font-bold text-slate-900">🔥 Longest active streaks</div>
         <div className="mt-2 space-y-1.5">
           {[...LB_PLAYERS].sort((a,b)=>b.streak-a.streak).slice(0,5).map((p, i) => (
@@ -3020,6 +3041,7 @@ function LBRunningA() {
       </div>
 
       <div className="px-4 pt-3">
+        <div className="mb-2"><TimeRangeChips active="Today" tone="amber" /></div>
         <div className="flex items-center justify-between">
           <div className="text-[12px] font-bold text-slate-900">Live ranking</div>
           <span className="text-[10px] text-slate-500">Updates every 10s</span>
@@ -3121,6 +3143,7 @@ function LBRunningB() {
       </div>
 
       <div className="px-4 pt-4">
+        <div className="mb-2"><TimeRangeChips active="This week" tone="dark" /></div>
         <div className="text-[11px] font-semibold opacity-80">Prize zone · Top 10</div>
         <div className="mt-2 space-y-1">
           {LB_PLAYERS.slice(3, 7).map((p, i) => (
