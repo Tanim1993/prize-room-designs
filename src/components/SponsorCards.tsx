@@ -3773,6 +3773,274 @@ function F0AdminCreate() {
   );
 }
 
+/* =========================================================== */
+/*  Admin Portal · Create Featured Room — Desktop V2            */
+/* =========================================================== */
+
+function AdminStep({ n, label, state }: { n: number; label: string; state: "done" | "active" | "todo" }) {
+  const dot =
+    state === "done"   ? "bg-emerald-500 text-white" :
+    state === "active" ? "bg-emerald-100 text-emerald-700 ring-2 ring-emerald-500" :
+                         "bg-slate-100 text-slate-400";
+  const row =
+    state === "active" ? "bg-emerald-50 ring-1 ring-emerald-200" : "";
+  return (
+    <div className={`flex items-center gap-3 rounded-lg px-2.5 py-2 ${row}`}>
+      <div className={`grid h-7 w-7 place-items-center rounded-full text-[12px] font-bold ${dot}`}>
+        {state === "done" ? <CheckCircle2 className="h-4 w-4" /> : n}
+      </div>
+      <span className={`text-[13px] font-semibold ${state === "todo" ? "text-slate-400" : "text-slate-800"}`}>{label}</span>
+    </div>
+  );
+}
+
+function AdminFieldLabel({ label, hint, required }: { label: string; hint?: string; required?: boolean }) {
+  return (
+    <div className="mb-1 flex items-baseline justify-between">
+      <label className="text-[12px] font-bold text-slate-700">
+        {label}{required && <span className="ml-0.5 text-rose-500">*</span>}
+      </label>
+      {hint && <span className="text-[10px] text-slate-400">{hint}</span>}
+    </div>
+  );
+}
+
+const adminInput = "w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-[13px] text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/15";
+
+function AdminFormSection({ icon, title, desc, children }: { icon: React.ReactNode; title: string; desc: string; children: React.ReactNode }) {
+  return (
+    <div className="rounded-2xl bg-white p-5 ring-1 ring-slate-100 shadow-[0_4px_14px_-10px_rgba(15,23,42,0.15)]">
+      <div className="mb-4 flex items-start gap-3">
+        <div className="grid h-9 w-9 place-items-center rounded-lg bg-emerald-50 text-emerald-700">{icon}</div>
+        <div>
+          <h3 className="text-[15px] font-bold text-slate-900">{title}</h3>
+          <p className="text-[11.5px] text-slate-500">{desc}</p>
+        </div>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function AdminPortalV2() {
+  return (
+    <section className="mb-16">
+      <div className="mb-5 text-center">
+        <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-700 ring-1 ring-slate-200">
+          Admin Portal · Desktop · V2
+        </div>
+        <h2 className="mt-3 text-2xl font-bold text-slate-900">Admin · Create Featured Room</h2>
+        <p className="mt-1 text-[13px] text-slate-500">Redesigned admin flow — all required fields organised into clear sections with a live preview.</p>
+      </div>
+
+      <div className="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
+        {/* Top toolbar */}
+        <div className="mb-5 flex items-center justify-between rounded-2xl bg-white px-5 py-4 ring-1 ring-slate-100">
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Admin · New Featured Room</div>
+            <h3 className="mt-0.5 text-xl font-bold text-slate-900">Create a Sponsored Zikr Room</h3>
+          </div>
+          <div className="flex items-center gap-2">
+            <button className="rounded-full border border-slate-200 bg-white px-4 py-2 text-[12px] font-semibold text-slate-700 hover:bg-slate-50">Save Draft</button>
+            <button className="rounded-full bg-emerald-600 px-4 py-2 text-[12px] font-bold text-white hover:bg-emerald-700">Preview</button>
+            <button className="rounded-full px-4 py-2 text-[12px] font-bold text-white" style={{ background: NAVY }}>Publish</button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-12 gap-5">
+          {/* LEFT — Setup progress */}
+          <aside className="col-span-12 lg:col-span-3">
+            <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 shadow-[0_4px_14px_-10px_rgba(15,23,42,0.15)]">
+              <div className="mb-3 px-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Setup Progress</div>
+              <div className="space-y-1">
+                <AdminStep n={1} label="Basic Info" state="done" />
+                <AdminStep n={2} label="Branding & Sponsor" state="done" />
+                <AdminStep n={3} label="Rewards & Prizes" state="active" />
+                <AdminStep n={4} label="Eligibility & Rules" state="todo" />
+                <AdminStep n={5} label="Schedule & Publish" state="todo" />
+              </div>
+              <div className="mt-4 rounded-lg bg-emerald-50 p-3 text-[11px] text-emerald-800 ring-1 ring-emerald-100">
+                💡 You can save as draft anytime. Room goes live only after publish.
+              </div>
+            </div>
+          </aside>
+
+          {/* CENTER — Form */}
+          <main className="col-span-12 space-y-5 lg:col-span-6">
+            <AdminFormSection icon={<BookOpen className="h-4 w-4" />} title="Basic Info" desc="Core details users will see in the room list.">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <AdminFieldLabel label="Room Name" required hint="Max 60 chars" />
+                  <input className={adminInput} defaultValue="Daily Zikr Challenge" />
+                </div>
+                <div>
+                  <AdminFieldLabel label="Room Slug" hint="Auto-generated" />
+                  <input className={adminInput} defaultValue="daily-zikr-challenge" />
+                </div>
+              </div>
+              <div className="mt-3">
+                <AdminFieldLabel label="Zikr Type" required />
+                <select className={adminInput} defaultValue="Subhanallah">
+                  <option>Subhanallah</option><option>Alhamdulillah</option><option>Allahu Akbar</option><option>Astaghfirullah</option><option>Durood</option>
+                </select>
+              </div>
+              <div className="mt-3">
+                <AdminFieldLabel label="Arabic Text" required />
+                <input dir="rtl" className={`${adminInput} text-right text-[15px]`} defaultValue="سُبْحَانَ اللهِ" />
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <div>
+                  <AdminFieldLabel label="Bangla Translation" />
+                  <input className={`${adminInput} bn`} defaultValue="আমি আল্লাহর প্রশংসা করি" />
+                </div>
+                <div>
+                  <AdminFieldLabel label="English Translation" />
+                  <input className={adminInput} defaultValue="Glory be to Allah" />
+                </div>
+              </div>
+              <div className="mt-3">
+                <AdminFieldLabel label="Description" hint="Max 300 chars" />
+                <textarea rows={2} className={adminInput} defaultValue="Daily 100 zikr challenge — top participants win monthly prizes inshaAllah." />
+              </div>
+            </AdminFormSection>
+
+            <AdminFormSection icon={<Sparkles className="h-4 w-4" />} title="Branding & Sponsor" desc="Sponsor logo, name, and brand color shown on the room card.">
+              <div className="grid grid-cols-3 gap-3">
+                <div className="col-span-1">
+                  <AdminFieldLabel label="Sponsor Logo" required />
+                  <div className="grid h-[78px] place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-[11px] text-slate-500">
+                    <div className="text-center"><Upload className="mx-auto h-4 w-4" />Upload PNG</div>
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  <AdminFieldLabel label="Sponsor Name" required />
+                  <input className={adminInput} defaultValue="WafiLife" />
+                  <div className="mt-3">
+                    <AdminFieldLabel label="Brand Color" />
+                    <div className="flex gap-2">
+                      {["#1F3A5F","#0F766E","#7C3AED","#B91C1C","#D97706"].map(c => (
+                        <button key={c} className="h-8 w-8 rounded-full ring-2 ring-white" style={{ background: c, boxShadow: c === "#1F3A5F" ? "0 0 0 2px #0f172a" : undefined }} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </AdminFormSection>
+
+            <AdminFormSection icon={<Gift className="h-4 w-4" />} title="Rewards & Prizes" desc="Total prize pool and how it splits across winners.">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <AdminFieldLabel label="Prize Pool" required />
+                  <input className={adminInput} defaultValue="৳1,00,000" />
+                </div>
+                <div>
+                  <AdminFieldLabel label="Currency" />
+                  <select className={adminInput}><option>BDT (৳)</option><option>USD ($)</option></select>
+                </div>
+              </div>
+              <div className="mt-3 rounded-lg bg-amber-50 p-3 ring-1 ring-amber-100">
+                <div className="text-[11px] font-bold uppercase text-amber-800">Prize Tiers</div>
+                <div className="mt-2 space-y-1.5 text-[12px]">
+                  {[["🥇 1st place","৳50,000"],["🥈 2nd place","৳25,000"],["🥉 3rd place","৳15,000"],["🎁 4th–10th","৳10,000 split"]].map(([l,v]) => (
+                    <div key={l} className="flex items-center justify-between rounded bg-white px-2 py-1.5 ring-1 ring-amber-100">
+                      <span className="text-slate-700">{l}</span><span className="font-bold text-slate-900">{v}</span>
+                    </div>
+                  ))}
+                </div>
+                <button className="mt-2 text-[11px] font-bold text-amber-700">+ Add tier</button>
+              </div>
+            </AdminFormSection>
+
+            <AdminFormSection icon={<ShieldCheck className="h-4 w-4" />} title="Eligibility & Rules" desc="Who can join, daily target, and fairness rules.">
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <AdminFieldLabel label="Daily Target" required />
+                  <input className={adminInput} defaultValue="100 / day" />
+                </div>
+                <div>
+                  <AdminFieldLabel label="Min Age" />
+                  <input className={adminInput} defaultValue="13+" />
+                </div>
+                <div>
+                  <AdminFieldLabel label="Country" />
+                  <select className={adminInput}><option>Bangladesh</option><option>Worldwide</option></select>
+                </div>
+              </div>
+            </AdminFormSection>
+
+            <AdminFormSection icon={<Calendar className="h-4 w-4" />} title="Schedule & Publish" desc="Forever room stays — only the season window changes.">
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <AdminFieldLabel label="Room Type" />
+                  <div className="inline-flex items-center gap-1 rounded-lg bg-indigo-50 px-2.5 py-2 text-[12px] font-bold text-indigo-700 ring-1 ring-indigo-100">
+                    <InfinityIcon className="h-3.5 w-3.5" /> Forever
+                  </div>
+                </div>
+                <div>
+                  <AdminFieldLabel label="Season Start" />
+                  <input className={adminInput} defaultValue="2026-05-20" />
+                </div>
+                <div>
+                  <AdminFieldLabel label="Season End" />
+                  <input className={adminInput} defaultValue="2026-06-19" />
+                </div>
+              </div>
+            </AdminFormSection>
+          </main>
+
+          {/* RIGHT — Live Preview */}
+          <aside className="col-span-12 lg:col-span-3">
+            <div className="sticky top-4 space-y-4">
+              <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 shadow-[0_4px_14px_-10px_rgba(15,23,42,0.15)]">
+                <div className="mb-3 flex items-center justify-between">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Live Preview</div>
+                  <span className="text-[10px] text-slate-400">As users see it</span>
+                </div>
+                <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-100">
+                  <div style={{ background: NAVY }} className="flex items-center justify-between px-3 py-2 text-white">
+                    <div className="flex items-center gap-1.5">
+                      <div className="grid h-6 w-6 place-items-center rounded-full bg-white/15 text-[10px] font-bold">W</div>
+                      <div>
+                        <div className="text-[8px] font-bold uppercase tracking-wider opacity-80">Sponsored by</div>
+                        <div className="text-[11px] font-bold leading-tight">WafiLife</div>
+                      </div>
+                    </div>
+                    <span className="rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-bold text-slate-900">৳1,00,000</span>
+                  </div>
+                  <div className="p-3">
+                    <h4 className="text-[13px] font-bold text-slate-900">Daily Zikr Challenge</h4>
+                    <div className="bn mt-0.5 text-[11px] text-slate-500">100 · سُبْحَانَ اللهِ /day</div>
+                    <div className="mt-2 flex items-center gap-3 text-[10px] text-slate-500">
+                      <span className="inline-flex items-center gap-0.5"><Users className="h-3 w-3" />16</span>
+                      <span className="inline-flex items-center gap-0.5"><Flag className="h-3 w-3" />100/d</span>
+                      <span className="inline-flex items-center gap-0.5"><Clock className="h-3 w-3" />30d</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-100">
+                <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Validation</div>
+                <ul className="space-y-1 text-[12px]">
+                  <li className="text-emerald-700">✓ Basic info complete</li>
+                  <li className="text-emerald-700">✓ Sponsor branded</li>
+                  <li className="text-amber-700">⚠ Eligibility pending</li>
+                  <li className="text-slate-400">○ Schedule</li>
+                </ul>
+              </div>
+
+              <div className="rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-100 text-[11px] text-emerald-800">
+                <div className="font-bold">Estimated reach</div>
+                <div>~12,400 active users in Bangladesh</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- the deck ---------- */
 
 function V2FlowDeck() {
