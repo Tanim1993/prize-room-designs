@@ -3619,7 +3619,7 @@ function F5S3() {
 function ChannelTabs({ active = "Featured" }: { active?: "Featured" | "Public" | "My Rooms" }) {
   const tabs: Array<{ k: "Featured" | "Public" | "My Rooms"; icon: React.ReactNode }> = [
     { k: "Featured", icon: <Star className="h-3.5 w-3.5" /> },
-    { k: "Public",   icon: <Globe className="h-3.5 w-3.5" /> },
+    { k: "Public",   icon: <Globe2 className="h-3.5 w-3.5" /> },
     { k: "My Rooms", icon: <FolderOpen className="h-3.5 w-3.5" /> },
   ];
   return (
