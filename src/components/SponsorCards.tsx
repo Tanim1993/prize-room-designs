@@ -1350,6 +1350,24 @@ export default function SponsorCards() {
         </header>
         <AdminCreateRoom />
 
+        <header id="sec-admin-channel" className="mt-20 mb-8 scroll-mt-24 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Admin · Create Channel <span className="bn text-slate-500">— চ্যানেল তৈরি</span></h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Permanent zikr channels. Optional prize, sponsor branding, and a 400×90 banner shown across the channel.
+          </p>
+        </header>
+        <AdminCreateChannel />
+
+        <header id="sec-create-room-v2" className="mt-20 mb-8 scroll-mt-24 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Create Room · V2 <span className="bn text-slate-500">— রুম তৈরি (চ্যানেলের অধীনে)</span></h1>
+          <p className="mt-1 text-sm text-slate-500">
+            A room lives <b>inside a channel</b>. User picks a channel (not a zikr) — the channel already defines the zikr.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="V2 · Create room under a channel"><H6CreateRoomV2 /></DetailFrame>
+        </div>
+
         <header id="sec-lb-variants" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Room Leaderboard — Design Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
