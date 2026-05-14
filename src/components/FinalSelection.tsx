@@ -35,23 +35,27 @@ const STORAGE_KEY = "finalSelectionItems_v1";
 export function FinalSelectionProvider({ children }: { children: React.ReactNode }) {
   const registryRef = useRef<Map<string, RegistryEntry>>(new Map());
   const [, force] = useState(0);
-  const [items, setItems] = useState<Item[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [items, setItems] = useState<Item[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setItems(JSON.parse(raw));
+    } catch {
+      /* ignore */
+    }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch {
       /* ignore */
     }
-  }, [items]);
+  }, [items, hydrated]);
 
   const register = useCallback((key: string, entry: RegistryEntry) => {
     registryRef.current.set(key, entry);
