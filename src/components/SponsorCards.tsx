@@ -1326,7 +1326,7 @@ export default function SponsorCards() {
           <DetailFrame label="Variant C · Sticky sponsor footer + inline ad"><RoomDetailC /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-home" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Home Page — Design Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
             Three home screen directions: gamified dark, calm minimal, and modern card stack.
