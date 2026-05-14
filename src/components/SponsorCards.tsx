@@ -3855,9 +3855,9 @@ function AdminPortalV2() {
               <div className="space-y-1">
                 <AdminStep n={1} label="Basic Info" state="done" />
                 <AdminStep n={2} label="Branding & Sponsor" state="done" />
-                <AdminStep n={3} label="Rewards & Prizes" state="active" />
-                <AdminStep n={4} label="Eligibility & Rules" state="todo" />
-                <AdminStep n={5} label="Schedule & Publish" state="todo" />
+                <AdminStep n={3} label="Eligibility & Rules" state="done" />
+                <AdminStep n={4} label="Sponsor Sessions" state="active" />
+                <AdminStep n={5} label="Review & Publish" state="todo" />
               </div>
               <div className="mt-4 rounded-lg bg-emerald-50 p-3 text-[11px] text-emerald-800 ring-1 ring-emerald-100">
                 💡 You can save as draft anytime. Room goes live only after publish.
