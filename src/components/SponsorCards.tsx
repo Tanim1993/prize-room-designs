@@ -5794,14 +5794,23 @@ const GOLD = "#E5B547";
 const GOLD_SOFT = "#F4D27A";
 
 function ChannelVariantFrame({ children, label }: { children: React.ReactNode; label: string }) {
+  const inner = <div className="w-full">{children}</div>;
+  useRegisterFrame(`channel:${label}`, "channel", label, inner);
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="self-start text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-        {label}
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {label}
+        </div>
+        <PickButton frameKey={`channel:${label}`} />
       </div>
-      <div className="w-full">{children}</div>
+      {inner}
     </div>
   );
+}
+
+function ChannelShell({ children }: { children: React.ReactNode }) {
+  return <div className="mx-auto w-full max-w-[460px]">{children}</div>;
 }
 
 /* V1 — Classic navy + gold rail (~400×90) */
