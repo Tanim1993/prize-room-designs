@@ -4723,6 +4723,12 @@ function V2FlowDeck() {
         <F0Home /><F0RoomDetail /><F0AdminCreate />
       </FlowRow>
 
+      <FlowRow flow={0} title="Room Details · Sponsor Pattern Variants"
+        bn="রুম ডিটেইল পেজের ৮টি ভ্যারিয়েন্ট — V1 এর Sponsor Patterns এর সাথে মিল রেখে।">
+        <RD1_NoBrand /><RD2_PoweredBy /><RD3_PoweredSponsored /><RD4_SponsoredPrize />
+        <RD5_PrizeOnly /><RD6_WideBanner /><RD7_RegularBanner /><RD8_BannerOnly />
+      </FlowRow>
+
       <FlowRow flow={1} title="Member discovers & joins a permanent room"
         bn="সদস্য একটি স্থায়ী রুম খুঁজে পান, যোগ দেন এবং আজীবন সদস্য হয়ে যান।">
         <F1S1 /><F1S2 /><F1S3 /><F1S4 />
