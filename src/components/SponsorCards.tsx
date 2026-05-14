@@ -3823,6 +3823,23 @@ function AdminFormSection({ icon, title, desc, children }: { icon: React.ReactNo
 }
 
 function AdminPortalV2() {
+  // Sessions sit on a sequence (not a calendar) — multiple brands per month is fine.
+  const sessions = [
+    { id: 1, kind: "sponsor", brand: "Wizlife",   start: "May 5",  end: "May 25", days: 21, prize: "৳40,000", status: "Live",      tone: "amber" },
+    { id: 2, kind: "sponsor", brand: "Pran",      start: "May 26", end: "Jun 5",  days: 11, prize: "৳18,000", status: "Scheduled", tone: "sky" },
+    { id: 3, kind: "organic", brand: "",          start: "Jun 6",  end: "Jun 14", days: 9,  prize: "—",       status: "Scheduled", tone: "slate" },
+    { id: 4, kind: "sponsor", brand: "Ifad",      start: "Jun 15", end: "Jul 5",  days: 21, prize: "৳60,000", status: "Scheduled", tone: "rose" },
+    { id: 5, kind: "sponsor", brand: "ACI Pure",  start: "Jul 6",  end: "Aug 4",  days: 30, prize: "৳50,000", status: "Draft",     tone: "emerald" },
+  ] as const;
+
+  const toneMap: Record<string, { bar: string; chip: string; text: string; ring: string }> = {
+    amber:   { bar: "bg-amber-400",   chip: "bg-amber-100",   text: "text-amber-800",   ring: "ring-amber-200" },
+    rose:    { bar: "bg-rose-400",    chip: "bg-rose-100",    text: "text-rose-800",    ring: "ring-rose-200" },
+    emerald: { bar: "bg-emerald-400", chip: "bg-emerald-100", text: "text-emerald-800", ring: "ring-emerald-200" },
+    sky:     { bar: "bg-sky-400",     chip: "bg-sky-100",     text: "text-sky-800",     ring: "ring-sky-200" },
+    slate:   { bar: "bg-slate-300",   chip: "bg-slate-100",   text: "text-slate-700",   ring: "ring-slate-200" },
+  };
+
   return (
     <section className="mb-16">
       <div className="mb-5 text-center">
@@ -3830,7 +3847,9 @@ function AdminPortalV2() {
           Admin Portal · Desktop · V2
         </div>
         <h2 className="mt-3 text-2xl font-bold text-slate-900">Admin · Create Featured Room</h2>
-        <p className="mt-1 text-[13px] text-slate-500">Redesigned admin flow — all required fields organised into clear sections with a live preview.</p>
+        <p className="mt-1 text-[13px] text-slate-500">
+          Room defines the zikr & rules. Sponsors plug in as <b>sessions</b> over time — each session brings its own brand & prize.
+        </p>
       </div>
 
       <div className="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
@@ -3853,376 +3872,351 @@ function AdminPortalV2() {
             <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 shadow-[0_4px_14px_-10px_rgba(15,23,42,0.15)]">
               <div className="mb-3 px-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Setup Progress</div>
               <div className="space-y-1">
-                <AdminStep n={1} label="Basic Info" state="done" />
-                <AdminStep n={2} label="Branding & Sponsor" state="done" />
+                <AdminStep n={1} label="Room Basics" state="done" />
+                <AdminStep n={2} label="Zikr & Goal" state="done" />
                 <AdminStep n={3} label="Eligibility & Rules" state="done" />
                 <AdminStep n={4} label="Sponsor Sessions" state="active" />
                 <AdminStep n={5} label="Review & Publish" state="todo" />
               </div>
-              <div className="mt-4 rounded-lg bg-emerald-50 p-3 text-[11px] text-emerald-800 ring-1 ring-emerald-100">
-                💡 You can save as draft anytime. Room goes live only after publish.
+              <div className="mt-4 rounded-lg bg-indigo-50 p-3 text-[11px] text-indigo-800 ring-1 ring-indigo-100">
+                <div className="font-bold">📌 Note</div>
+                Room is <b>brand-agnostic</b>. Brand identity (logo / prize / banner) lives inside each <b>Session</b>.
               </div>
             </div>
           </aside>
 
           {/* CENTER — Form */}
           <main className="col-span-12 space-y-5 lg:col-span-6">
-            <AdminFormSection icon={<BookOpen className="h-4 w-4" />} title="Basic Info" desc="Core details users will see in the room list.">
+            {/* 1 — Room Basics */}
+            <AdminFormSection icon={<BookOpen className="h-4 w-4" />} title="Room Basics" desc="Identity users see in the room list.">
               <div className="grid grid-cols-2 gap-3">
+                <div><AdminFieldLabel label="Room Name" required hint="Max 60 chars" /><input className={adminInput} defaultValue="Daily Zikr Challenge" /></div>
+                <div><AdminFieldLabel label="Room Slug" hint="Auto-generated" /><input className={adminInput} defaultValue="daily-zikr-challenge" /></div>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-3">
                 <div>
-                  <AdminFieldLabel label="Room Name" required hint="Max 60 chars" />
-                  <input className={adminInput} defaultValue="Daily Zikr Challenge" />
+                  <AdminFieldLabel label="Visibility" required />
+                  <select className={adminInput}><option>Featured (top of feed)</option><option>Public</option><option>Private (invite)</option></select>
                 </div>
                 <div>
-                  <AdminFieldLabel label="Room Slug" hint="Auto-generated" />
-                  <input className={adminInput} defaultValue="daily-zikr-challenge" />
+                  <AdminFieldLabel label="Featured Priority" hint="Higher = top" />
+                  <input type="number" className={adminInput} defaultValue="10" />
                 </div>
               </div>
+              <div className="mt-3 grid grid-cols-3 gap-3">
+                <div><AdminFieldLabel label="Room Scope" /><select className={adminInput}><option>Global</option><option>Country</option><option>City</option></select></div>
+                <div><AdminFieldLabel label="Country / Region" /><select className={adminInput}><option>Bangladesh</option><option>Indonesia</option><option>Worldwide</option></select></div>
+                <div><AdminFieldLabel label="Time Zone" /><select className={adminInput}><option>Asia/Dhaka</option><option>UTC</option></select></div>
+              </div>
               <div className="mt-3">
-                <AdminFieldLabel label="Zikr Type" required />
-                <select className={adminInput} defaultValue="Subhanallah">
-                  <option>Subhanallah</option><option>Alhamdulillah</option><option>Allahu Akbar</option><option>Astaghfirullah</option><option>Durood</option>
-                </select>
+                <AdminFieldLabel label="Description" hint="Max 300 chars" />
+                <textarea rows={2} className={adminInput} defaultValue="Daily 100 zikr challenge — top participants win prizes inshaAllah." />
+              </div>
+            </AdminFormSection>
+
+            {/* 2 — Zikr & Goal */}
+            <AdminFormSection icon={<Sparkles className="h-4 w-4" />} title="Zikr & Goal" desc="What members will recite and the daily target.">
+              <div className="grid grid-cols-2 gap-3">
+                <div><AdminFieldLabel label="Zikr Type" required /><select className={adminInput}><option>Subhanallah</option><option>Alhamdulillah</option><option>Allahu Akbar</option><option>Astaghfirullah</option><option>Durood</option></select></div>
+                <div><AdminFieldLabel label="Count Type" required /><select className={adminInput}><option>Fixed daily target</option><option>Open / unlimited</option><option>Time-bound burst</option></select></div>
               </div>
               <div className="mt-3">
                 <AdminFieldLabel label="Arabic Text" required />
                 <input dir="rtl" className={`${adminInput} text-right text-[15px]`} defaultValue="سُبْحَانَ اللهِ" />
               </div>
               <div className="mt-3 grid grid-cols-2 gap-3">
+                <div><AdminFieldLabel label="Bangla Translation" /><input className={`${adminInput} bn`} defaultValue="আমি আল্লাহর প্রশংসা করি" /></div>
+                <div><AdminFieldLabel label="English Translation" /><input className={adminInput} defaultValue="Glory be to Allah" /></div>
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-3">
+                <div><AdminFieldLabel label="Daily Goal" required /><input type="number" className={adminInput} defaultValue="100" /></div>
+                <div><AdminFieldLabel label="Total Lifetime Target" hint="Optional" /><input type="number" className={adminInput} defaultValue="10000" /></div>
                 <div>
-                  <AdminFieldLabel label="Bangla Translation" />
-                  <input className={`${adminInput} bn`} defaultValue="আমি আল্লাহর প্রশংসা করি" />
+                  <AdminFieldLabel label="Room Lifespan" />
+                  <div className="inline-flex w-full items-center gap-1 rounded-lg bg-indigo-50 px-2.5 py-2 text-[12px] font-bold text-indigo-700 ring-1 ring-indigo-100">
+                    <InfinityIcon className="h-3.5 w-3.5" /> Forever
+                  </div>
                 </div>
-                <div>
-                  <AdminFieldLabel label="English Translation" />
-                  <input className={adminInput} defaultValue="Glory be to Allah" />
-                </div>
+              </div>
+            </AdminFormSection>
+
+            {/* 3 — Eligibility & Rules */}
+            <AdminFormSection icon={<ShieldCheck className="h-4 w-4" />} title="Eligibility & Rules" desc="Who can join and how fairness is enforced.">
+              <AdminFieldLabel label="Who can join" required />
+              <div className="mt-1 grid grid-cols-2 gap-y-1.5 text-[12px] text-slate-700">
+                {["Must complete profile","Must verify email","Must verify phone","Profile photo required","Min account age (7 days)","No previous violations"].map((x, i) => (
+                  <label key={x} className="flex items-center gap-2"><input type="checkbox" defaultChecked={i < 3} className="h-4 w-4 accent-emerald-600" /> {x}</label>
+                ))}
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-3">
+                <div><AdminFieldLabel label="Min Age" /><input type="number" className={adminInput} defaultValue="13" /></div>
+                <div><AdminFieldLabel label="Max Participants" hint="Blank = no limit" /><input className={adminInput} placeholder="No limit" /></div>
+                <div><AdminFieldLabel label="Anti-cheat" /><select className={adminInput}><option>Standard</option><option>Strict (motion + tap)</option><option>Manual review</option></select></div>
               </div>
               <div className="mt-3">
-                <AdminFieldLabel label="Description" hint="Max 300 chars" />
-                <textarea rows={2} className={adminInput} defaultValue="Daily 100 zikr challenge — top participants win monthly prizes inshaAllah." />
+                <AdminFieldLabel label="Terms & Conditions URL" />
+                <input className={adminInput} placeholder="https://..." />
               </div>
             </AdminFormSection>
 
-            <AdminFormSection icon={<Sparkles className="h-4 w-4" />} title="Branding & Sponsor" desc="Sponsor logo, name, and brand color shown on the room card.">
-              <div className="grid grid-cols-3 gap-3">
-                <div className="col-span-1">
-                  <AdminFieldLabel label="Sponsor Logo" required />
-                  <div className="grid h-[78px] place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-[11px] text-slate-500">
-                    <div className="text-center"><Upload className="mx-auto h-4 w-4" />Upload PNG</div>
+            {/* 4 — Sponsor Sessions (the main rebuild) */}
+            <AdminFormSection icon={<Calendar className="h-4 w-4" />} title="Sponsor Sessions" desc="Each session = one sponsor (or organic) running for a date range. Brand, prize and banner all live inside the session.">
+              {/* Sequence ribbon — proportional to days, NOT calendar months */}
+              <div className="rounded-xl bg-white p-3 ring-1 ring-slate-200">
+                <div className="mb-2 flex items-center justify-between">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Session sequence · 92 days planned</div>
+                  <div className="flex items-center gap-3 text-[10px] text-slate-500">
+                    <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm bg-amber-400" />Sponsor</span>
+                    <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm bg-slate-300" />Organic</span>
                   </div>
                 </div>
-                <div className="col-span-2">
-                  <AdminFieldLabel label="Sponsor Name" required />
-                  <input className={adminInput} defaultValue="WafiLife" />
-                  <div className="mt-3">
-                    <AdminFieldLabel label="Brand Color" />
-                    <div className="flex gap-2">
-                      {["#1F3A5F","#0F766E","#7C3AED","#B91C1C","#D97706"].map(c => (
-                        <button key={c} className="h-8 w-8 rounded-full ring-2 ring-white" style={{ background: c, boxShadow: c === "#1F3A5F" ? "0 0 0 2px #0f172a" : undefined }} />
-                      ))}
-                    </div>
-                  </div>
+                <div className="flex h-7 w-full overflow-hidden rounded-md ring-1 ring-slate-200">
+                  {sessions.map(s => {
+                    const totalDays = sessions.reduce((acc, x) => acc + x.days, 0);
+                    const w = (s.days / totalDays) * 100;
+                    return (
+                      <div key={s.id} className={`flex items-center justify-center text-[10px] font-bold text-white ${toneMap[s.tone].bar}`} style={{ width: `${w}%` }} title={`${s.brand || "Organic"} · ${s.days}d`}>
+                        {w > 8 && (s.brand || "Organic")}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-1.5 flex w-full text-[9.5px] text-slate-400">
+                  {sessions.map(s => {
+                    const totalDays = sessions.reduce((acc, x) => acc + x.days, 0);
+                    return <div key={s.id} className="text-center" style={{ width: `${(s.days / totalDays) * 100}%` }}>{s.days}d</div>;
+                  })}
                 </div>
               </div>
-            </AdminFormSection>
 
-            {/* Rewards moved into each session inside Sessions Timeline */}
-
-            <AdminFormSection icon={<ShieldCheck className="h-4 w-4" />} title="Eligibility & Rules" desc="Who can join, daily target, and fairness rules.">
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <AdminFieldLabel label="Daily Target" required />
-                  <input className={adminInput} defaultValue="100 / day" />
-                </div>
-                <div>
-                  <AdminFieldLabel label="Min Age" />
-                  <input className={adminInput} defaultValue="13+" />
-                </div>
-                <div>
-                  <AdminFieldLabel label="Country" />
-                  <select className={adminInput}><option>Bangladesh</option><option>Worldwide</option></select>
-                </div>
-              </div>
-            </AdminFormSection>
-
-            <AdminFormSection icon={<Calendar className="h-4 w-4" />} title="Sponsor Sessions Timeline" desc="Forever room stays alive 365 days. Schedule different brands in different time slots — gaps run as organic (no sponsor).">
-              {/* Room type pill */}
-              <div className="mb-4 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-lg bg-indigo-50 px-2.5 py-1.5 text-[11px] font-bold text-indigo-700 ring-1 ring-indigo-100">
-                  <InfinityIcon className="h-3.5 w-3.5" /> Forever Room — never closes
-                </span>
-                <span className="text-[11px] text-slate-500">Sponsors plug in for a session, then leave. Room continues.</span>
-              </div>
-
-              {/* Visual timeline bar */}
-              <div className="mb-1 flex justify-between px-1 text-[9px] font-bold uppercase tracking-wider text-slate-400">
-                <span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
-              </div>
-              <div className="relative h-9 overflow-hidden rounded-lg bg-slate-100 ring-1 ring-slate-200">
-                {/* Wizlife block */}
-                <div className="absolute top-1 bottom-1 rounded-md bg-amber-400 px-2 text-[10px] font-bold text-slate-900 shadow ring-1 ring-amber-500" style={{ left: "2%", width: "16%" }}>
-                  <div className="flex h-full items-center gap-1 truncate"><Sparkles className="h-3 w-3" />Wizlife</div>
-                </div>
-                {/* Gap = organic */}
-                <div className="absolute top-2 bottom-2 flex items-center justify-center rounded-md bg-slate-200 px-2 text-[9px] font-semibold text-slate-500" style={{ left: "20%", width: "12%" }}>
-                  Organic
-                </div>
-                {/* Ifad block */}
-                <div className="absolute top-1 bottom-1 rounded-md bg-rose-400 px-2 text-[10px] font-bold text-white shadow ring-1 ring-rose-500" style={{ left: "34%", width: "20%" }}>
-                  <div className="flex h-full items-center gap-1 truncate"><Sparkles className="h-3 w-3" />Ifad Group</div>
-                </div>
-                <div className="absolute top-2 bottom-2 flex items-center justify-center rounded-md bg-slate-200 px-2 text-[9px] font-semibold text-slate-500" style={{ left: "56%", width: "8%" }}>
-                  Organic
-                </div>
-                <div className="absolute top-1 bottom-1 rounded-md bg-emerald-400 px-2 text-[10px] font-bold text-white shadow ring-1 ring-emerald-500" style={{ left: "66%", width: "18%" }}>
-                  <div className="flex h-full items-center gap-1 truncate"><Sparkles className="h-3 w-3" />ACI Pure</div>
-                </div>
-                <div className="absolute top-2 bottom-2 flex items-center justify-center rounded-md border-2 border-dashed border-slate-300 px-2 text-[9px] font-semibold text-slate-400" style={{ left: "86%", width: "12%" }}>
-                  + open
-                </div>
-              </div>
-              <div className="mt-2 flex flex-wrap gap-3 text-[10px] text-slate-500">
-                <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm bg-amber-400" />Sponsor session</span>
-                <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm bg-slate-200" />Organic (no brand)</span>
-                <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm border-2 border-dashed border-slate-300" />Open slot</span>
-              </div>
-
-              {/* Sessions list */}
-              <div className="mt-5 space-y-2">
-                <div className="flex items-center justify-between px-1">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Scheduled sessions</div>
-                  <button className="rounded-full bg-emerald-600 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-emerald-700">+ Add session</button>
-                </div>
-
-                {/* === Add Session — expanded inline modal === */}
-                <div className="rounded-2xl border-2 border-emerald-400 bg-white p-4 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]">
-                  <div className="mb-3 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-100 text-emerald-700"><Plus className="h-4 w-4" /></div>
-                      <div>
-                        <div className="text-[13px] font-bold text-slate-900">Add new session</div>
-                        <div className="text-[11px] text-slate-500">Pick session type, dates, and prize. Goes into the timeline above.</div>
-                      </div>
-                    </div>
-                    <button className="rounded p-1 text-slate-400 hover:bg-slate-100">✕</button>
-                  </div>
-
-                  {/* Type tabs */}
-                  <div className="mb-4 grid grid-cols-2 gap-2">
-                    <label className="cursor-pointer rounded-xl border-2 border-emerald-500 bg-emerald-50 p-3">
-                      <div className="flex items-center gap-2">
-                        <input type="radio" name="stype" defaultChecked />
-                        <Sparkles className="h-4 w-4 text-amber-600" />
-                        <span className="text-[12px] font-bold text-slate-900">Sponsor session</span>
-                      </div>
-                      <div className="mt-1 pl-6 text-[10.5px] text-slate-500">A brand pays — banner + prize show in the room.</div>
-                    </label>
-                    <label className="cursor-pointer rounded-xl border-2 border-slate-200 bg-slate-50 p-3 hover:border-slate-300">
-                      <div className="flex items-center gap-2">
-                        <input type="radio" name="stype" />
-                        <Clock className="h-4 w-4 text-slate-500" />
-                        <span className="text-[12px] font-bold text-slate-900">Organic session</span>
-                      </div>
-                      <div className="mt-1 pl-6 text-[10.5px] text-slate-500">No brand — room runs clean, just lifetime counter.</div>
-                    </label>
-                  </div>
-
-                  {/* Brand picker (sponsor mode) */}
-                  <div className="mb-3">
-                    <AdminFieldLabel label="Sponsor brand" required hint="Pick existing or add new" />
-                    <div className="grid grid-cols-4 gap-2">
-                      {[["Wizlife","W","amber"],["Ifad","I","rose"],["ACI Pure","A","emerald"],["Pran","P","sky"]].map(([n,a,c]) => (
-                        <button key={n} className={`rounded-lg border-2 ${n === "Wizlife" ? "border-emerald-500 bg-emerald-50" : "border-slate-200 bg-white"} p-2 text-left`}>
-                          <div className={`grid h-7 w-7 place-items-center rounded-md bg-${c}-100 text-[11px] font-bold text-${c}-800`}>{a}</div>
-                          <div className="mt-1 text-[11px] font-semibold text-slate-800">{n}</div>
-                        </button>
-                      ))}
-                    </div>
-                    <button className="mt-2 text-[11px] font-bold text-emerald-700">+ Add new brand</button>
-                  </div>
-
-                  {/* Dates */}
-                  <div className="grid grid-cols-3 gap-3">
-                    <div>
-                      <AdminFieldLabel label="Start date" required />
-                      <input type="date" className={adminInput} defaultValue="2026-06-10" />
-                    </div>
-                    <div>
-                      <AdminFieldLabel label="End date" required />
-                      <input type="date" className={adminInput} defaultValue="2026-07-05" />
-                    </div>
-                    <div>
-                      <AdminFieldLabel label="Duration" />
-                      <div className="rounded-lg bg-slate-50 px-3 py-2 text-[13px] font-bold text-slate-700 ring-1 ring-slate-200">26 days</div>
-                    </div>
-                  </div>
-
-                  {/* Conflict warning */}
-                  <div className="mt-2 flex items-center gap-2 rounded-lg bg-emerald-50 p-2 text-[11px] text-emerald-800 ring-1 ring-emerald-200">
-                    <CheckCircle2 className="h-3.5 w-3.5" /> No overlap with existing sessions
-                  </div>
-
-                  {/* Prize for THIS session */}
-                  <div className="mt-4 rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200">
-                    <div className="mb-2 flex items-center gap-2">
-                      <Gift className="h-4 w-4 text-amber-700" />
-                      <span className="text-[12px] font-bold text-amber-900">Prize for this session</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <AdminFieldLabel label="Prize Pool" required />
-                        <input className={adminInput} defaultValue="৳60,000" />
-                      </div>
-                      <div>
-                        <AdminFieldLabel label="Currency" />
-                        <select className={adminInput}><option>BDT (৳)</option><option>USD ($)</option></select>
-                      </div>
-                    </div>
-                    <div className="mt-3 text-[10px] font-bold uppercase text-amber-800">Prize tiers</div>
-                    <div className="mt-1.5 space-y-1.5">
-                      {[["🥇 1st","৳30,000"],["🥈 2nd","৳15,000"],["🥉 3rd","৳8,000"],["🎁 4th–10th","৳7,000 split"]].map(([l,v]) => (
-                        <div key={l} className="flex items-center gap-2 rounded bg-white px-2 py-1.5 ring-1 ring-amber-100">
-                          <span className="flex-1 text-[12px] text-slate-700">{l}</span>
-                          <input className="w-32 rounded border border-slate-200 px-2 py-1 text-right text-[12px] font-bold text-slate-900" defaultValue={v} />
-                          <button className="text-slate-400 hover:text-rose-500">✕</button>
-                        </div>
-                      ))}
-                    </div>
-                    <button className="mt-2 text-[11px] font-bold text-amber-700">+ Add tier</button>
-                  </div>
-
-                  {/* Banner & message */}
-                  <div className="mt-3 grid grid-cols-3 gap-3">
-                    <div className="col-span-1">
-                      <AdminFieldLabel label="Session banner" />
-                      <div className="grid h-[78px] place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-[11px] text-slate-500">
-                        <div className="text-center"><Upload className="mx-auto h-4 w-4" />Upload PNG</div>
-                      </div>
-                    </div>
-                    <div className="col-span-2">
-                      <AdminFieldLabel label="Sponsor message (optional)" hint="Max 80 chars" />
-                      <textarea rows={3} className={adminInput} defaultValue="Ifad Group থেকে ঈদ উপলক্ষে বিশেষ পুরস্কার — সবাইকে অংশগ্রহণের আমন্ত্রণ।" />
-                    </div>
-                  </div>
-
-                  {/* Footer actions */}
-                  <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
-                    <div className="text-[11px] text-slate-500">
-                      Estimated reach: <span className="font-bold text-slate-700">~12,400</span> · est. participants <span className="font-bold text-slate-700">~3,100</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <button className="rounded-full border border-slate-200 px-4 py-2 text-[12px] font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-                      <button className="rounded-full px-4 py-2 text-[12px] font-bold text-white" style={{ background: NAVY }}>Save as Draft</button>
-                      <button className="rounded-full bg-emerald-600 px-4 py-2 text-[12px] font-bold text-white hover:bg-emerald-700">Schedule session</button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Session 1 — sponsor */}
-                <div className="rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-2">
-                      <div className="grid h-9 w-9 place-items-center rounded-lg bg-amber-200 text-[11px] font-bold text-amber-900">W</div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[13px] font-bold text-slate-900">Session #1 · Wizlife</span>
-                          <span className="rounded bg-emerald-500 px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">Live</span>
-                        </div>
-                        <div className="text-[11px] text-slate-600">May 5 → May 25 · 21 days</div>
-                        <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-amber-800">
-                          <Gift className="h-3 w-3" /> Prize ৳40,000 · 1st 25k / 2nd 10k / 3rd 5k
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex gap-1">
-                      <button className="rounded p-1.5 text-slate-500 hover:bg-white"><Eye className="h-3.5 w-3.5" /></button>
-                      <button className="rounded p-1.5 text-slate-500 hover:bg-white">✎</button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Gap card */}
-                <div className="flex items-center justify-between rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-3">
+              {/* Sessions list — disciplined card grid */}
+              <div className="mt-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">All sessions ({sessions.length})</div>
                   <div className="flex items-center gap-2">
-                    <div className="grid h-9 w-9 place-items-center rounded-lg bg-slate-200 text-slate-500"><Clock className="h-4 w-4" /></div>
-                    <div>
-                      <div className="text-[12px] font-bold text-slate-700">Organic period · no sponsor</div>
-                      <div className="text-[11px] text-slate-500">May 26 → Jun 9 · 15 days · members keep zikr-ing, no prize</div>
-                    </div>
+                    <select className="rounded-md border border-slate-200 bg-white px-2 py-1 text-[11px] text-slate-600"><option>All status</option><option>Live</option><option>Scheduled</option><option>Draft</option></select>
+                    <button className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-emerald-700"><Plus className="h-3 w-3" />Add session</button>
                   </div>
-                  <button className="rounded-lg bg-white px-2.5 py-1.5 text-[11px] font-bold text-emerald-700 ring-1 ring-emerald-200 hover:bg-emerald-50">Fill with sponsor</button>
                 </div>
 
-                {/* Session 2 — sponsor */}
-                <div className="rounded-xl bg-rose-50 p-3 ring-1 ring-rose-200">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-2">
-                      <div className="grid h-9 w-9 place-items-center rounded-lg bg-rose-200 text-[11px] font-bold text-rose-900">I</div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[13px] font-bold text-slate-900">Session #2 · Ifad Group</span>
-                          <span className="rounded bg-sky-500 px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">Scheduled</span>
+                {sessions.map((s, i) => {
+                  const t = toneMap[s.tone];
+                  const statusColor =
+                    s.status === "Live"      ? "bg-emerald-500 text-white" :
+                    s.status === "Scheduled" ? "bg-sky-100 text-sky-800" :
+                                               "bg-slate-100 text-slate-600";
+                  return (
+                    <div key={s.id} className="group relative grid grid-cols-12 items-center gap-3 rounded-xl bg-white p-3 ring-1 ring-slate-200 hover:ring-emerald-300">
+                      {/* Left rail color */}
+                      <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-r ${t.bar}`} />
+                      {/* Position */}
+                      <div className="col-span-1 pl-2 text-[11px] font-bold text-slate-400">#{i + 1}</div>
+                      {/* Brand */}
+                      <div className="col-span-3 flex items-center gap-2">
+                        <div className={`grid h-8 w-8 place-items-center rounded-lg ${t.chip} ${t.text} text-[11px] font-bold`}>
+                          {s.kind === "organic" ? <Clock className="h-4 w-4" /> : (s.brand?.[0] ?? "?")}
                         </div>
-                        <div className="text-[11px] text-slate-600">Jun 10 → Jul 5 · 26 days</div>
-                        <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-rose-800">
-                          <Gift className="h-3 w-3" /> Prize ৳60,000 · top 10 win
+                        <div className="min-w-0">
+                          <div className="truncate text-[12.5px] font-bold text-slate-900">{s.kind === "organic" ? "Organic period" : s.brand}</div>
+                          <div className="text-[10px] uppercase tracking-wider text-slate-400">{s.kind === "organic" ? "no sponsor" : "Sponsor"}</div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex gap-1">
-                      <button className="rounded p-1.5 text-slate-500 hover:bg-white"><Eye className="h-3.5 w-3.5" /></button>
-                      <button className="rounded p-1.5 text-slate-500 hover:bg-white">✎</button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Session 3 — sponsor */}
-                <div className="rounded-xl bg-emerald-50 p-3 ring-1 ring-emerald-200">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-2">
-                      <div className="grid h-9 w-9 place-items-center rounded-lg bg-emerald-200 text-[11px] font-bold text-emerald-900">A</div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[13px] font-bold text-slate-900">Session #3 · ACI Pure</span>
-                          <span className="rounded bg-slate-400 px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">Draft</span>
-                        </div>
-                        <div className="text-[11px] text-slate-600">Jul 15 → Aug 14 · 31 days</div>
-                        <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800">
-                          <Gift className="h-3 w-3" /> Prize ৳50,000
-                        </div>
+                      {/* Dates */}
+                      <div className="col-span-3">
+                        <div className="text-[12px] font-semibold text-slate-800">{s.start} → {s.end}</div>
+                        <div className="text-[10px] text-slate-500">{s.days} days</div>
+                      </div>
+                      {/* Prize */}
+                      <div className="col-span-2 text-[12px] font-bold text-slate-900">
+                        {s.kind === "organic" ? <span className="text-slate-400">No prize</span> : <><Gift className="mr-0.5 inline h-3 w-3 text-amber-600" />{s.prize}</>}
+                      </div>
+                      {/* Status */}
+                      <div className="col-span-2">
+                        <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${statusColor}`}>{s.status}</span>
+                      </div>
+                      {/* Actions */}
+                      <div className="col-span-1 flex justify-end gap-1 opacity-0 transition group-hover:opacity-100">
+                        <button className="rounded p-1 text-slate-400 hover:bg-slate-100"><Eye className="h-3.5 w-3.5" /></button>
+                        <button className="rounded p-1 text-slate-400 hover:bg-slate-100">✎</button>
                       </div>
                     </div>
-                    <div className="flex gap-1">
-                      <button className="rounded p-1.5 text-slate-500 hover:bg-white"><Eye className="h-3.5 w-3.5" /></button>
-                      <button className="rounded p-1.5 text-slate-500 hover:bg-white">✎</button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Empty add-card */}
-                <button className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-emerald-300 bg-emerald-50/40 py-3 text-[12px] font-bold text-emerald-700 hover:bg-emerald-50">
-                  <Plus className="h-4 w-4" /> Add another session (sponsor or organic)
-                </button>
+                  );
+                })}
               </div>
 
-              {/* Default behaviour when no sponsor */}
+              {/* === Add Session — expanded inline form === */}
+              <div className="mt-5 rounded-2xl border-2 border-emerald-400 bg-white p-4 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]">
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-100 text-emerald-700"><Plus className="h-4 w-4" /></div>
+                    <div>
+                      <div className="text-[13px] font-bold text-slate-900">Add new session</div>
+                      <div className="text-[11px] text-slate-500">Picks slot in the sequence above. Multiple brands per month is allowed.</div>
+                    </div>
+                  </div>
+                  <button className="rounded p-1 text-slate-400 hover:bg-slate-100">✕</button>
+                </div>
+
+                {/* Type */}
+                <div className="mb-4 grid grid-cols-2 gap-2">
+                  <label className="cursor-pointer rounded-xl border-2 border-emerald-500 bg-emerald-50 p-3">
+                    <div className="flex items-center gap-2">
+                      <input type="radio" name="stype2" defaultChecked />
+                      <Sparkles className="h-4 w-4 text-amber-600" />
+                      <span className="text-[12px] font-bold text-slate-900">Sponsor session</span>
+                    </div>
+                    <div className="mt-1 pl-6 text-[10.5px] text-slate-500">A brand pays — banner + prize show in the room.</div>
+                  </label>
+                  <label className="cursor-pointer rounded-xl border-2 border-slate-200 bg-slate-50 p-3 hover:border-slate-300">
+                    <div className="flex items-center gap-2">
+                      <input type="radio" name="stype2" />
+                      <Clock className="h-4 w-4 text-slate-500" />
+                      <span className="text-[12px] font-bold text-slate-900">Organic session</span>
+                    </div>
+                    <div className="mt-1 pl-6 text-[10.5px] text-slate-500">No brand — clean room, lifetime counter only.</div>
+                  </label>
+                </div>
+
+                {/* Brand */}
+                <div className="mb-3">
+                  <AdminFieldLabel label="Sponsor brand" required hint="Pick existing or add new" />
+                  <div className="grid grid-cols-4 gap-2">
+                    {[["Wizlife","W"],["Ifad","I"],["ACI Pure","A"],["Pran","P"]].map(([n,a], i) => (
+                      <button key={n} className={`rounded-lg border-2 ${i === 0 ? "border-emerald-500 bg-emerald-50" : "border-slate-200 bg-white"} p-2 text-left`}>
+                        <div className="grid h-7 w-7 place-items-center rounded-md bg-slate-100 text-[11px] font-bold text-slate-700">{a}</div>
+                        <div className="mt-1 text-[11px] font-semibold text-slate-800">{n}</div>
+                      </button>
+                    ))}
+                  </div>
+                  <button className="mt-2 text-[11px] font-bold text-emerald-700">+ Add new brand</button>
+                </div>
+
+                {/* Brand assets per session */}
+                <div className="mb-3 grid grid-cols-3 gap-3">
+                  <div>
+                    <AdminFieldLabel label="Sponsor logo" required />
+                    <div className="grid h-[78px] place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-[11px] text-slate-500">
+                      <div className="text-center"><Upload className="mx-auto h-4 w-4" />Upload PNG</div>
+                    </div>
+                  </div>
+                  <div>
+                    <AdminFieldLabel label="Banner (16:9)" />
+                    <div className="grid h-[78px] place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-[11px] text-slate-500">
+                      <div className="text-center"><Upload className="mx-auto h-4 w-4" />Upload</div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div><AdminFieldLabel label="CTA URL" /><input className={adminInput} placeholder="https://wizlife.com" /></div>
+                    <div><AdminFieldLabel label="CTA Text" /><input className={adminInput} placeholder="Visit Sponsor" /></div>
+                  </div>
+                </div>
+
+                {/* Dates */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div><AdminFieldLabel label="Start" required /><input type="date" className={adminInput} defaultValue="2026-06-15" /></div>
+                  <div><AdminFieldLabel label="End" required /><input type="date" className={adminInput} defaultValue="2026-07-05" /></div>
+                  <div><AdminFieldLabel label="Duration" /><div className="rounded-lg bg-slate-50 px-3 py-2 text-[13px] font-bold text-slate-700 ring-1 ring-slate-200">21 days</div></div>
+                </div>
+                <div className="mt-2 flex items-center gap-2 rounded-lg bg-emerald-50 p-2 text-[11px] text-emerald-800 ring-1 ring-emerald-200">
+                  <CheckCircle2 className="h-3.5 w-3.5" /> No overlap with existing sessions
+                </div>
+
+                {/* Prize for THIS session */}
+                <div className="mt-4 rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200">
+                  <div className="mb-2 flex items-center justify-between">
+                    <div className="flex items-center gap-2"><Gift className="h-4 w-4 text-amber-700" /><span className="text-[12px] font-bold text-amber-900">Prize for this session</span></div>
+                    <span className="text-[10px] text-amber-700">Each session has its own prize</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div><AdminFieldLabel label="Prize Pool" required /><input className={adminInput} defaultValue="৳60,000" /></div>
+                    <div><AdminFieldLabel label="Prize Type" /><select className={adminInput}><option>Cash</option><option>Voucher</option><option>Product</option><option>Mixed</option></select></div>
+                    <div><AdminFieldLabel label="Distribution" /><select className={adminInput}><option>Top N rank</option><option>Lottery</option><option>Threshold</option></select></div>
+                  </div>
+                  <div className="mt-3 text-[10px] font-bold uppercase text-amber-800">Prize tiers</div>
+                  <div className="mt-1.5 space-y-1.5">
+                    {[["1st","৳30,000"],["2nd","৳15,000"],["3rd","৳8,000"],["4th–10th","৳7,000 split"]].map(([l,v]) => (
+                      <div key={l} className="grid grid-cols-12 items-center gap-2 rounded bg-white px-2 py-1.5 ring-1 ring-amber-100">
+                        <input className="col-span-2 rounded border border-slate-200 px-2 py-1 text-center text-[12px] font-bold" defaultValue={l} />
+                        <input className="col-span-7 rounded border border-slate-200 px-2 py-1 text-[12px]" defaultValue={v} />
+                        <select className="col-span-2 rounded border border-slate-200 px-1 py-1 text-[11px]"><option>Cash</option><option>Voucher</option></select>
+                        <button className="col-span-1 text-slate-400 hover:text-rose-500">✕</button>
+                      </div>
+                    ))}
+                  </div>
+                  <button className="mt-2 text-[11px] font-bold text-amber-700">+ Add tier</button>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div><AdminFieldLabel label="Payout date" /><input type="date" className={adminInput} /></div>
+                    <div><AdminFieldLabel label="Payout method" /><select className={adminInput}><option>bKash</option><option>Nagad</option><option>Bank transfer</option><option>Manual</option></select></div>
+                  </div>
+                </div>
+
+                {/* Promo */}
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <div>
+                    <AdminFieldLabel label="Sponsor message" hint="Max 80 chars" />
+                    <textarea rows={2} className={adminInput} defaultValue="Ifad Group থেকে ঈদ উপলক্ষে বিশেষ পুরস্কার।" />
+                  </div>
+                  <div>
+                    <AdminFieldLabel label="Launch promo" />
+                    <div className="space-y-1 text-[11.5px] text-slate-700">
+                      <label className="flex items-center gap-2"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" />Push notification at start</label>
+                      <label className="flex items-center gap-2"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" />Pin to home banner</label>
+                      <label className="flex items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-emerald-600" />Allow social sharing</label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+                  <div className="text-[11px] text-slate-500">
+                    Estimated reach: <span className="font-bold text-slate-700">~12,400</span> · est. participants <span className="font-bold text-slate-700">~3,100</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="rounded-full border border-slate-200 px-4 py-2 text-[12px] font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+                    <button className="rounded-full px-4 py-2 text-[12px] font-bold text-white" style={{ background: NAVY }}>Save as Draft</button>
+                    <button className="rounded-full bg-emerald-600 px-4 py-2 text-[12px] font-bold text-white hover:bg-emerald-700">Schedule session</button>
+                  </div>
+                </div>
+              </div>
+
+              {/* When no sponsor is active */}
               <div className="mt-4 rounded-xl bg-slate-50 p-3 ring-1 ring-slate-200">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-slate-600">When no sponsor is active</div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-slate-600">Default when no sponsor is active</div>
                 <div className="mt-1.5 grid grid-cols-3 gap-2 text-[11px]">
                   <label className="flex cursor-pointer items-start gap-1.5 rounded-lg bg-white p-2 ring-1 ring-emerald-300">
-                    <input type="radio" defaultChecked className="mt-0.5" />
+                    <input type="radio" name="default-mode" defaultChecked className="mt-0.5" />
                     <div><div className="font-bold text-slate-800">Run organic</div><div className="text-[10px] text-slate-500">No prize, lifetime counter only</div></div>
                   </label>
                   <label className="flex cursor-pointer items-start gap-1.5 rounded-lg bg-white p-2 ring-1 ring-slate-200">
-                    <input type="radio" className="mt-0.5" />
+                    <input type="radio" name="default-mode" className="mt-0.5" />
                     <div><div className="font-bold text-slate-800">House prize</div><div className="text-[10px] text-slate-500">App pays a small prize</div></div>
                   </label>
                   <label className="flex cursor-pointer items-start gap-1.5 rounded-lg bg-white p-2 ring-1 ring-slate-200">
-                    <input type="radio" className="mt-0.5" />
+                    <input type="radio" name="default-mode" className="mt-0.5" />
                     <div><div className="font-bold text-slate-800">Hide banner</div><div className="text-[10px] text-slate-500">Show clean room only</div></div>
                   </label>
                 </div>
+              </div>
+            </AdminFormSection>
+
+            {/* 5 — Review & Publish */}
+            <AdminFormSection icon={<CheckCircle2 className="h-4 w-4" />} title="Review & Publish" desc="Final checks before the room goes live.">
+              <div className="grid grid-cols-2 gap-3 text-[12px]">
+                <div className="rounded-lg bg-slate-50 p-3 ring-1 ring-slate-200">
+                  <div className="text-[10px] font-bold uppercase text-slate-500">Room</div>
+                  <div className="mt-1 font-bold text-slate-900">Daily Zikr Challenge · Forever</div>
+                  <div className="text-[11px] text-slate-500">Subhanallah · 100/day · Bangladesh</div>
+                </div>
+                <div className="rounded-lg bg-slate-50 p-3 ring-1 ring-slate-200">
+                  <div className="text-[10px] font-bold uppercase text-slate-500">Sessions</div>
+                  <div className="mt-1 font-bold text-slate-900">5 scheduled · 92 days planned</div>
+                  <div className="text-[11px] text-slate-500">4 sponsor · 1 organic · ৳1,68,000 total prize</div>
+                </div>
+              </div>
+              <div className="mt-3 space-y-1.5 text-[12px]">
+                <label className="flex items-center gap-2"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" />Notify all forever members on launch</label>
+                <label className="flex items-center gap-2"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" />Show on home Featured tab</label>
+                <label className="flex items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-emerald-600" />Allow social sharing of room link</label>
               </div>
             </AdminFormSection>
           </main>
@@ -4233,7 +4227,7 @@ function AdminPortalV2() {
               <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 shadow-[0_4px_14px_-10px_rgba(15,23,42,0.15)]">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Live Preview</div>
-                  <span className="text-[10px] text-slate-400">As users see it</span>
+                  <span className="text-[10px] text-slate-400">Currently: Wizlife</span>
                 </div>
                 <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-100">
                   <div style={{ background: NAVY }} className="flex items-center justify-between px-3 py-2 text-white">
@@ -4241,10 +4235,10 @@ function AdminPortalV2() {
                       <div className="grid h-6 w-6 place-items-center rounded-full bg-white/15 text-[10px] font-bold">W</div>
                       <div>
                         <div className="text-[8px] font-bold uppercase tracking-wider opacity-80">Sponsored by</div>
-                        <div className="text-[11px] font-bold leading-tight">WafiLife</div>
+                        <div className="text-[11px] font-bold leading-tight">Wizlife</div>
                       </div>
                     </div>
-                    <span className="rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-bold text-slate-900">৳1,00,000</span>
+                    <span className="rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-bold text-slate-900">৳40,000</span>
                   </div>
                   <div className="p-3">
                     <h4 className="text-[13px] font-bold text-slate-900">Daily Zikr Challenge</h4>
@@ -4252,7 +4246,7 @@ function AdminPortalV2() {
                     <div className="mt-2 flex items-center gap-3 text-[10px] text-slate-500">
                       <span className="inline-flex items-center gap-0.5"><Users className="h-3 w-3" />16</span>
                       <span className="inline-flex items-center gap-0.5"><Flag className="h-3 w-3" />100/d</span>
-                      <span className="inline-flex items-center gap-0.5"><Clock className="h-3 w-3" />30d</span>
+                      <span className="inline-flex items-center gap-0.5"><Clock className="h-3 w-3" />21d</span>
                     </div>
                   </div>
                 </div>
@@ -4261,16 +4255,17 @@ function AdminPortalV2() {
               <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-100">
                 <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Validation</div>
                 <ul className="space-y-1 text-[12px]">
-                  <li className="text-emerald-700">✓ Basic info complete</li>
-                  <li className="text-emerald-700">✓ Sponsor branded</li>
-                  <li className="text-amber-700">⚠ Eligibility pending</li>
-                  <li className="text-slate-400">○ Schedule</li>
+                  <li className="text-emerald-700">✓ Room basics complete</li>
+                  <li className="text-emerald-700">✓ Zikr & goal set</li>
+                  <li className="text-emerald-700">✓ Eligibility configured</li>
+                  <li className="text-emerald-700">✓ 5 sessions scheduled</li>
+                  <li className="text-amber-700">⚠ 1 session in Draft</li>
                 </ul>
               </div>
 
               <div className="rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-100 text-[11px] text-emerald-800">
                 <div className="font-bold">Estimated reach</div>
-                <div>~12,400 active users in Bangladesh</div>
+                <div>~12,400 active users · across 5 sessions</div>
               </div>
             </div>
           </aside>
