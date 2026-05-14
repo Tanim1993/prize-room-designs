@@ -1391,7 +1391,7 @@ export default function SponsorCards() {
           <ChannelVariantFrame label="V6 · Sponsored / Featured"><ChannelCardV6 /></ChannelVariantFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-flow0" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Flow 0 · Channel → Room hierarchy <span className="bn text-slate-500">— চ্যানেল → রুম কাঠামো</span></h1>
           <p className="mt-1 text-sm text-slate-500">
             How a zikr <b>Channel</b> contains many <b>Rooms</b>, and how a <b>Season</b> lives inside a room. Each room rolls up into the channel's lifetime total.
