@@ -5986,6 +5986,8 @@ const SECTION_LINKS: { id: string; label: string }[] = [
   { id: "sec-room-detail", label: "Room Details" },
   { id: "sec-home", label: "Home Page" },
   { id: "sec-admin", label: "Admin · Create Room" },
+  { id: "sec-admin-channel", label: "Admin · Create Channel" },
+  { id: "sec-create-room-v2", label: "Create Room · V2" },
   { id: "sec-lb-variants", label: "Leaderboard Variants" },
   { id: "sec-lb-organic", label: "Organic vs Running" },
   { id: "sec-channel-cards", label: "Channel Cards" },
