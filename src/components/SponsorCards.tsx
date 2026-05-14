@@ -3189,6 +3189,311 @@ function LBRunningB() {
 }
 
 /* ================================================================== */
+/*  LEADERBOARD FLOW — User Journey                                   */
+/* ================================================================== */
+
+function FlowChrome({ title, sub, tone = "light" }: { title: string; sub?: string; tone?: "light" | "dark" }) {
+  const dark = tone === "dark";
+  return (
+    <div className={`flex items-center justify-between px-4 pt-3 text-[11px] ${dark ? "text-white" : "text-slate-700"}`}>
+      <ChevronRight className="h-4 w-4 rotate-180" />
+      <div className="text-center">
+        <div className="font-semibold">{title}</div>
+        {sub && <div className={`text-[9.5px] ${dark ? "opacity-70" : "text-slate-400"}`}>{sub}</div>}
+      </div>
+      <Bell className="h-4 w-4" />
+    </div>
+  );
+}
+
+/* ① Room screen — highlight the Leaderboard CTA */
+function LBFlow1() {
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <FlowChrome title="Subhanallah Room" sub="Forever · 2,418 members" />
+      <div className="px-4 pt-3">
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 p-4 text-white">
+          <div className="text-[10px] uppercase tracking-wider opacity-80">Your count</div>
+          <div className="mt-1 text-[26px] font-extrabold tabular-nums">16,840</div>
+          <div className="text-[10px] opacity-80">Lifetime · 6-day streak 🔥</div>
+        </div>
+        <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
+          <button className="rounded-xl bg-white p-3 text-left ring-1 ring-slate-200">
+            <BookOpen className="mb-1 h-4 w-4 text-emerald-600" />
+            <div className="font-bold text-slate-800">Start zikr</div>
+            <div className="text-[10px] text-slate-500">Tap counter</div>
+          </button>
+          <button className="relative rounded-xl bg-amber-50 p-3 text-left ring-2 ring-amber-400 shadow-[0_0_0_4px_rgba(251,191,36,0.18)]">
+            <Trophy className="mb-1 h-4 w-4 text-amber-600" />
+            <div className="font-bold text-amber-900">Leaderboard</div>
+            <div className="text-[10px] text-amber-800">See your rank</div>
+            <span className="absolute -right-1 -top-1 rounded-full bg-amber-500 px-1.5 py-0.5 text-[8.5px] font-bold text-white">TAP</span>
+          </button>
+        </div>
+        <div className="mt-3 rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+          <div className="flex items-center gap-2">
+            <Users className="h-3.5 w-3.5 text-slate-400" />
+            <div className="text-[10.5px] text-slate-600">412 members on streak today</div>
+          </div>
+        </div>
+        <div className="mt-3 rounded-xl border border-dashed border-slate-300 bg-white/60 p-2 text-center text-[10px] text-slate-500">
+          No active session · Organic mode
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ② Organic state — single combined lifetime board */
+function LBFlow2() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="bg-gradient-to-br from-emerald-700 to-teal-800 px-4 pb-5 pt-3 text-white">
+        <FlowChrome title="Leaderboard" sub="Subhanallah Room" />
+        <div className="mt-2 text-center">
+          <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-semibold ring-1 ring-white/20">
+            <InfinityIcon className="h-3 w-3" /> No active session — Lifetime view
+          </span>
+          <div className="mt-2 text-[20px] font-extrabold">All-Time Champions</div>
+          <div className="text-[10px] opacity-80">Session + Organic counts combined</div>
+        </div>
+      </div>
+      <div className="-mt-3 px-3">
+        <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100 shadow-sm">
+          <TimeRangeChips active="All-time" />
+        </div>
+      </div>
+      <div className="mt-3 flex-1 px-3 pb-4">
+        <div className="space-y-1.5">
+          {LB_PLAYERS.slice(0, 5).map((p, i) => (
+            <div key={p.name} className={`flex items-center gap-2 rounded-xl px-3 py-2 ${i===0?"bg-emerald-50 ring-1 ring-emerald-200":"bg-slate-50"}`}>
+              <div className={`w-5 text-center text-[12px] font-bold ${i===0?"text-emerald-700":"text-slate-400"}`}>{i+1}</div>
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-800">{p.avatar}</div>
+              <div className="flex-1 truncate text-[12px] font-semibold text-slate-800">{p.name}</div>
+              <div className="text-right">
+                <div className="text-[11.5px] font-bold text-slate-900">{(p.count*4).toLocaleString()}</div>
+                <div className="text-[9px] text-slate-400">lifetime</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 flex items-center gap-2 rounded-xl bg-emerald-600 px-3 py-2 text-white">
+          <div className="w-5 text-center text-[12px] font-bold">128</div>
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[10px] font-bold text-emerald-700">YOU</div>
+          <div className="flex-1 text-[11.5px] font-semibold">You · 16,840 lifetime</div>
+          <Heart className="h-3.5 w-3.5" fill="currentColor" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Tabs used in F3 / F4 */
+function SessionTabs({ active }: { active: "session" | "lifetime" }) {
+  return (
+    <div className="mx-3 -mt-3 flex rounded-xl bg-white p-1 shadow-md ring-1 ring-slate-100">
+      <button className={`flex-1 rounded-lg py-1.5 text-[11px] font-bold transition ${active==="session" ? "bg-amber-500 text-white" : "text-slate-500"}`}>
+        🏁 Session
+      </button>
+      <button className={`flex-1 rounded-lg py-1.5 text-[11px] font-bold transition ${active==="lifetime" ? "bg-emerald-600 text-white" : "text-slate-500"}`}>
+        ∞ Lifetime
+      </button>
+    </div>
+  );
+}
+
+/* ③ Session running — Session tab (default when entering during a season) */
+function LBFlow3() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div style={{ background: NAVY }} className="px-4 pb-5 pt-3 text-white">
+        <FlowChrome title="Leaderboard" sub="Sponsored by Wizlife" tone="dark" />
+        <div className="mt-2 flex items-center gap-2">
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-500 px-1.5 py-0.5 text-[9px] font-bold">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-white animate-pulse" /> LIVE
+          </span>
+          <span className="text-[10px] opacity-80">Season 4 · ends in</span>
+          <span className="ml-auto text-[12px] font-bold tabular-nums text-amber-300">2d 14:32</span>
+        </div>
+        <div className="mt-2 text-[14px] font-bold">100k Sprint · ৳15,000 prize pool</div>
+      </div>
+      <SessionTabs active="session" />
+      <div className="px-3 pt-2">
+        <TimeRangeChips active="Today" tone="amber" />
+      </div>
+      <div className="flex-1 px-3 pt-3 pb-4">
+        <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Session ranking · resets at end</div>
+        <div className="mt-1.5 space-y-1.5">
+          {LB_PLAYERS.slice(0, 4).map((p, i) => (
+            <div key={p.name} className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
+              <div className="flex items-center gap-2">
+                <div className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold ${i===0?"bg-amber-400 text-amber-950":i===1?"bg-slate-300 text-slate-800":i===2?"bg-orange-400 text-orange-950":"bg-slate-100 text-slate-500"}`}>{i+1}</div>
+                <div className="flex-1 truncate text-[12px] font-semibold text-slate-800">{p.name}</div>
+                <div className="text-[12px] font-bold text-slate-900 tabular-nums">{p.count.toLocaleString()}</div>
+                {i<3 && <div className="text-[9px] font-bold text-emerald-600">৳{[5,2,1][i]}k</div>}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 rounded-xl bg-amber-50 p-2.5 ring-1 ring-amber-200">
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-white">YOU</div>
+            <div className="flex-1">
+              <div className="text-[11.5px] font-bold text-amber-900">Rank #14 · 4,210 this season</div>
+              <div className="text-[9.5px] text-amber-800">820 to enter prize zone</div>
+            </div>
+            <TrendingUp className="h-4 w-4 text-amber-700" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ④ Session running — switched to Lifetime tab */
+function LBFlow4() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="bg-gradient-to-br from-emerald-700 to-teal-800 px-4 pb-5 pt-3 text-white">
+        <FlowChrome title="Leaderboard" sub="Subhanallah Room" tone="dark" />
+        <div className="mt-2 flex items-center justify-between">
+          <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-semibold ring-1 ring-white/20">
+            <InfinityIcon className="h-3 w-3" /> Lifetime view
+          </span>
+          <span className="text-[9.5px] opacity-80">Session still running · 2d 14h</span>
+        </div>
+        <div className="mt-2 text-[14px] font-bold">All-Time Champions</div>
+        <div className="text-[10px] opacity-80">Includes current session + all past sessions + organic</div>
+      </div>
+      <SessionTabs active="lifetime" />
+      <div className="px-3 pt-2">
+        <TimeRangeChips active="All-time" />
+      </div>
+      <div className="flex-1 px-3 pt-3 pb-4">
+        <div className="space-y-1.5">
+          {LB_PLAYERS.slice(0, 4).map((p, i) => (
+            <div key={p.name} className={`flex items-center gap-2 rounded-xl px-3 py-2 ${i===0?"bg-emerald-50 ring-1 ring-emerald-200":"bg-slate-50"}`}>
+              <div className={`w-5 text-center text-[12px] font-bold ${i===0?"text-emerald-700":"text-slate-400"}`}>{i+1}</div>
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-800">{p.avatar}</div>
+              <div className="flex-1 truncate text-[12px] font-semibold text-slate-800">{p.name}</div>
+              <div className="text-right">
+                <div className="text-[11.5px] font-bold text-slate-900 tabular-nums">{(p.count*4).toLocaleString()}</div>
+                <div className="text-[9px] text-slate-400">lifetime</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button className="mt-3 flex w-full items-center justify-center gap-1 rounded-xl border border-dashed border-slate-300 bg-white py-2 text-[11px] font-semibold text-slate-600">
+          <Clock className="h-3.5 w-3.5" /> View past seasons →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ⑤ History — list of past seasons (lazy / paginated) */
+function LBFlow5() {
+  const seasons = [
+    { n: 3, sponsor: "Wizlife", winner: "Aisha R.", you: "#9", ended: "Apr 2026", prize: "৳12k" },
+    { n: 2, sponsor: "Halal Foods", winner: "Omar S.", you: "#22", ended: "Mar 2026", prize: "৳10k" },
+    { n: 1, sponsor: "Wizlife", winner: "Khadija M.", you: "#41", ended: "Feb 2026", prize: "৳8k" },
+  ];
+  return (
+    <div className="flex h-full flex-col bg-[#F7FAF7]">
+      <FlowChrome title="Past seasons" sub="Subhanallah Room" />
+      <div className="px-4 pt-3">
+        <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+          <div className="flex items-center gap-2">
+            <Trophy className="h-4 w-4 text-amber-500" />
+            <div className="text-[12px] font-bold text-slate-900">Season history</div>
+            <span className="ml-auto text-[10px] text-slate-500">3 of 12</span>
+          </div>
+          <div className="mt-1 text-[10px] text-slate-500">
+            Only summaries are kept — tap to load a season's full leaderboard.
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 space-y-2 px-4 pt-3 pb-4">
+        {seasons.map((s) => (
+          <button key={s.n} className="w-full rounded-xl bg-white p-3 text-left ring-1 ring-slate-100 transition hover:ring-emerald-300">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Season {s.n} · {s.ended}</div>
+                <div className="text-[12.5px] font-bold text-slate-900">Sponsored by {s.sponsor}</div>
+              </div>
+              <ChevronRight className="h-4 w-4 text-slate-400" />
+            </div>
+            <div className="mt-2 grid grid-cols-3 gap-1.5 text-center text-[10px]">
+              <div className="rounded-lg bg-amber-50 py-1.5 text-amber-800 ring-1 ring-amber-100">
+                <div className="text-[11px] font-bold">🏆 {s.winner}</div>
+                <div className="text-[9px]">winner</div>
+              </div>
+              <div className="rounded-lg bg-emerald-50 py-1.5 text-emerald-800 ring-1 ring-emerald-100">
+                <div className="text-[11px] font-bold">{s.you}</div>
+                <div className="text-[9px]">your rank</div>
+              </div>
+              <div className="rounded-lg bg-slate-50 py-1.5 text-slate-700 ring-1 ring-slate-100">
+                <div className="text-[11px] font-bold">{s.prize}</div>
+                <div className="text-[9px]">prize pool</div>
+              </div>
+            </div>
+          </button>
+        ))}
+        <button className="flex w-full items-center justify-center gap-1 rounded-xl border border-dashed border-slate-300 bg-white py-2 text-[11px] font-semibold text-slate-500">
+          Load older seasons
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ⑥ Single past season recap */
+function LBFlow6() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="bg-gradient-to-br from-amber-500 to-orange-600 px-4 pb-5 pt-3 text-white">
+        <FlowChrome title="Season 3 recap" sub="Apr 2026 · Wizlife" tone="dark" />
+        <div className="mt-2 text-center">
+          <span className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2 py-0.5 text-[9.5px] font-semibold ring-1 ring-white/30">
+            <CheckCircle2 className="h-3 w-3" /> Ended · final standings
+          </span>
+          <div className="mt-2 flex items-center justify-center gap-2">
+            <Crown className="h-5 w-5 text-amber-100" fill="currentColor" />
+            <div className="text-[18px] font-extrabold">Aisha R.</div>
+          </div>
+          <div className="text-[10px] opacity-80">Champion · 24,180 zikr · won ৳5,000</div>
+        </div>
+      </div>
+      <div className="flex-1 px-3 pt-3 pb-4">
+        <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Top 3 · final</div>
+        <div className="mt-1.5 space-y-1.5">
+          {LB_PLAYERS.slice(0, 3).map((p, i) => (
+            <div key={p.name} className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2">
+              <div className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold ${i===0?"bg-amber-400 text-amber-950":i===1?"bg-slate-300 text-slate-800":"bg-orange-400 text-orange-950"}`}>{i+1}</div>
+              <div className="flex-1 truncate text-[12px] font-semibold text-slate-800">{p.name}</div>
+              <div className="text-[11.5px] font-bold text-slate-900 tabular-nums">{p.count.toLocaleString()}</div>
+              <div className="text-[9px] font-bold text-emerald-600">৳{[5,2,1][i]}k</div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 rounded-xl bg-emerald-50 p-2.5 ring-1 ring-emerald-200">
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-[10px] font-bold text-white">YOU</div>
+            <div className="flex-1">
+              <div className="text-[11.5px] font-bold text-emerald-900">You finished #9 · 6,420 zikr</div>
+              <div className="text-[9.5px] text-emerald-800">Just outside prize zone — top 3 next time 💪</div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-3 rounded-xl border border-dashed border-slate-200 bg-slate-50 p-2 text-center text-[9.5px] text-slate-500">
+          Only top 50 + your row stored per season · keeps history fast to load
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
 /*  SPONSOR CHANNEL / PROFILE VARIANTS                                */
 /* ================================================================== */
 
