@@ -1490,16 +1490,27 @@ export default function SponsorCards() {
 /* ================================================================== */
 
 function DetailFrame({ children, label }: { children: React.ReactNode; label: string }) {
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </div>
-      <div className="w-[360px] overflow-hidden rounded-[28px] bg-[#F4F6FA] shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
-        {children}
-      </div>
+  const inner = (
+    <div className="w-[360px] overflow-hidden rounded-[28px] bg-[#F4F6FA] shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
+      {children}
     </div>
   );
+  useRegisterFrame(`detail:${label}`, "detail", label, inner);
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          {label}
+        </div>
+        <PickButton frameKey={`detail:${label}`} />
+      </div>
+      {inner}
+    </div>
+  );
+}
+
+function DetailShell({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }
 
 function DetailHeader() {
