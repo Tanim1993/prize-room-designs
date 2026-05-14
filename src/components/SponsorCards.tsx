@@ -2955,6 +2955,7 @@ function SponsorChannelV3() {
 /* ================================================================== */
 
 const FLOW_ACCENTS: Record<number, { bg: string; text: string; ring: string; label: string }> = {
+  0: { bg: "bg-slate-100",   text: "text-slate-700",    ring: "ring-slate-200",    label: "Core App Screens · V2 redesign" },
   1: { bg: "bg-indigo-50",   text: "text-indigo-700",   ring: "ring-indigo-200",   label: "Member · Discover & Join" },
   2: { bg: "bg-amber-50",    text: "text-amber-700",    ring: "ring-amber-200",    label: "Member · Live Season" },
   3: { bg: "bg-emerald-50",  text: "text-emerald-700",  ring: "ring-emerald-200",  label: "Member · Between Seasons" },
@@ -3610,6 +3611,168 @@ function F5S3() {
   );
 }
 
+/* =========================================================== */
+/*  FLOW 0 — Core app screens, V2 redesign                      */
+/*  (Home · Room Detail · Admin Create — matches reference)     */
+/* =========================================================== */
+
+function ChannelTabs({ active = "Featured" }: { active?: "Featured" | "Public" | "My Rooms" }) {
+  const tabs: Array<{ k: "Featured" | "Public" | "My Rooms"; icon: React.ReactNode }> = [
+    { k: "Featured", icon: <Star className="h-3.5 w-3.5" /> },
+    { k: "Public",   icon: <Globe2 className="h-3.5 w-3.5" /> },
+    { k: "My Rooms", icon: <FolderOpen className="h-3.5 w-3.5" /> },
+  ];
+  return (
+    <div className="-mx-3 -mt-3 mb-2 flex items-center gap-4 border-b border-white/10 px-3 pb-2 pt-1" style={{ background: NAVY }}>
+      {tabs.map(t => (
+        <div key={t.k} className={`flex items-center gap-1 pb-1.5 text-[12px] font-semibold ${active === t.k ? "border-b-2 border-amber-300 text-white" : "text-white/60"}`}>
+          {t.icon}{t.k}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function FeaturedRoomCard({ name, prize, sponsor, members, perDay, daysLeft }: {
+  name: string; prize: string; sponsor: string; members: string; perDay: string; daysLeft: string;
+}) {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)] ring-1 ring-slate-100">
+      <div style={{ background: NAVY }} className="flex items-center justify-between px-3 py-2 text-white">
+        <div className="flex items-center gap-2">
+          <div className="grid h-7 w-7 place-items-center rounded-full bg-white/15 text-[10px] font-bold">W</div>
+          <div>
+            <div className="text-[8px] font-bold uppercase tracking-wider opacity-80">Sponsored by</div>
+            <div className="text-[12px] font-bold leading-tight">{sponsor}</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-1 rounded-full bg-amber-300 px-2 py-1 text-[11px] font-bold text-slate-900">
+          <Gift className="h-3 w-3" />{prize}
+        </div>
+      </div>
+      <div className="flex items-start gap-2 p-3">
+        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-rose-50 text-base">📿</div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between">
+            <h4 className="bn truncate text-[13px] font-bold text-slate-900">{name}</h4>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+          </div>
+          <div className="mt-0.5 inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-[9px] font-bold uppercase text-amber-800">
+            <Star className="h-2.5 w-2.5" />Featured
+          </div>
+          <p className="bn mt-1 text-[10.5px] leading-snug text-slate-500">প্রতিদিন ১০০ বার পড়ুন। শীর্ষ অংশগ্রহণকারীরা মাসিক পুরস্কার জিতবেন ইনশাআল্লাহ।</p>
+          <div className="mt-1.5 flex items-center gap-3 text-[10px] text-slate-500">
+            <span className="inline-flex items-center gap-0.5"><Users className="h-3 w-3" />{members}</span>
+            <span className="inline-flex items-center gap-0.5"><Flag className="h-3 w-3" />{perDay}</span>
+            <span className="inline-flex items-center gap-0.5"><Clock className="h-3 w-3" />{daysLeft}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function F0Home() {
+  return (
+    <StepFrame flow={0} step={1} title="Zikr Rooms · Home" bnTitle="হোম — চ্যানেল ট্যাব + ফিচার্ড রুম">
+      <ChannelTabs active="Featured" />
+      <FeaturedRoomCard name="সুবহানাল্লাহি ওয়া বিহামদিহী" prize="৳40,000 Prize" sponsor="Wizlife" members="16" perDay="100/day" daysLeft="265 days left" />
+      <FeaturedRoomCard name="আস্তাগফিরুল্লাহা ওয়া আতুবু…" prize="৳25,000 Prize" sponsor="Ifad" members="16" perDay="100/day" daysLeft="234 days left" />
+      <FeaturedRoomCard name="দরুদে ইব্রাহীম" prize="৳15,000 Prize" sponsor="ACI" members="12" perDay="70/day" daysLeft="180 days left" />
+    </StepFrame>
+  );
+}
+
+function F0RoomDetail() {
+  return (
+    <StepFrame flow={0} step={2} title="Room Details" bnTitle="রুম ডিটেইল — Forever room + Live season">
+      <div className="rounded-2xl bg-gradient-to-br from-indigo-700 to-indigo-900 p-3 text-white">
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+            <InfinityIcon className="h-2.5 w-2.5" />Forever Room
+          </span>
+          <span className="text-[9px] opacity-80">Since 2023</span>
+        </div>
+        <h3 className="bn mt-1.5 text-[14px] font-bold">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+        <div className="mt-2 grid grid-cols-3 gap-1 text-center">
+          <div><div className="text-base font-black">5,820</div><div className="text-[9px] opacity-80">Lifetime</div></div>
+          <div><div className="text-base font-black">8.2M</div><div className="text-[9px] opacity-80">Total zikr</div></div>
+          <div><div className="text-base font-black">128w</div><div className="text-[9px] opacity-80">Active</div></div>
+        </div>
+      </div>
+      <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-amber-200">
+        <div className="flex items-center justify-between px-3 py-2 text-white" style={{ background: NAVY }}>
+          <div className="flex items-center gap-1.5">
+            <div className="grid h-6 w-6 place-items-center rounded-full bg-white/15 text-[10px] font-bold">W</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider">Sponsored by Wizlife</div>
+          </div>
+          <span className="rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-bold text-slate-900">৳40,000</span>
+        </div>
+        <div className="px-3 py-2">
+          <div className="flex items-center justify-between text-[10px] font-bold uppercase text-amber-700">
+            <span><Zap className="inline h-3 w-3" /> Live Season 04</span>
+            <span>ends 6d 12h</span>
+          </div>
+          <div className="mt-1 flex justify-between text-[10px]">
+            <span className="text-slate-500">Your season rank</span>
+            <span className="font-bold text-amber-800">#42 of 1,820</span>
+          </div>
+        </div>
+      </div>
+      <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+        <SectionLabel>Powered by · past sponsors</SectionLabel>
+        <div className="mt-1.5 flex flex-wrap gap-1">
+          {["Wizlife","Ifad","ACI","Pran","Square"].map(s => (
+            <span key={s} className="rounded bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-700">{s}</span>
+          ))}
+        </div>
+      </div>
+      <button className="w-full rounded-xl py-2.5 text-[12px] font-bold text-white" style={{ background: NAVY }}>
+        Join forever · Start tasbih
+      </button>
+    </StepFrame>
+  );
+}
+
+function F0AdminCreate() {
+  return (
+    <StepFrame flow={0} step={3} title="Admin · Create Featured Room" bnTitle="অ্যাডমিন — Forever room + Season যোগ">
+      <div className="grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1 text-[10px] font-bold">
+        <div className="rounded-lg bg-white py-1.5 text-center text-slate-900 shadow-sm">① Forever Room</div>
+        <div className="rounded-lg py-1.5 text-center text-slate-500">② Sponsor Season</div>
+      </div>
+      <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+        <div className="text-[9px] font-bold uppercase text-slate-500">Room name (Bangla)</div>
+        <div className="bn mt-0.5 rounded-md bg-slate-50 px-2 py-1.5 text-[12px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</div>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
+          <div className="text-[9px] font-bold uppercase text-slate-500">Daily target</div>
+          <div className="text-[12px] font-bold">100 / day</div>
+        </div>
+        <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
+          <div className="text-[9px] font-bold uppercase text-slate-500">Lifetime</div>
+          <div className="inline-flex items-center gap-1 text-[12px] font-bold text-indigo-700"><InfinityIcon className="h-3 w-3" />Forever</div>
+        </div>
+      </div>
+      <div className="rounded-xl bg-amber-50 p-2.5 ring-1 ring-amber-100">
+        <div className="text-[9px] font-bold uppercase text-amber-700">Attach season (optional)</div>
+        <div className="mt-1 flex items-center justify-between text-[11px]">
+          <span className="font-bold text-amber-900">Wizlife · May 5–11</span>
+          <span className="rounded bg-amber-300 px-1.5 py-0.5 text-[10px] font-bold text-slate-900">৳40,000</span>
+        </div>
+        <div className="mt-1 text-[10px] text-amber-700">Banner shows on home + room until season ends</div>
+      </div>
+      <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100 text-[10px] text-slate-600">
+        Members stay forever — only the sponsor banner & prize change between seasons.
+      </div>
+      <button className="w-full rounded-xl py-2.5 text-[12px] font-bold text-white" style={{ background: NAVY }}>
+        Publish Forever Room
+      </button>
+    </StepFrame>
+  );
+}
+
 /* ---------- the deck ---------- */
 
 function V2FlowDeck() {
@@ -3618,9 +3781,14 @@ function V2FlowDeck() {
       <header className="mb-10 text-center">
         <h1 className="text-2xl font-bold text-slate-900">Sponsor Modality — Flow-wise Design</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Permanent rooms + temporary sponsor seasons. Five user flows, end to end.
+          Permanent rooms + temporary sponsor seasons. Core screens first, then end-to-end flows.
         </p>
       </header>
+
+      <FlowRow flow={0} title="Core app screens (V2 redesign of V1 pages)"
+        bn="V1 এর Home, Room Details, Admin Create — V2 modality + reference style এ নতুন করে।">
+        <F0Home /><F0RoomDetail /><F0AdminCreate />
+      </FlowRow>
 
       <FlowRow flow={1} title="Member discovers & joins a permanent room"
         bn="সদস্য একটি স্থায়ী রুম খুঁজে পান, যোগ দেন এবং আজীবন সদস্য হয়ে যান।">
