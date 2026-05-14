@@ -3785,6 +3785,8 @@ function V2FlowDeck() {
         </p>
       </header>
 
+      <AdminPortalV2 />
+
       <FlowRow flow={0} title="Core app screens (V2 redesign of V1 pages)"
         bn="V1 এর Home, Room Details, Admin Create — V2 modality + reference style এ নতুন করে।">
         <F0Home /><F0RoomDetail /><F0AdminCreate />
