@@ -1140,10 +1140,13 @@ export default function SponsorCards() {
         <div className="flex flex-wrap justify-center gap-8">
           <DetailFrame label="R1 · Sponsor Brand Report"><SponsorReport /></DetailFrame>
         </div>
+        </>)}
+      </div>
       </div>
     </div>
   );
 }
+
 
 /* ================================================================== */
 /*  ROOM DETAILS PAGE VARIANTS                                        */
