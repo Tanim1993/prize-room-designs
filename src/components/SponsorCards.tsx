@@ -1323,7 +1323,6 @@ export default function SponsorCards() {
         {/* V1 is always mounted (hidden when inactive) so the Final registry stays populated */}
         <div className={view === "v1" ? "" : "hidden"}>
         <SectionNav />
-        <FinalSelectionSection PhoneShell={PhoneShell} DetailShell={DetailShell} ChannelShell={ChannelShell} />
         <header id="sec-sponsored" className="mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsored / Prize Room — In-App Patterns</h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -6032,7 +6031,7 @@ function ChannelCardV6() {
 /* ================================================================== */
 
 const SECTION_LINKS: { id: string; label: string }[] = [
-  { id: "sec-final", label: "★ Final Selection" },
+  
   { id: "sec-sponsored", label: "Sponsored Patterns" },
   { id: "sec-room-detail", label: "Room Details" },
   { id: "sec-home", label: "Home Page" },
