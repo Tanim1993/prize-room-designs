@@ -1376,6 +1376,21 @@ export default function SponsorCards() {
         </div>
 
         <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Leaderboard Flow — User Journey</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            What happens when a member taps the <b>Leaderboard</b> button — across organic, running session, and post-session states. Step-by-step.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="① Tap · Leaderboard CTA"><LBFlow1 /></DetailFrame>
+          <DetailFrame label="② Organic · Combined lifetime"><LBFlow2 /></DetailFrame>
+          <DetailFrame label="③ Session live · Session tab (default)"><LBFlow3 /></DetailFrame>
+          <DetailFrame label="④ Session live · Switch to Lifetime"><LBFlow4 /></DetailFrame>
+          <DetailFrame label="⑤ History · Past seasons list"><LBFlow5 /></DetailFrame>
+          <DetailFrame label="⑥ History · Single season recap"><LBFlow6 /></DetailFrame>
+        </div>
+
+        <header className="mt-20 mb-8 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsor Channel / Profile — Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
             Tapping a sponsor banner opens a channel page (YouTube-style) with bio, stats, and all rooms by that sponsor.
