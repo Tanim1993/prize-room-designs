@@ -24,11 +24,22 @@ import {
   Heart,
   Award,
   TrendingUp,
+  Calendar,
+  Clock,
+  ArrowRight,
+  CheckCircle2,
+  Infinity as InfinityIcon,
+  Zap,
+  MapPin,
+  Upload,
+  Eye,
+  BarChart3,
+  Lock,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
 import bannerBooks from "@/assets/banner-books.png";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Shared bits matching the user's current Zikr Rooms app aesthetic  */
@@ -1025,9 +1036,32 @@ function SponsorReport() {
 }
 
 export default function SponsorCards() {
+  const [view, setView] = useState<"v1" | "v2">("v2");
   return (
-    <div className="min-h-screen bg-[#EEF2F7] px-6 py-10">
+    <div className="min-h-screen bg-[#EEF2F7]">
+      <div className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur">
+        <div className="mx-auto flex max-w-[1800px] items-center justify-between gap-4 px-6 py-3">
+          <div className="text-sm font-semibold text-slate-900">Zikr Rooms — Sponsor Design</div>
+          <div className="inline-flex rounded-full bg-slate-100 p-1 text-[12px] font-semibold">
+            <button
+              onClick={() => setView("v1")}
+              className={`rounded-full px-4 py-1.5 transition ${view === "v1" ? "bg-white text-slate-900 shadow" : "text-slate-500"}`}
+            >
+              V1 · Exploration
+            </button>
+            <button
+              onClick={() => setView("v2")}
+              className={`rounded-full px-4 py-1.5 transition ${view === "v2" ? "bg-slate-900 text-white shadow" : "text-slate-500"}`}
+            >
+              V2 · Flow-wise ▸
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="px-6 py-10">
       <div className="mx-auto max-w-[1800px]">
+        {view === "v2" && <V2FlowDeck />}
+        {view === "v1" && (<>
         <header className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsored / Prize Room — In-App Patterns</h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -1117,10 +1151,13 @@ export default function SponsorCards() {
         <div className="flex flex-wrap justify-center gap-8">
           <DetailFrame label="R1 · Sponsor Brand Report"><SponsorReport /></DetailFrame>
         </div>
+        </>)}
+      </div>
       </div>
     </div>
   );
 }
+
 
 /* ================================================================== */
 /*  ROOM DETAILS PAGE VARIANTS                                        */
@@ -2908,6 +2945,707 @@ function SponsorChannelV3() {
           <Ic key={i} className="h-4 w-4" />
         ))}
       </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  V2 — FLOW-WISE FE DESIGN                                          */
+/*  Permanent rooms + Seasons + Sponsor flows, end-to-end mockups     */
+/* ================================================================== */
+
+const FLOW_ACCENTS: Record<number, { bg: string; text: string; ring: string; label: string }> = {
+  1: { bg: "bg-indigo-50",   text: "text-indigo-700",   ring: "ring-indigo-200",   label: "Member · Discover & Join" },
+  2: { bg: "bg-amber-50",    text: "text-amber-700",    ring: "ring-amber-200",    label: "Member · Live Season" },
+  3: { bg: "bg-emerald-50",  text: "text-emerald-700",  ring: "ring-emerald-200",  label: "Member · Between Seasons" },
+  4: { bg: "bg-sky-50",      text: "text-sky-700",      ring: "ring-sky-200",      label: "Admin · Schedule Season" },
+  5: { bg: "bg-rose-50",     text: "text-rose-700",     ring: "ring-rose-200",     label: "Sponsor · Brand Journey" },
+};
+
+function StepFrame({
+  flow, step, title, bnTitle, children,
+}: { flow: number; step: number; title: string; bnTitle?: string; children: React.ReactNode }) {
+  const a = FLOW_ACCENTS[flow];
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <div className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ring-1 ${a.bg} ${a.text} ${a.ring}`}>
+        <span className="grid h-4 w-4 place-items-center rounded-full bg-white/70 text-[9px]">{step}</span>
+        Step {step}
+      </div>
+      <div className="w-[300px] overflow-hidden rounded-[26px] bg-white shadow-[0_18px_44px_-18px_rgba(15,23,42,0.30)] ring-1 ring-black/5">
+        <div style={{ background: NAVY }} className="flex items-center justify-between px-4 py-3 text-white">
+          <ChevronRight className="h-4 w-4 rotate-180 opacity-70" />
+          <span className="text-[12px] font-semibold tracking-tight">{title}</span>
+          <div className="h-4 w-4" />
+        </div>
+        <div className="min-h-[520px] space-y-3 bg-[#F4F6FA] px-3 pb-4 pt-3">{children}</div>
+      </div>
+      {bnTitle && (
+        <div className="bn max-w-[300px] text-center text-[11px] text-slate-500">{bnTitle}</div>
+      )}
+    </div>
+  );
+}
+
+function FlowRow({
+  flow, title, bn, children,
+}: { flow: number; title: string; bn: string; children: React.ReactNode }) {
+  const a = FLOW_ACCENTS[flow];
+  return (
+    <section className="mb-16">
+      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] ring-1 ${a.bg} ${a.text} ${a.ring}`}>
+            Flow {flow} · {a.label}
+          </div>
+          <h2 className="mt-2 text-xl font-bold text-slate-900">{title}</h2>
+          <p className="bn mt-1 text-[13px] text-slate-500">{bn}</p>
+        </div>
+        <div className="text-[11px] uppercase tracking-wider text-slate-400">Read left → right</div>
+      </div>
+      <div className="flex flex-wrap items-start gap-x-4 gap-y-8">
+        {React.Children.toArray(children).flatMap((child, i, arr) =>
+          i < arr.length - 1
+            ? [child, <ArrowRight key={`a${i}`} className="mt-32 hidden h-6 w-6 shrink-0 text-slate-300 lg:block" />]
+            : [child]
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ---------- atoms reused across V2 screens ---------- */
+
+function MiniRoomCard({ name, members, badge, sponsor, prize }: {
+  name: string; members: string; badge?: "forever" | "season" | "dormant"; sponsor?: string; prize?: string;
+}) {
+  return (
+    <div className="rounded-xl bg-white p-3 shadow-sm ring-1 ring-slate-100">
+      <div className="flex items-start gap-2">
+        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#EEF1F6] text-base">📿</div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5">
+            <h4 className="bn truncate text-[13px] font-bold text-slate-900">{name}</h4>
+            {badge === "forever" && (
+              <span className="inline-flex items-center gap-0.5 rounded bg-indigo-100 px-1.5 py-0.5 text-[9px] font-bold uppercase text-indigo-700">
+                <InfinityIcon className="h-2.5 w-2.5" />Forever
+              </span>
+            )}
+            {badge === "season" && (
+              <span className="inline-flex items-center gap-0.5 rounded bg-amber-100 px-1.5 py-0.5 text-[9px] font-bold uppercase text-amber-700">
+                <Zap className="h-2.5 w-2.5" />Live
+              </span>
+            )}
+            {badge === "dormant" && (
+              <span className="inline-flex items-center gap-0.5 rounded bg-slate-100 px-1.5 py-0.5 text-[9px] font-bold uppercase text-slate-500">
+                <Clock className="h-2.5 w-2.5" />Idle
+              </span>
+            )}
+          </div>
+          {sponsor && (
+            <div className="mt-0.5 text-[10px] font-semibold text-slate-500">Powered by <span className="text-slate-700">{sponsor}</span></div>
+          )}
+          {prize && (
+            <div className="mt-0.5 inline-flex items-center gap-1 text-[10px] font-semibold text-amber-700">
+              <Gift className="h-3 w-3" /> {prize}
+            </div>
+          )}
+          <div className="mt-1 flex items-center gap-2 text-[10px] text-slate-500">
+            <span className="flex items-center gap-0.5"><Users className="h-2.5 w-2.5" />{members}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return <div className="px-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{children}</div>;
+}
+
+function Pill({ children, tone = "slate" }: { children: React.ReactNode; tone?: "slate" | "amber" | "emerald" | "indigo" | "rose" }) {
+  const map: Record<string, string> = {
+    slate: "bg-slate-100 text-slate-700",
+    amber: "bg-amber-100 text-amber-800",
+    emerald: "bg-emerald-100 text-emerald-800",
+    indigo: "bg-indigo-100 text-indigo-800",
+    rose: "bg-rose-100 text-rose-800",
+  };
+  return <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${map[tone]}`}>{children}</span>;
+}
+
+/* =========================================================== */
+/*  FLOW 1 — Member discovers & joins a permanent room          */
+/* =========================================================== */
+
+function F1S1() {
+  return (
+    <StepFrame flow={1} step={1} title="Home · Permanent Rooms" bnTitle="হোম থেকে স্থায়ী রুম খুঁজে পাওয়া">
+      <SectionLabel>Permanent Rooms · Forever</SectionLabel>
+      <MiniRoomCard name="সুবহানাল্লাহি ওয়া বিহামদিহী" members="5,820" badge="forever" sponsor="Wizlife" />
+      <MiniRoomCard name="দরুদে ইব্রাহীম" members="3,140" badge="forever" sponsor="Ifad" />
+      <MiniRoomCard name="ইস্তেগফার" members="2,406" badge="forever" />
+      <SectionLabel>Public Rooms</SectionLabel>
+      <MiniRoomCard name="রমজান প্রস্তুতি" members="42" />
+    </StepFrame>
+  );
+}
+
+function F1S2() {
+  return (
+    <StepFrame flow={1} step={2} title="Room detail" bnTitle="রুম ডিটেইল — আজীবন সদস্য + পুরনো স্পন্সর">
+      <div className="rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-800 p-4 text-white">
+        <div className="flex items-center justify-between">
+          <Pill tone="indigo">Forever Room</Pill>
+          <InfinityIcon className="h-4 w-4 opacity-80" />
+        </div>
+        <h3 className="bn mt-2 text-[15px] font-bold">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+          <div><div className="text-base font-bold">5,820</div><div className="text-[9px] opacity-80">Lifetime members</div></div>
+          <div><div className="text-base font-bold">8.2M</div><div className="text-[9px] opacity-80">Total tasbih</div></div>
+          <div><div className="text-base font-bold">128w</div><div className="text-[9px] opacity-80">Active</div></div>
+        </div>
+      </div>
+      <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+        <SectionLabel>Powered by · past & present</SectionLabel>
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {["Wizlife","Ifad","ACI","Pran","Bashundhara"].map(s => (
+            <span key={s} className="rounded bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-700">{s}</span>
+          ))}
+        </div>
+      </div>
+      <button className="w-full rounded-xl py-3 text-[13px] font-bold text-white" style={{ background: NAVY }}>
+        Join forever
+      </button>
+    </StepFrame>
+  );
+}
+
+function F1S3() {
+  return (
+    <StepFrame flow={1} step={3} title="Joined" bnTitle="যোগদান নিশ্চিত — আপনি আজীবন সদস্য">
+      <div className="mt-2 grid place-items-center rounded-2xl bg-white p-5 text-center ring-1 ring-slate-100">
+        <div className="grid h-14 w-14 place-items-center rounded-full bg-indigo-100 text-indigo-700">
+          <CheckCircle2 className="h-8 w-8" />
+        </div>
+        <h3 className="mt-3 text-[15px] font-bold text-slate-900">You're a forever member</h3>
+        <p className="bn mt-1 text-[11px] text-slate-500">এই রুম কখনো বন্ধ হবে না — সিজন আসবে যাবে, আপনি থাকবেন।</p>
+      </div>
+      <div className="rounded-xl bg-indigo-50 p-3 ring-1 ring-indigo-100">
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] font-bold uppercase text-indigo-700">Lifetime counter started</span>
+          <InfinityIcon className="h-4 w-4 text-indigo-700" />
+        </div>
+        <div className="mt-1 text-3xl font-black text-indigo-900">0</div>
+        <div className="text-[10px] text-indigo-700">Every tasbih adds forever</div>
+      </div>
+      <div className="rounded-xl bg-white p-3 text-[11px] text-slate-600 ring-1 ring-slate-100">
+        🔔 We'll notify you when a new sponsor season starts.
+      </div>
+    </StepFrame>
+  );
+}
+
+function F1S4() {
+  return (
+    <StepFrame flow={1} step={4} title="Home · after joining" bnTitle="যোগ দেওয়ার পর — পিন করা রুম + সিজন">
+      <SectionLabel>Pinned for you</SectionLabel>
+      <div className="rounded-xl bg-white p-3 shadow-sm ring-1 ring-slate-100">
+        <div className="flex items-center gap-2">
+          <div className="grid h-9 w-9 place-items-center rounded-lg bg-amber-100 text-base">📿</div>
+          <div className="min-w-0 flex-1">
+            <h4 className="bn text-[13px] font-bold text-slate-900">সুবহানাল্লাহি…</h4>
+            <div className="mt-0.5 flex items-center gap-1"><Pill tone="amber"><Zap className="h-2.5 w-2.5" />Season Live</Pill></div>
+          </div>
+        </div>
+        <div className="mt-2 rounded-lg bg-amber-50 p-2 text-[10px]">
+          <div className="font-bold text-amber-800">Wizlife Ramadan Season</div>
+          <div className="text-amber-700">Prize: 50,000৳ · ends in 6d 12h</div>
+        </div>
+      </div>
+      <SectionLabel>Other forever rooms</SectionLabel>
+      <MiniRoomCard name="দরুদে ইব্রাহীম" members="3,140" badge="forever" sponsor="Ifad" />
+      <MiniRoomCard name="ইস্তেগফার" members="2,406" badge="forever" />
+    </StepFrame>
+  );
+}
+
+/* =========================================================== */
+/*  FLOW 2 — Season is live                                     */
+/* =========================================================== */
+
+function F2S1() {
+  return (
+    <StepFrame flow={2} step={1} title="Season banner" bnTitle="সিজন চলছে — পুরস্কার + কাউন্টডাউন">
+      <div className="overflow-hidden rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 p-4 text-white">
+        <div className="flex items-center justify-between">
+          <Pill tone="amber"><Zap className="h-2.5 w-2.5" />Live Season</Pill>
+          <span className="text-[10px] font-bold opacity-90">SEASON 04</span>
+        </div>
+        <h3 className="mt-2 text-[15px] font-bold">Wizlife Ramadan Challenge</h3>
+        <div className="bn mt-0.5 text-[11px] opacity-90">সুবহানাল্লাহি ওয়া বিহামদিহী</div>
+        <div className="mt-3 flex items-center gap-2">
+          <Gift className="h-4 w-4" />
+          <span className="text-[12px] font-bold">Prize pool 50,000৳</span>
+        </div>
+        <div className="mt-3 grid grid-cols-4 gap-1 text-center">
+          {[["6","DAYS"],["12","HRS"],["48","MIN"],["09","SEC"]].map(([n,l]) => (
+            <div key={l} className="rounded bg-white/20 py-1.5">
+              <div className="text-sm font-black">{n}</div>
+              <div className="text-[8px] opacity-80">{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+        <div className="text-[11px] font-semibold text-slate-700">Top 3 today</div>
+        <div className="mt-2 space-y-1.5 text-[11px]">
+          {[["1","Rahim","2,140"],["2","Aisha","1,980"],["3","Karim","1,720"]].map(([r,n,c]) => (
+            <div key={r} className="flex justify-between"><span>#{r} {n}</span><span className="font-bold">{c}</span></div>
+          ))}
+        </div>
+      </div>
+      <button className="w-full rounded-xl bg-amber-500 py-3 text-[13px] font-bold text-white">Start Tasbih</button>
+    </StepFrame>
+  );
+}
+
+function F2S2() {
+  return (
+    <StepFrame flow={2} step={2} title="Tasbih counter" bnTitle="কাউন্টার — সিজন কাউন্ট + আজীবন কাউন্ট">
+      <div className="grid place-items-center rounded-2xl bg-gradient-to-b from-amber-50 to-white p-4 ring-1 ring-amber-100">
+        <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700">Season count</div>
+        <div className="my-1 text-5xl font-black text-amber-600">847</div>
+        <div className="text-[10px] text-amber-700">Resets when season ends</div>
+        <div className="my-3 h-px w-full bg-amber-100" />
+        <div className="text-[10px] font-bold uppercase tracking-wider text-indigo-700">Lifetime count</div>
+        <div className="text-2xl font-black text-indigo-900">12,408 <InfinityIcon className="inline h-4 w-4" /></div>
+        <div className="text-[10px] text-indigo-700">Stays forever</div>
+      </div>
+      <button className="w-full rounded-2xl py-6 text-2xl font-black text-white" style={{ background: NAVY }}>
+        TAP +1
+      </button>
+      <div className="flex items-center justify-between rounded-xl bg-white p-2 text-[10px] ring-1 ring-slate-100">
+        <span className="text-slate-500">Your rank this season</span>
+        <span className="font-bold text-amber-700">#42 of 1,820</span>
+      </div>
+    </StepFrame>
+  );
+}
+
+function F2S3() {
+  return (
+    <StepFrame flow={2} step={3} title="Season leaderboard" bnTitle="সিজন লিডারবোর্ড — পুরস্কার টায়ার সহ">
+      <div className="rounded-xl bg-amber-50 p-2 text-center text-[10px] font-bold text-amber-800 ring-1 ring-amber-100">
+        Wizlife Ramadan · Top 10 win prizes
+      </div>
+      <div className="space-y-1.5">
+        {[
+          ["1","Rahim","42,140","🏆 25,000৳","amber"],
+          ["2","Aisha","38,980","🥈 12,000৳","slate"],
+          ["3","Karim","34,720","🥉 8,000৳","amber"],
+          ["4","Nadia","29,540","🎁 1,000৳","slate"],
+          ["5","Imran","27,210","🎁 1,000৳","slate"],
+        ].map(([r,n,c,p]) => (
+          <div key={r} className="flex items-center gap-2 rounded-lg bg-white p-2 ring-1 ring-slate-100">
+            <div className="grid h-7 w-7 place-items-center rounded-full bg-slate-100 text-[11px] font-bold">#{r}</div>
+            <div className="flex-1 text-[12px] font-semibold text-slate-800">{n}</div>
+            <div className="text-right">
+              <div className="text-[11px] font-bold text-slate-900">{c}</div>
+              <div className="text-[9px] text-amber-700">{p}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="rounded-xl bg-indigo-50 p-2.5 text-[11px] ring-1 ring-indigo-100">
+        <div className="font-bold text-indigo-900">You · #42</div>
+        <div className="text-indigo-700">8,420 · 218 to top 10</div>
+      </div>
+    </StepFrame>
+  );
+}
+
+function F2S4() {
+  return (
+    <StepFrame flow={2} step={4} title="Season ended" bnTitle="সিজন শেষ — বিজয়ী ও স্পন্সরের ধন্যবাদ">
+      <div className="overflow-hidden rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 p-4 text-center text-white">
+        <Crown className="mx-auto h-8 w-8" />
+        <div className="mt-1 text-[10px] font-bold uppercase tracking-wider opacity-80">Season 04 winner</div>
+        <div className="mt-1 text-lg font-black">Rahim Ahmed</div>
+        <div className="text-[11px] opacity-90">42,140 tasbih · 25,000৳</div>
+      </div>
+      <div className="rounded-xl bg-white p-3 text-center ring-1 ring-slate-100">
+        <div className="text-[10px] font-bold uppercase text-slate-500">Sponsor message</div>
+        <p className="bn mt-1 text-[11px] text-slate-700">"আলহামদুলিল্লাহ — আপনাদের সবাইকে অশেষ ধন্যবাদ।"</p>
+        <div className="mt-1 text-[10px] font-semibold text-slate-500">— Wizlife</div>
+      </div>
+      <div className="rounded-xl bg-amber-50 p-3 ring-1 ring-amber-100">
+        <div className="text-[10px] font-bold uppercase text-amber-700">Your final rank</div>
+        <div className="mt-0.5 text-2xl font-black text-amber-900">#42 <span className="text-xs font-semibold">of 1,820</span></div>
+        <div className="text-[11px] text-amber-700">Lifetime: 12,408 · stays with you</div>
+      </div>
+      <div className="text-center text-[10px] text-slate-500">Next season starts in 6 days · 🔔 we'll notify you</div>
+    </StepFrame>
+  );
+}
+
+/* =========================================================== */
+/*  FLOW 3 — Between seasons (room stays alive)                 */
+/* =========================================================== */
+
+function F3S1() {
+  return (
+    <StepFrame flow={3} step={1} title="Dormant state" bnTitle="সিজনের মাঝে — রুম জীবন্ত, পরের সিজন আসছে">
+      <div className="rounded-xl bg-gradient-to-br from-slate-700 to-slate-900 p-4 text-white">
+        <Pill tone="slate"><Clock className="h-2.5 w-2.5" />No active season</Pill>
+        <h3 className="bn mt-2 text-[14px] font-bold">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+        <div className="mt-3 rounded-lg bg-white/10 p-2.5">
+          <div className="text-[10px] uppercase opacity-80">Next season</div>
+          <div className="mt-0.5 text-[13px] font-bold">Eid Special — by Ifad</div>
+          <div className="mt-1 flex items-center gap-1 text-[11px] opacity-90"><Calendar className="h-3 w-3" /> Starts in 6 days</div>
+          <div className="mt-1 text-[11px] opacity-90"><Gift className="inline h-3 w-3" /> Prize 35,000৳</div>
+        </div>
+      </div>
+      <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+        <div className="text-[11px] font-semibold text-slate-700">Daily zikr keeps going</div>
+        <div className="mt-2 flex items-center justify-between">
+          <div>
+            <div className="text-2xl font-black text-emerald-700">12,408</div>
+            <div className="text-[10px] text-emerald-700">Your lifetime</div>
+          </div>
+          <button className="rounded-lg bg-emerald-600 px-3 py-2 text-[12px] font-bold text-white">Continue</button>
+        </div>
+      </div>
+      <button className="w-full rounded-xl bg-amber-500 py-2.5 text-[12px] font-bold text-white">🔔 Remind me when season starts</button>
+    </StepFrame>
+  );
+}
+
+function F3S2() {
+  return (
+    <StepFrame flow={3} step={2} title="Daily zikr · streak" bnTitle="প্রতিদিনের জিকর — স্ট্রিক চলমান">
+      <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-white p-4 ring-1 ring-emerald-100">
+        <div className="flex items-center justify-between">
+          <Pill tone="emerald">🔥 18-day streak</Pill>
+          <Heart className="h-4 w-4 text-rose-400" />
+        </div>
+        <div className="mt-3 grid place-items-center">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Lifetime</div>
+          <div className="text-4xl font-black text-emerald-900">12,408</div>
+          <div className="mt-0.5 inline-flex items-center gap-1 text-[10px] text-emerald-700">
+            <InfinityIcon className="h-3 w-3" /> +27 today
+          </div>
+        </div>
+      </div>
+      <button className="w-full rounded-2xl py-5 text-xl font-black text-white" style={{ background: NAVY }}>TAP +1</button>
+      <div className="grid grid-cols-7 gap-1">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <div key={i} className={`h-6 rounded ${i < 5 ? "bg-emerald-400" : "bg-slate-200"}`} />
+        ))}
+      </div>
+      <div className="text-center text-[10px] text-slate-500">Last 7 days</div>
+    </StepFrame>
+  );
+}
+
+function F3S3() {
+  return (
+    <StepFrame flow={3} step={3} title="Past sponsors" bnTitle="পুরনো স্পন্সর — সামাজিক প্রমাণ">
+      <SectionLabel>Hall of past sponsors</SectionLabel>
+      <div className="grid grid-cols-3 gap-2">
+        {["Wizlife","Ifad","ACI","Pran","Square","Bashundhara"].map(s => (
+          <div key={s} className="grid place-items-center rounded-lg bg-white p-2 text-center text-[10px] font-bold text-slate-700 ring-1 ring-slate-100">
+            <div className="grid h-8 w-8 place-items-center rounded bg-slate-100">🏷️</div>
+            <div className="mt-1">{s}</div>
+          </div>
+        ))}
+      </div>
+      <SectionLabel>Season recaps</SectionLabel>
+      {[
+        ["S03 · Wizlife","Winner: Rahim · 42K"],
+        ["S02 · Ifad","Winner: Sumi · 38K"],
+        ["S01 · ACI","Winner: Junaid · 31K"],
+      ].map(([t,d]) => (
+        <div key={t} className="flex items-center justify-between rounded-lg bg-white p-2 ring-1 ring-slate-100">
+          <div>
+            <div className="text-[12px] font-bold text-slate-900">{t}</div>
+            <div className="text-[10px] text-slate-500">{d}</div>
+          </div>
+          <ChevronRight className="h-4 w-4 text-slate-400" />
+        </div>
+      ))}
+    </StepFrame>
+  );
+}
+
+/* =========================================================== */
+/*  FLOW 4 — Admin schedules a season                           */
+/* =========================================================== */
+
+function F4S1() {
+  return (
+    <StepFrame flow={4} step={1} title="Admin · Permanent rooms" bnTitle="অ্যাডমিন — স্থায়ী রুমে সিজন যোগ">
+      <SectionLabel>Permanent rooms (sponsor-eligible)</SectionLabel>
+      {[
+        ["সুবহানাল্লাহি", "5,820", true],
+        ["দরুদে ইব্রাহীম", "3,140", false],
+        ["ইস্তেগফার", "2,406", false],
+        ["আলহামদুলিল্লাহ", "1,920", false],
+      ].map(([n,m,active]) => (
+        <div key={n as string} className="flex items-center gap-2 rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+          <div className="grid h-9 w-9 place-items-center rounded-lg bg-sky-100 text-base">📿</div>
+          <div className="min-w-0 flex-1">
+            <div className="bn truncate text-[12px] font-bold text-slate-900">{n}</div>
+            <div className="text-[10px] text-slate-500">{m} members · {active ? "Season live" : "No season"}</div>
+          </div>
+          {active ? (
+            <Pill tone="amber">Live</Pill>
+          ) : (
+            <button className="rounded-lg bg-sky-600 px-2.5 py-1 text-[10px] font-bold text-white">+ Season</button>
+          )}
+        </div>
+      ))}
+    </StepFrame>
+  );
+}
+
+function F4S2() {
+  return (
+    <StepFrame flow={4} step={2} title="New season form" bnTitle="নতুন সিজন তৈরি — তারিখ, পুরস্কার, স্পন্সর">
+      <div className="space-y-2">
+        <div className="rounded-lg bg-white p-2.5 ring-1 ring-slate-100">
+          <div className="text-[9px] font-bold uppercase text-slate-500">Room</div>
+          <div className="bn text-[12px] font-bold">দরুদে ইব্রাহীম</div>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="rounded-lg bg-white p-2 ring-1 ring-slate-100">
+            <div className="text-[9px] font-bold uppercase text-slate-500">Start</div>
+            <div className="text-[12px] font-bold">May 20</div>
+          </div>
+          <div className="rounded-lg bg-white p-2 ring-1 ring-slate-100">
+            <div className="text-[9px] font-bold uppercase text-slate-500">End</div>
+            <div className="text-[12px] font-bold">May 27</div>
+          </div>
+        </div>
+        <div className="rounded-lg bg-white p-2.5 ring-1 ring-slate-100">
+          <div className="text-[9px] font-bold uppercase text-slate-500">Sponsor</div>
+          <div className="mt-1 flex items-center gap-2">
+            <div className="grid h-7 w-7 place-items-center rounded bg-amber-100">🏷️</div>
+            <div className="text-[12px] font-bold">Ifad Group</div>
+          </div>
+        </div>
+        <div className="rounded-lg bg-white p-2.5 ring-1 ring-slate-100">
+          <div className="text-[9px] font-bold uppercase text-slate-500">Prize tiers</div>
+          <div className="mt-1 space-y-1 text-[11px]">
+            <div className="flex justify-between"><span>🥇 1st</span><span className="font-bold">25,000৳</span></div>
+            <div className="flex justify-between"><span>🥈 2nd</span><span className="font-bold">10,000৳</span></div>
+            <div className="flex justify-between"><span>🥉 3rd</span><span className="font-bold">5,000৳</span></div>
+          </div>
+        </div>
+      </div>
+      <button className="w-full rounded-xl bg-sky-600 py-3 text-[13px] font-bold text-white">Schedule season</button>
+    </StepFrame>
+  );
+}
+
+function F4S3() {
+  const days = Array.from({ length: 28 }, (_, i) => i + 1);
+  const booked = new Set([5, 6, 7, 8, 12, 13, 14, 20, 21, 22, 23, 24, 25, 26]);
+  return (
+    <StepFrame flow={4} step={3} title="Sponsor calendar" bnTitle="স্পন্সর ক্যালেন্ডার — কোন সপ্তাহ ফাঁকা">
+      <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+        <div className="flex items-center justify-between">
+          <div className="text-[12px] font-bold">May 2026</div>
+          <div className="flex gap-1 text-[10px]">
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded bg-amber-400" />Booked</span>
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded bg-emerald-400" />Free</span>
+          </div>
+        </div>
+        <div className="mt-2 grid grid-cols-7 gap-1 text-center">
+          {["S","M","T","W","T","F","S"].map((d,i) => <div key={i} className="text-[9px] font-bold text-slate-400">{d}</div>)}
+          {days.map(d => (
+            <div key={d} className={`grid h-7 place-items-center rounded text-[10px] font-semibold ${booked.has(d) ? "bg-amber-200 text-amber-900" : "bg-emerald-100 text-emerald-900"}`}>
+              {d}
+            </div>
+          ))}
+        </div>
+      </div>
+      <SectionLabel>Booked weeks</SectionLabel>
+      {[["May 5–11","Wizlife","সুবহানাল্লাহি"],["May 20–26","Ifad","দরুদে ইব্রাহীম"]].map(([w,s,r]) => (
+        <div key={w} className="rounded-lg bg-white p-2 ring-1 ring-slate-100">
+          <div className="text-[11px] font-bold">{w} · {s}</div>
+          <div className="bn text-[10px] text-slate-500">{r}</div>
+        </div>
+      ))}
+    </StepFrame>
+  );
+}
+
+function F4S4() {
+  return (
+    <StepFrame flow={4} step={4} title="Confirmed" bnTitle="নিশ্চিত — সদস্যদের নোটিফাই করা হবে">
+      <div className="grid place-items-center rounded-2xl bg-gradient-to-br from-sky-500 to-sky-700 p-5 text-center text-white">
+        <CheckCircle2 className="h-10 w-10" />
+        <div className="mt-2 text-[15px] font-black">Season scheduled</div>
+        <div className="text-[11px] opacity-90">Ifad · May 20 → 27</div>
+      </div>
+      <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+        <div className="text-[10px] font-bold uppercase text-slate-500">Will notify</div>
+        <div className="mt-1 flex items-center gap-2">
+          <Users className="h-4 w-4 text-sky-600" />
+          <span className="text-[13px] font-bold">3,140 forever members</span>
+        </div>
+        <div className="mt-1 text-[10px] text-slate-500">Push + in-app banner 24h before start</div>
+      </div>
+      <div className="rounded-xl bg-sky-50 p-3 ring-1 ring-sky-100 text-[11px] text-sky-800">
+        Estimated reach this season: <b>~8,400</b> impressions · <b>1,900</b> active participants
+      </div>
+      <button className="w-full rounded-xl py-2.5 text-[12px] font-bold text-white" style={{ background: NAVY }}>Back to admin</button>
+    </StepFrame>
+  );
+}
+
+/* =========================================================== */
+/*  FLOW 5 — Sponsor brand journey                              */
+/* =========================================================== */
+
+function F5S1() {
+  return (
+    <StepFrame flow={5} step={1} title="Sponsor onboarding" bnTitle="স্পন্সর — মানানসই রুম নির্বাচন">
+      <div className="rounded-xl bg-rose-50 p-3 ring-1 ring-rose-100">
+        <div className="text-[10px] font-bold uppercase text-rose-700">Welcome, Wizlife</div>
+        <div className="text-[12px] text-rose-900">Pick a permanent room aligned with your brand.</div>
+      </div>
+      {[
+        ["সুবহানাল্লাহি","5,820","65% age 25-44 · BD + KL","Best fit"],
+        ["দরুদে ইব্রাহীম","3,140","58% age 30-54 · BD","Good fit"],
+        ["ইস্তেগফার","2,406","48% age 18-34 · BD","Niche"],
+      ].map(([n,m,d,fit]) => (
+        <div key={n as string} className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+          <div className="flex items-center justify-between">
+            <div className="bn text-[13px] font-bold text-slate-900">{n}</div>
+            <Pill tone="rose">{fit}</Pill>
+          </div>
+          <div className="mt-1 text-[10px] text-slate-500"><Users className="inline h-3 w-3" /> {m} forever members</div>
+          <div className="text-[10px] text-slate-500"><MapPin className="inline h-3 w-3" /> {d}</div>
+          <button className="mt-2 w-full rounded-lg bg-rose-600 py-1.5 text-[11px] font-bold text-white">Select</button>
+        </div>
+      ))}
+    </StepFrame>
+  );
+}
+
+function F5S2() {
+  return (
+    <StepFrame flow={5} step={2} title="Book a season" bnTitle="বুকিং — সপ্তাহ, পুরস্কার, ক্রিয়েটিভ">
+      <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+        <div className="text-[10px] font-bold uppercase text-slate-500">Selected room</div>
+        <div className="bn text-[12px] font-bold">সুবহানাল্লাহি ওয়া বিহামদিহী</div>
+      </div>
+      <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+        <div className="text-[10px] font-bold uppercase text-slate-500">Choose week</div>
+        <div className="mt-2 grid grid-cols-2 gap-2 text-[11px]">
+          {[["May 5–11","Free","emerald"],["May 12–18","Free","emerald"],["May 20–26","Booked","slate"],["May 27–Jun 2","Free","emerald"]].map(([w,s,t]) => (
+            <button key={w} className={`rounded-lg border-2 p-2 text-left ${t === "emerald" ? "border-emerald-400 bg-emerald-50" : "border-slate-200 bg-slate-50 opacity-60"}`}>
+              <div className="font-bold">{w}</div>
+              <div className="text-[10px]">{s}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+        <div className="text-[10px] font-bold uppercase text-slate-500">Prize pool</div>
+        <div className="mt-1 flex items-center gap-2">
+          <Gift className="h-4 w-4 text-amber-600" />
+          <span className="text-[14px] font-black text-slate-900">50,000৳</span>
+        </div>
+        <div className="mt-2 flex items-center gap-2 rounded-lg border border-dashed border-slate-300 p-2 text-[11px] text-slate-500">
+          <Upload className="h-3.5 w-3.5" /> Upload banner creative
+        </div>
+      </div>
+      <div className="rounded-xl bg-rose-50 p-3 ring-1 ring-rose-100 text-[11px] text-rose-800">
+        Estimated reach <b>~24,380</b> · est. clicks <b>~3,140</b>
+      </div>
+      <button className="w-full rounded-xl bg-rose-600 py-3 text-[13px] font-bold text-white">Confirm & Pay</button>
+    </StepFrame>
+  );
+}
+
+function F5S3() {
+  return (
+    <StepFrame flow={5} step={3} title="Live campaign dashboard" bnTitle="লাইভ ক্যাম্পেইন — মূল রিপোর্ট">
+      <div className="rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 p-3 text-white">
+        <div className="flex items-center justify-between">
+          <Pill tone="rose">Live · Day 3 of 7</Pill>
+          <BarChart3 className="h-4 w-4 opacity-90" />
+        </div>
+        <div className="mt-1 text-[12px] font-bold">Wizlife Ramadan</div>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {[["Reach","24,380","+18%"],["Active","1,820","+9%"],["Clicks","3,140","+22%"],["Visits","612","+5%"]].map(([l,v,d]) => (
+          <div key={l} className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+            <div className="text-[9px] font-bold uppercase text-slate-500">{l}</div>
+            <div className="text-base font-black text-slate-900">{v}</div>
+            <div className="text-[10px] font-bold text-emerald-600">▲ {d}</div>
+          </div>
+        ))}
+      </div>
+      <div className="rounded-xl bg-white p-3 ring-1 ring-slate-100">
+        <div className="text-[10px] font-bold uppercase text-slate-500">Growth · last 7 days</div>
+        <svg viewBox="0 0 200 50" className="mt-1 h-12 w-full">
+          <defs>
+            <linearGradient id="v2g" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stopColor="#f43f5e" stopOpacity="0.5" />
+              <stop offset="1" stopColor="#f43f5e" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path d="M0,40 L30,32 L60,28 L90,22 L120,18 L150,12 L180,8 L200,5 L200,50 L0,50 Z" fill="url(#v2g)" />
+          <path d="M0,40 L30,32 L60,28 L90,22 L120,18 L150,12 L180,8 L200,5" fill="none" stroke="#f43f5e" strokeWidth="1.5" />
+        </svg>
+      </div>
+      <button className="w-full rounded-xl py-2.5 text-[12px] font-bold text-white" style={{ background: NAVY }}>
+        <Eye className="mr-1 inline h-3.5 w-3.5" /> View full report
+      </button>
+    </StepFrame>
+  );
+}
+
+/* ---------- the deck ---------- */
+
+function V2FlowDeck() {
+  return (
+    <div>
+      <header className="mb-10 text-center">
+        <h1 className="text-2xl font-bold text-slate-900">Sponsor Modality — Flow-wise Design</h1>
+        <p className="mt-1 text-sm text-slate-500">
+          Permanent rooms + temporary sponsor seasons. Five user flows, end to end.
+        </p>
+      </header>
+
+      <FlowRow flow={1} title="Member discovers & joins a permanent room"
+        bn="সদস্য একটি স্থায়ী রুম খুঁজে পান, যোগ দেন এবং আজীবন সদস্য হয়ে যান।">
+        <F1S1 /><F1S2 /><F1S3 /><F1S4 />
+      </FlowRow>
+
+      <FlowRow flow={2} title="A sponsor season is live"
+        bn="সিজন চলছে — ব্যানার, কাউন্টার, লিডারবোর্ড এবং বিজয়ী ঘোষণা।">
+        <F2S1 /><F2S2 /><F2S3 /><F2S4 />
+      </FlowRow>
+
+      <FlowRow flow={3} title="Between seasons — the room stays alive"
+        bn="দুই সিজনের মাঝেও রুম জীবন্ত থাকে, দৈনন্দিন জিকর চলে।">
+        <F3S1 /><F3S2 /><F3S3 />
+      </FlowRow>
+
+      <FlowRow flow={4} title="Admin schedules a new season"
+        bn="অ্যাডমিন একটি স্থায়ী রুমে নতুন সিজন তৈরি করেন।">
+        <F4S1 /><F4S2 /><F4S3 /><F4S4 />
+      </FlowRow>
+
+      <FlowRow flow={5} title="Sponsor brand journey"
+        bn="ব্র্যান্ড উপযুক্ত রুম বেছে নেয়, সপ্তাহ বুক করে, লাইভ রিপোর্ট দেখে।">
+        <F5S1 /><F5S2 /><F5S3 />
+      </FlowRow>
     </div>
   );
 }
