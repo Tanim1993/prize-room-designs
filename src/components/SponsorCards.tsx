@@ -6031,7 +6031,7 @@ function ChannelCardV6() {
 /* ================================================================== */
 
 const SECTION_LINKS: { id: string; label: string }[] = [
-  { id: "sec-final", label: "★ Final Selection" },
+  
   { id: "sec-sponsored", label: "Sponsored Patterns" },
   { id: "sec-room-detail", label: "Room Details" },
   { id: "sec-home", label: "Home Page" },
