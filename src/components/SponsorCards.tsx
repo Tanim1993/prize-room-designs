@@ -1294,7 +1294,8 @@ export default function SponsorCards() {
       <div className="mx-auto max-w-[1800px]">
         {view === "v2" && <V2FlowDeck />}
         {view === "v1" && (<>
-        <header className="mb-8 text-center">
+        <SectionNav />
+        <header id="sec-sponsored" className="mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsored / Prize Room — In-App Patterns</h1>
           <p className="mt-1 text-sm text-slate-500">
             Five sponsor + prize card patterns shown inside your real Zikr Rooms feed for direct comparison.
@@ -1313,7 +1314,7 @@ export default function SponsorCards() {
           ))}
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-room-detail" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Room Details Page — Sponsor Patterns</h1>
           <p className="mt-1 text-sm text-slate-500">
             Three approaches to surface sponsor branding, ads & sliders inside the room detail screen.
@@ -1325,7 +1326,7 @@ export default function SponsorCards() {
           <DetailFrame label="Variant C · Sticky sponsor footer + inline ad"><RoomDetailC /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-home" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Home Page — Design Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
             Three home screen directions: gamified dark, calm minimal, and modern card stack.
@@ -1341,7 +1342,7 @@ export default function SponsorCards() {
           <DetailFrame label="Home 7 · Focused Streak"><HomeV7 /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-admin" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Admin · Create Featured Room</h1>
           <p className="mt-1 text-sm text-slate-500">
             Redesigned admin flow — all required fields organised into clear sections with a live preview.
@@ -1349,7 +1350,7 @@ export default function SponsorCards() {
         </header>
         <AdminCreateRoom />
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-lb-variants" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Room Leaderboard — Design Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
             Four directions for ranking + weekly winners hall of fame.
@@ -1362,7 +1363,7 @@ export default function SponsorCards() {
           <DetailFrame label="LB 4 · Timeline of Champions"><LeaderboardV4 /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-lb-organic" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Room Leaderboard — Organic vs Running Session</h1>
           <p className="mt-1 text-sm text-slate-500">
             Two contexts: <b>Organic</b> (no sponsor — lifetime zikr, streaks, community pride) and <b>Running Session</b> (active sponsored season — countdown, prize tiers, live rank).
@@ -1375,7 +1376,7 @@ export default function SponsorCards() {
           <DetailFrame label="Running B · Tiered Podium + Countdown"><LBRunningB /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-channel-cards" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Channel Card — Variants <span className="bn text-slate-500">— চ্যানেল কার্ড</span></h1>
           <p className="mt-1 text-sm text-slate-500">
             Wide horizontal cards for the <b>Featured / Public / My Rooms</b> tabs. Navy · white · gold palette. ~400px wide, varying heights.
@@ -1390,7 +1391,7 @@ export default function SponsorCards() {
           <ChannelVariantFrame label="V6 · Sponsored / Featured"><ChannelCardV6 /></ChannelVariantFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-flow0" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Flow 0 · Channel → Room hierarchy <span className="bn text-slate-500">— চ্যানেল → রুম কাঠামো</span></h1>
           <p className="mt-1 text-sm text-slate-500">
             How a zikr <b>Channel</b> contains many <b>Rooms</b>, and how a <b>Season</b> lives inside a room. Each room rolls up into the channel's lifetime total.
@@ -1405,7 +1406,7 @@ export default function SponsorCards() {
           <DetailFrame label="0.6 · Create room sheet"><H6CreateRoom /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-lb-flow" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Leaderboard Flow — User Journey</h1>
           <p className="mt-1 text-sm text-slate-500">
             What happens when a member taps the <b>Leaderboard</b> button — across organic, running session, and post-session states. Step-by-step.
@@ -1420,7 +1421,7 @@ export default function SponsorCards() {
           <DetailFrame label="⑥ History · Single season recap"><LBFlow6 /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-sponsor-channel" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsor Channel / Profile — Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
             Tapping a sponsor banner opens a channel page (YouTube-style) with bio, stats, and all rooms by that sponsor.
@@ -1432,7 +1433,7 @@ export default function SponsorCards() {
           <DetailFrame label="Sponsor 3 · Magazine / Editorial"><SponsorChannelV3 /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-analytics" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsor Analytics — Brand Report</h1>
           <p className="mt-1 text-sm text-slate-500">
             Report the app owner shows to a sponsor brand for their aligned room — demographics, engagement, growth.
@@ -5955,5 +5956,88 @@ function ChannelCardV6() {
         </button>
       </div>
     </div>
+  );
+}
+
+/* ================================================================== */
+/*  SectionNav — fixed left-side jump menu (V1 view)                  */
+/* ================================================================== */
+
+const SECTION_LINKS: { id: string; label: string }[] = [
+  { id: "sec-sponsored", label: "Sponsored Patterns" },
+  { id: "sec-room-detail", label: "Room Details" },
+  { id: "sec-home", label: "Home Page" },
+  { id: "sec-admin", label: "Admin · Create Room" },
+  { id: "sec-lb-variants", label: "Leaderboard Variants" },
+  { id: "sec-lb-organic", label: "Organic vs Running" },
+  { id: "sec-channel-cards", label: "Channel Cards" },
+  { id: "sec-flow0", label: "Flow 0 · Hierarchy" },
+  { id: "sec-lb-flow", label: "Leaderboard Flow" },
+  { id: "sec-sponsor-channel", label: "Sponsor Channel" },
+  { id: "sec-analytics", label: "Sponsor Analytics" },
+];
+
+function SectionNav() {
+  const [active, setActive] = useState<string>(SECTION_LINKS[0].id);
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
+    );
+    SECTION_LINKS.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <nav className="fixed left-3 top-1/2 z-40 hidden -translate-y-1/2 lg:block">
+      <div className="flex items-start gap-2">
+        <div className={`overflow-hidden rounded-2xl bg-white/95 shadow-[0_12px_40px_-12px_rgba(15,23,42,0.25)] ring-1 ring-slate-200 backdrop-blur transition-all ${open ? "w-[210px] opacity-100" : "w-0 opacity-0"}`}>
+          <div className="border-b border-slate-100 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+            Jump to
+          </div>
+          <ul className="max-h-[70vh] overflow-y-auto py-1.5">
+            {SECTION_LINKS.map((s, i) => {
+              const isActive = active === s.id;
+              return (
+                <li key={s.id}>
+                  <a
+                    href={`#${s.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById(s.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                    className={`flex items-center gap-2 px-3 py-1.5 text-[11.5px] font-semibold transition ${
+                      isActive ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold ${isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"}`}>
+                      {i + 1}
+                    </span>
+                    {s.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <button
+          onClick={() => setOpen((o) => !o)}
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg ring-1 ring-black/10 hover:bg-slate-800"
+          aria-label={open ? "Hide menu" : "Show menu"}
+        >
+          {open ? <ChevronRight className="h-4 w-4 rotate-180" /> : <ChevronRight className="h-4 w-4" />}
+        </button>
+      </div>
+    </nav>
   );
 }
