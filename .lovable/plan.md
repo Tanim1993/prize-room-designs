@@ -1,81 +1,65 @@
-# Sponsor Brand Analytics Report — Design Variant
+## V2 — Flow-wise FE Design (Permanent Rooms + Seasons + Sponsor)
 
-A new exploration variant in `SponsorCards.tsx`, shown inside the same `PhoneFrame` as the existing concepts. This is the report screen the **app owner shows a sponsor brand** for the room their brand is aligned with (e.g. Wizlife → "সুবহানাল্লাহি" room).
+Add a **V1 / V2 toggle** at the very top of `SponsorCards.tsx`. V1 = current long exploration page (untouched). V2 = a clean, **flow-wise** screen layout that walks through the modality end-to-end. FE only, mocked data, no DB, no routes added.
 
-Goal: in one scrollable mobile screen, the brand sees *who* engaged, *where they came from*, *what they did*, and *whether the room is growing*.
+### Toggle
 
-## Where it lives
-
-- New section at the bottom of `SponsorCards.tsx` titled **"Sponsor Analytics — Brand Report"**.
-- Rendered inside a `PhoneFrame` labeled `R1 — Sponsor Report`.
-- Replaces the normal room-feed body with a report layout (header + KPI grid + sections). Bottom nav stays so the app shell stays consistent.
-- Uses existing tokens: `NAVY`, `FEATURED_YELLOW`, lucide icons, no new deps. Tiny inline SVG for charts (no recharts) to keep it lightweight and on-brand.
-
-## Layout (top → bottom)
-
+Sticky bar at top of the page:
 ```text
-┌──────────────────────────────────────────┐
-│ Report header                            │
-│  Wizlife logo · "Brand Report"           │
-│  Room: সুবহানাল্লাহি · Last 30 days ▾   │
-├──────────────────────────────────────────┤
-│ KPI grid (2×2)                           │
-│  Total reach 24,380   ▲ 18%              │
-│  Active members 1,820 ▲ 9%               │
-│  Click-through 3,140  ▲ 22%              │
-│  Sponsor visits 612   ▲ 5%               │
-├──────────────────────────────────────────┤
-│ Growth — area sparkline (30d)            │
-│  + new joins / churned split below       │
-├──────────────────────────────────────────┤
-│ Audience: Age                            │
-│  Stacked horizontal bars 13-17 … 55+     │
-├──────────────────────────────────────────┤
-│ Audience: Gender                         │
-│  Donut + legend (M / F / Other)          │
-├──────────────────────────────────────────┤
-│ Top locations                            │
-│  Country rows w/ flag, %, bar            │
-│  Dhaka, Chattogram, Sylhet, KL, Riyadh   │
-├──────────────────────────────────────────┤
-│ Engagement funnel                        │
-│  Impressions → Visits → Joined → Active  │
-├──────────────────────────────────────────┤
-│ Members: New vs Returning                │
-│  Two stat cards + 7-day mini bars        │
-├──────────────────────────────────────────┤
-│ Footer: "Download PDF" · "Share report"  │
-└──────────────────────────────────────────┘
+[ V1 · Exploration ]  [ V2 · Flow-wise ▸ ]
 ```
+`useState<'v1'|'v2'>('v2')` — V2 is the new default so user lands on it. V1 stays available so nothing is lost.
 
-## Sections in detail
+### V2 layout — grouped by user flow
 
-1. **Report header** — navy band like the existing P3 hero. Sponsor logo, "Brand Report" eyebrow, room name in Bengali, date-range chip (`Last 30 days`).
-2. **KPI grid** — 2×2 white cards. Each: label, big number, ▲/▼ delta vs previous period (emerald / rose). Metrics: Total reach, Active members, Click-through, Sponsor profile visits.
-3. **Growth** — full-width card. Inline SVG area sparkline (30 points). Below: two pills `+412 new joins`, `−38 left`, plus net growth %.
-4. **Age demographics** — horizontal stacked bars per bucket (13-17, 18-24, 25-34, 35-44, 45-54, 55+). Each bar shows % and count on hover-equivalent (static label on right).
-5. **Gender** — SVG donut (Male / Female / Other) with legend and counts.
-6. **Top locations** — list rows: flag emoji + city/country + % share + thin bar. Mix of BD cities + diaspora (KL, Riyadh, London).
-7. **Engagement funnel** — 4 descending bars: Impressions → Room visits → Joined → Active 7d. Show absolute number + conversion % between steps.
-8. **New vs Returning members** — two side-by-side stat cards with 7-day mini bar charts. Highlights retention story for the sponsor.
-9. **Footer actions** — secondary "Download PDF" and primary navy "Share report" button. Non-functional (design exploration only).
+Each flow = one horizontal row of `PhoneFrame`s, left → right = step 1 → step N. Section header above each row explains the flow in one line (EN + BN). Same `PhoneFrame` look as today.
 
-## Visual rules
+**Flow 1 — Member discovers & joins a permanent room** (4 screens)
+1. Home → "Permanent Rooms" rail with "Forever" badge
+2. Room detail → hero shows lifetime member count + "Powered by" past sponsors strip
+3. Join confirmation → "You're a forever member" with lifetime counter intro
+4. Post-join home → joined room pinned, shows current season banner
 
-- Match existing aesthetic: white cards, `rounded-2xl`, soft shadow `shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]`, navy header band, amber/gold for sponsor accents, emerald for positive deltas, rose-500 for negative.
-- All numbers are **mocked** inline constants — clearly fake but plausible (24,380 / 1,820 / etc.).
-- All charts are **inline SVG** (sparkline, donut, bars) — no chart library. Keeps bundle small and matches the hand-crafted feel of the other variants.
-- Bengali text reuses the `bn` class already in the file for room name.
+**Flow 2 — Season is live (competition active)** (4 screens)
+1. Room with **Season banner**: sponsor logo, prize, countdown ("ends in 3d 14h")
+2. Tasbih counter screen → split counter: *Season count* (resets) vs *Lifetime count* (forever)
+3. Season leaderboard → top 10 with prize tier badges + your rank
+4. Season ended → winner announcement card + "Sponsor thanks you" + your final rank
 
-## Files touched
+**Flow 3 — Between seasons (room stays alive)** (3 screens)
+1. Room detail in **dormant state** → "No active season" + "Next season starts in 6 days" teaser
+2. Daily zikr still works → lifetime counter keeps incrementing, streak intact
+3. "Past sponsors" wall → grid of previous brand logos + season recaps (social proof for next sponsor)
 
-- `src/components/SponsorCards.tsx` — add the new section + helper components (`SponsorReport`, `KpiCard`, `Sparkline`, `Donut`, `BarRow`, `FunnelStep`). Append to the existing default-exported page so it shows up at the bottom of the current preview at `/`.
+**Flow 4 — Admin creates a season on a permanent room** (4 screens)
+1. Admin → list of permanent rooms with "Add season" button
+2. Season form → start/end date, prize, sponsor pick, prize tiers
+3. Sponsor calendar view → month grid showing booked vs free slots per room
+4. Confirmation → "Season scheduled, members will be notified"
 
-No new routes, no new assets, no dependency changes, no backend.
+**Flow 5 — Sponsor brand journey** (3 screens)
+1. Sponsor onboarding → pick aligned room (সুবহানাল্লাহি / দরুদ / ইস্তেগফার…) with audience snapshot per room
+2. Booking screen → pick week, set prize, upload creative, see estimated reach
+3. Live campaign dashboard → mini version of existing Brand Report (reuse `SponsorReport` component, scaled)
 
-## Out of scope
+### Visual rules (consistent across flows)
 
-- Real data wiring, auth, role gating ("only app owner sees this").
-- PDF export / share functionality.
-- Multi-room selector, comparisons across rooms, time-range picker logic.
-- Desktop/tablet layout — mobile phone-frame only, matching the rest of this exploration file.
+- Reuse `PhoneFrame`, `NAVY`, `FEATURED_YELLOW`, existing `bn` Bengali class, lucide icons, inline SVG charts.
+- Numbered step chip (`1`, `2`, `3`…) on top-left corner of each PhoneFrame so the flow direction is obvious.
+- Faint connector arrow `→` between phones in a row.
+- Section header format: `Flow N · {English title} — {Bengali subtitle}`.
+- White cards, `rounded-2xl`, `shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]` — same as current.
+
+### File changes
+
+- `src/components/SponsorCards.tsx` only:
+  - Wrap current return body in `{view === 'v1' && (<>…current JSX…</>)}`.
+  - Add `{view === 'v2' && (<V2FlowDeck />)}` block.
+  - Add sticky toggle bar at top of the outer container.
+  - New components inside same file: `V2FlowDeck`, `FlowRow`, `StepFrame` (PhoneFrame + step number + arrow), and the ~18 small screen components (`F1S1`…`F5S3`). Keep each screen short (~40-80 lines) — they are visual mockups, not functional.
+
+No new files, no new routes, no deps, no backend.
+
+### Out of scope
+
+- Any DB schema, Cloud enable, real navigation between screens, real countdown logic, role gating, real sponsor booking, PDF export.
