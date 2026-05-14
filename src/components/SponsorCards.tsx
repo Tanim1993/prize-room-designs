@@ -1406,7 +1406,7 @@ export default function SponsorCards() {
           <DetailFrame label="0.6 · Create room sheet"><H6CreateRoom /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-lb-flow" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Leaderboard Flow — User Journey</h1>
           <p className="mt-1 text-sm text-slate-500">
             What happens when a member taps the <b>Leaderboard</b> button — across organic, running session, and post-session states. Step-by-step.
