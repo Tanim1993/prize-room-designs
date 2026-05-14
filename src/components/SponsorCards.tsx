@@ -1421,7 +1421,7 @@ export default function SponsorCards() {
           <DetailFrame label="⑥ History · Single season recap"><LBFlow6 /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-sponsor-channel" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsor Channel / Profile — Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
             Tapping a sponsor banner opens a channel page (YouTube-style) with bio, stats, and all rooms by that sponsor.
