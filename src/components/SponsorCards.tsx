@@ -1363,7 +1363,7 @@ export default function SponsorCards() {
           <DetailFrame label="LB 4 · Timeline of Champions"><LeaderboardV4 /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-lb-organic" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Room Leaderboard — Organic vs Running Session</h1>
           <p className="mt-1 text-sm text-slate-500">
             Two contexts: <b>Organic</b> (no sponsor — lifetime zikr, streaks, community pride) and <b>Running Session</b> (active sponsored season — countdown, prize tiers, live rank).
