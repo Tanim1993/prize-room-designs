@@ -6059,3 +6059,301 @@ function SectionNav() {
     </nav>
   );
 }
+
+/* ================================================================== */
+/*  AdminCreateChannel — desktop admin form                           */
+/* ================================================================== */
+
+function AdminCreateChannel() {
+  const palette = [
+    "from-emerald-500 to-teal-600",
+    "from-sky-500 to-indigo-600",
+    "from-amber-500 to-orange-600",
+    "from-rose-500 to-pink-600",
+    "from-violet-500 to-purple-600",
+    "from-cyan-500 to-blue-600",
+  ];
+  const activeColor = palette[2];
+
+  return (
+    <div className="mx-auto w-full max-w-[1200px] rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
+      {/* Top bar */}
+      <div className="mb-6 flex items-center justify-between rounded-2xl bg-white p-4 ring-1 ring-slate-200">
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Admin Console</div>
+          <div className="text-lg font-bold text-slate-900">Create New Channel</div>
+        </div>
+        <div className="flex items-center gap-2">
+          <button className="rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50">Save draft</button>
+          <button className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ background: NAVY }}>
+            Publish channel
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_440px]">
+        {/* LEFT — Form */}
+        <div className="space-y-5">
+          {/* Section 1 — Identity */}
+          <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>1</div>
+              <div className="text-sm font-bold text-slate-900">Channel identity</div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Channel name (Bangla)</label>
+                <input className="bn w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="দরুদ শরীফ" />
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Channel name (English)</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="Durood Sharif" />
+              </div>
+              <div className="col-span-2">
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Zikr text (Arabic)</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-right text-sm" defaultValue="اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ" dir="rtl" />
+              </div>
+              <div className="col-span-2">
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Short description</label>
+                <textarea rows={2} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="Sending blessings upon the Prophet ﷺ — recited together by rooms worldwide." />
+              </div>
+              <div className="col-span-2">
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Channel color</label>
+                <div className="flex flex-wrap gap-2">
+                  {palette.map((p, i) => (
+                    <div key={p} className={`relative h-9 w-14 rounded-lg bg-gradient-to-br ${p} ${p === activeColor ? "ring-2 ring-offset-2" : ""}`} style={p === activeColor ? { boxShadow: `0 0 0 2px ${NAVY}` } : undefined}>
+                      {p === activeColor && <CheckCircle2 className="absolute right-1 top-1 h-3.5 w-3.5 text-white" />}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 2 — Sponsor & Banner */}
+          <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>2</div>
+              <div className="text-sm font-bold text-slate-900">Sponsor & banner</div>
+              <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800">Optional</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Sponsor name</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="Bismillah Foundation" />
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Sponsor website</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="bismillah.org" />
+              </div>
+              <div className="col-span-2">
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  Channel banner <span className="ml-1 font-normal normal-case text-slate-400">— exactly 400 × 90 px</span>
+                </label>
+                <div className="flex items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-4">
+                  <div className="flex h-[90px] w-[400px] items-center justify-center rounded-lg bg-white text-center ring-1 ring-slate-200">
+                    <div>
+                      <Upload className="mx-auto h-5 w-5 text-slate-400" />
+                      <div className="mt-1 text-[11px] font-semibold text-slate-700">Drop banner · 400×90</div>
+                      <div className="text-[10px] text-slate-400">PNG, JPG · max 200 KB</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Sponsor logo</label>
+                <div className="flex items-center gap-2 rounded-lg border border-slate-200 p-2">
+                  <div className="flex h-10 w-10 items-center justify-center rounded bg-slate-100"><Upload className="h-4 w-4 text-slate-400" /></div>
+                  <div className="text-[11px] text-slate-500">Square · 96×96+</div>
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Banner CTA URL</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="https://…" />
+              </div>
+            </div>
+          </section>
+
+          {/* Section 3 — Prize */}
+          <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>3</div>
+              <div className="text-sm font-bold text-slate-900">Prize pool</div>
+              <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800">Optional</span>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Prize amount</label>
+                <div className="flex items-center rounded-lg border border-slate-200">
+                  <span className="px-2 text-sm text-slate-500">৳</span>
+                  <input className="w-full rounded-r-lg px-2 py-2 text-sm outline-none" defaultValue="15,000" />
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Prize type</label>
+                <select className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm">
+                  <option>Cash bKash</option>
+                  <option>Gift hamper</option>
+                  <option>Donation in name</option>
+                </select>
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Winners</label>
+                <select className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm">
+                  <option>Top 3</option>
+                  <option>Top 10</option>
+                  <option>Top 1</option>
+                </select>
+              </div>
+              <div className="col-span-3">
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Prize note (shown on cards)</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="Top 3 reciters split ৳15,000 — paid weekly via bKash." />
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* RIGHT — Live preview */}
+        <aside className="space-y-4">
+          <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-200">
+            <div className="mb-3 flex items-center gap-2">
+              <Eye className="h-4 w-4 text-slate-500" />
+              <div className="text-sm font-bold text-slate-900">Live preview</div>
+            </div>
+
+            {/* Channel card preview */}
+            <div className={`rounded-2xl bg-gradient-to-br ${activeColor} p-4 text-white shadow-sm`}>
+              <div className="bn text-[16px] font-extrabold leading-tight">দরুদ শরীফ</div>
+              <div className="text-[10.5px] opacity-90">Durood Sharif</div>
+              <div className="mt-3 flex items-end justify-between">
+                <div>
+                  <div className="text-[9px] uppercase opacity-80">Lifetime</div>
+                  <div className="text-[18px] font-black tabular-nums">0</div>
+                </div>
+                <div className="rounded-full bg-white/20 px-2 py-0.5 text-[9.5px] font-bold backdrop-blur">🔴 0 live</div>
+              </div>
+            </div>
+
+            {/* Banner 400x90 preview (scaled) */}
+            <div className="mt-4">
+              <div className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">Banner · 400×90</div>
+              <div className="overflow-hidden rounded-xl ring-1 ring-slate-200">
+                <div
+                  className="flex h-[90px] w-[400px] items-center gap-3 px-4 text-white"
+                  style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4F7A)`, maxWidth: "100%" }}
+                >
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white/15 ring-1 ring-white/30">
+                    <Crown className="h-6 w-6" style={{ color: GOLD }} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[10px] uppercase tracking-wider opacity-75">Sponsored by</div>
+                    <div className="truncate text-[13px] font-extrabold">Bismillah Foundation</div>
+                    <div className="truncate text-[10.5px] opacity-85">Top 3 split ৳15,000 weekly</div>
+                  </div>
+                  <button className="rounded-full px-3 py-1 text-[10.5px] font-bold" style={{ background: GOLD, color: NAVY }}>
+                    Join
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Prize card preview */}
+            <div className="mt-4 rounded-xl p-3 ring-1" style={{ background: `${GOLD_SOFT}30`, borderColor: GOLD, boxShadow: `inset 0 0 0 1px ${GOLD}` }}>
+              <div className="flex items-center gap-2">
+                <Trophy className="h-4 w-4" style={{ color: NAVY }} />
+                <div className="text-[12px] font-extrabold" style={{ color: NAVY }}>৳15,000 prize pool</div>
+              </div>
+              <div className="mt-1 text-[10.5px]" style={{ color: NAVY, opacity: 0.75 }}>
+                Top 3 reciters · paid weekly via bKash
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-white p-4 text-[11px] text-slate-500 ring-1 ring-slate-200">
+            <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-700">
+              <ShieldCheck className="h-3.5 w-3.5" /> Channels are permanent
+            </div>
+            Once published, a channel cannot be deleted — only archived. Sponsor & prize can rotate per season.
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  H6CreateRoomV2 — phone sheet, channel-aware                       */
+/* ================================================================== */
+
+function H6CreateRoomV2() {
+  const [selected, setSelected] = useState("Durood");
+  const channels = CHANNELS.slice(0, 4);
+
+  return (
+    <div className="relative flex h-full flex-col">
+      <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, ${NAVY}cc, #0F172Acc)` }} />
+      <div className="relative mt-auto rounded-t-3xl bg-white p-4 shadow-2xl">
+        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-slate-200" />
+        <div className="mb-1 text-center text-[14px] font-extrabold text-slate-900">Create a room</div>
+        <div className="mb-3 text-center text-[10px] text-slate-500">Pick a channel · invite people · start reciting</div>
+
+        <div className="space-y-3">
+          {/* Channel picker */}
+          <div>
+            <div className="mb-1 flex items-center justify-between">
+              <div className="text-[9.5px] font-semibold uppercase tracking-wider text-slate-500">Channel</div>
+              <div className="text-[9px] text-slate-400">Zikr is set by the channel</div>
+            </div>
+            <div className="grid grid-cols-2 gap-1.5">
+              {channels.map((c) => {
+                const active = c.en === selected;
+                return (
+                  <button
+                    key={c.en}
+                    onClick={() => setSelected(c.en)}
+                    className={`relative overflow-hidden rounded-xl bg-gradient-to-br ${c.color} p-2 text-left text-white ${active ? "ring-2 ring-offset-1" : "opacity-80"}`}
+                    style={active ? { boxShadow: `0 0 0 2px ${GOLD}` } : undefined}
+                  >
+                    <div className="bn text-[11px] font-extrabold leading-tight">{c.bn}</div>
+                    <div className="text-[8.5px] opacity-90">{c.en} · {c.live} live</div>
+                    {active && (
+                      <CheckCircle2 className="absolute right-1 top-1 h-3.5 w-3.5" style={{ color: GOLD }} />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Room name */}
+          <div>
+            <div className="mb-1 text-[9.5px] font-semibold uppercase tracking-wider text-slate-500">Room name</div>
+            <div className="rounded-xl bg-slate-50 px-3 py-2 text-[12px] text-slate-800 ring-1 ring-slate-200">Family Circle</div>
+          </div>
+
+          {/* Privacy */}
+          <div>
+            <div className="mb-1 text-[9.5px] font-semibold uppercase tracking-wider text-slate-500">Privacy</div>
+            <div className="grid grid-cols-3 gap-1.5 text-[10.5px] font-semibold">
+              <div className="rounded-lg py-1.5 text-center text-white" style={{ background: NAVY }}>Private</div>
+              <div className="rounded-lg bg-slate-100 py-1.5 text-center text-slate-600">Community</div>
+              <div className="rounded-lg bg-slate-100 py-1.5 text-center text-slate-600">Public</div>
+            </div>
+          </div>
+
+          {/* Locked channel chip — informational */}
+          <div className="flex items-center gap-1.5 rounded-lg bg-slate-50 px-2.5 py-1.5 ring-1 ring-slate-200">
+            <Lock className="h-3 w-3 text-slate-500" />
+            <span className="text-[10px] text-slate-600">
+              Room belongs to <b>{selected}</b> · zikr inherited from channel
+            </span>
+          </div>
+
+          <button className="mt-1 w-full rounded-xl py-2.5 text-[12px] font-bold text-white" style={{ background: NAVY }}>
+            Create room
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
