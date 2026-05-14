@@ -5958,3 +5958,86 @@ function ChannelCardV6() {
     </div>
   );
 }
+
+/* ================================================================== */
+/*  SectionNav — fixed left-side jump menu (V1 view)                  */
+/* ================================================================== */
+
+const SECTION_LINKS: { id: string; label: string }[] = [
+  { id: "sec-sponsored", label: "Sponsored Patterns" },
+  { id: "sec-room-detail", label: "Room Details" },
+  { id: "sec-home", label: "Home Page" },
+  { id: "sec-admin", label: "Admin · Create Room" },
+  { id: "sec-lb-variants", label: "Leaderboard Variants" },
+  { id: "sec-lb-organic", label: "Organic vs Running" },
+  { id: "sec-channel-cards", label: "Channel Cards" },
+  { id: "sec-flow0", label: "Flow 0 · Hierarchy" },
+  { id: "sec-lb-flow", label: "Leaderboard Flow" },
+  { id: "sec-sponsor-channel", label: "Sponsor Channel" },
+  { id: "sec-analytics", label: "Sponsor Analytics" },
+];
+
+function SectionNav() {
+  const [active, setActive] = useState<string>(SECTION_LINKS[0].id);
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
+    );
+    SECTION_LINKS.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <nav className="fixed left-3 top-1/2 z-40 hidden -translate-y-1/2 lg:block">
+      <div className="flex items-start gap-2">
+        <div className={`overflow-hidden rounded-2xl bg-white/95 shadow-[0_12px_40px_-12px_rgba(15,23,42,0.25)] ring-1 ring-slate-200 backdrop-blur transition-all ${open ? "w-[210px] opacity-100" : "w-0 opacity-0"}`}>
+          <div className="border-b border-slate-100 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+            Jump to
+          </div>
+          <ul className="max-h-[70vh] overflow-y-auto py-1.5">
+            {SECTION_LINKS.map((s, i) => {
+              const isActive = active === s.id;
+              return (
+                <li key={s.id}>
+                  <a
+                    href={`#${s.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById(s.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                    className={`flex items-center gap-2 px-3 py-1.5 text-[11.5px] font-semibold transition ${
+                      isActive ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold ${isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"}`}>
+                      {i + 1}
+                    </span>
+                    {s.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <button
+          onClick={() => setOpen((o) => !o)}
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg ring-1 ring-black/10 hover:bg-slate-800"
+          aria-label={open ? "Hide menu" : "Show menu"}
+        >
+          {open ? <ChevronRight className="h-4 w-4 rotate-180" /> : <ChevronRight className="h-4 w-4" />}
+        </button>
+      </div>
+    </nav>
+  );
+}
