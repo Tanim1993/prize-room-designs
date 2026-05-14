@@ -58,8 +58,11 @@ export function FinalSelectionProvider({ children }: { children: React.ReactNode
   }, [items, hydrated]);
 
   const register = useCallback((key: string, entry: RegistryEntry) => {
+    const previous = registryRef.current.get(key);
     registryRef.current.set(key, entry);
-    force((n) => n + 1);
+    if (!previous || previous.frame !== entry.frame || previous.defaultLabel !== entry.defaultLabel) {
+      force((n) => n + 1);
+    }
   }, []);
   const unregister = useCallback((key: string) => {
     registryRef.current.delete(key);
@@ -151,12 +154,16 @@ export function useRegisterFrame(
   node: React.ReactNode,
 ) {
   const ctx = useFinal();
+  const register = ctx?.register;
+  const unregister = ctx?.unregister;
+  const nodeRef = useRef(node);
+  nodeRef.current = node;
+
   useEffect(() => {
-    if (!ctx) return;
-    ctx.register(key, { node, frame, defaultLabel });
-    return () => ctx.unregister(key);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, frame, defaultLabel, node]);
+    if (!register || !unregister) return;
+    register(key, { node: nodeRef.current, frame, defaultLabel });
+    return () => unregister(key);
+  }, [register, unregister, key, frame, defaultLabel]);
 }
 
 /** Section that renders the user's curated picks with reorder/rename/remove. */
