@@ -4027,6 +4027,42 @@ function RDShell({ step, title, bn, children }: { step: number; title: string; b
           <div><div className="text-base font-black">128w</div><div className="text-[9px] opacity-80">Active</div></div>
         </div>
       </div>
+
+      {/* Tasbih details — Arabic + transliteration + meaning + fazilat */}
+      <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+        <SectionLabel>Tasbih details</SectionLabel>
+        <div className="mt-1.5 rounded-lg bg-emerald-50/60 p-2 text-right ring-1 ring-emerald-100">
+          <div className="text-[16px] font-bold leading-snug text-emerald-900" style={{ fontFamily: "'Noto Naskh Arabic', serif" }}>
+            سُبْحَانَ اللَّهِ وَبِحَمْدِهِ
+          </div>
+        </div>
+        <div className="mt-1.5 grid gap-0.5 text-[10px]">
+          <div><span className="text-slate-400">Translit · </span><span className="font-semibold text-slate-700">Subhan-Allahi wa bi-hamdihi</span></div>
+          <div className="bn"><span className="text-slate-400">অর্থ · </span><span className="font-semibold text-slate-700">আল্লাহর প্রশংসাসহ পবিত্রতা</span></div>
+          <div className="bn"><span className="text-slate-400">ফজিলত · </span><span className="text-slate-600">দিনে ১০০ বার পড়লে গুনাহ মাফ (Bukhari 6405)</span></div>
+        </div>
+      </div>
+
+      {/* Basic details — daily target + time period + scope */}
+      <div className="grid grid-cols-2 gap-2">
+        <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
+          <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Daily target</div>
+          <div className="mt-0.5 text-[12px] font-bold text-slate-900">100 / day</div>
+        </div>
+        <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
+          <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Time period</div>
+          <div className="mt-0.5 inline-flex items-center gap-1 text-[12px] font-bold text-indigo-700"><InfinityIcon className="h-3 w-3" />Forever</div>
+        </div>
+        <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
+          <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Scope</div>
+          <div className="mt-0.5 flex items-center gap-1 text-[11px] font-semibold text-slate-700"><Globe className="h-3 w-3 text-slate-400" />Bangladesh</div>
+        </div>
+        <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
+          <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Started</div>
+          <div className="mt-0.5 flex items-center gap-1 text-[11px] font-semibold text-slate-700"><Clock className="h-3 w-3 text-slate-400" />Mar 2023</div>
+        </div>
+      </div>
+
       {children}
       <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
         <div className="flex items-center justify-between text-[10px]">
