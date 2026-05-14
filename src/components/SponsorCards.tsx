@@ -5738,3 +5738,222 @@ function V2FlowDeck() {
     </div>
   );
 }
+
+/* ================================================================== */
+/*  Channel Card Variants — wide horizontal (~400×90+)                */
+/* ================================================================== */
+
+const GOLD = "#E5B547";
+const GOLD_SOFT = "#F4D27A";
+
+function ChannelVariantFrame({ children, label }: { children: React.ReactNode; label: string }) {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <div className="self-start text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+        {label}
+      </div>
+      <div className="w-full">{children}</div>
+    </div>
+  );
+}
+
+/* V1 — Classic navy + gold rail (~400×90) */
+function ChannelCardV1() {
+  return (
+    <div className="flex h-[90px] w-full items-stretch overflow-hidden rounded-2xl text-white shadow-[0_10px_30px_-12px_rgba(31,58,95,0.5)]"
+      style={{ background: NAVY }}>
+      <div className="w-1.5 shrink-0" style={{ background: GOLD }} />
+      <div className="flex flex-1 items-center gap-3 px-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-[20px]"
+          style={{ background: "rgba(255,255,255,0.08)", boxShadow: `inset 0 0 0 1px ${GOLD}55` }}>
+          <Sparkles className="h-5 w-5" style={{ color: GOLD }} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="bn truncate text-[16px] font-extrabold leading-tight">সুবহানাল্লাহি</div>
+          <div className="text-[10.5px] tracking-wide text-white/65">Subhanallah · permanent channel</div>
+        </div>
+        <div className="text-right">
+          <div className="text-[15px] font-extrabold tabular-nums" style={{ color: GOLD_SOFT }}>12.4M</div>
+          <div className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] font-semibold">
+            <span className="h-1 w-1 rounded-full bg-rose-400" /> 12 live
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* V2 — Light glass card with navy text + gold orb (~400×88) */
+function ChannelCardV2() {
+  return (
+    <div className="flex h-[88px] w-full items-center gap-3 rounded-2xl bg-white px-3.5 shadow-[0_10px_24px_-14px_rgba(31,58,95,0.35)] ring-1 ring-slate-100">
+      <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl"
+        style={{ background: `radial-gradient(circle at 30% 30%, ${GOLD_SOFT}, ${GOLD})` }}>
+        <Crown className="h-6 w-6 text-white drop-shadow" />
+        <span className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full ring-2 ring-white" style={{ background: NAVY }} />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-1.5">
+          <div className="bn truncate text-[15px] font-extrabold" style={{ color: NAVY }}>আলহামদুলিল্লাহ</div>
+          <span className="rounded-full px-1.5 py-0.5 text-[8.5px] font-bold uppercase tracking-wider" style={{ background: `${GOLD}22`, color: NAVY }}>Channel</span>
+        </div>
+        <div className="text-[10.5px] text-slate-500">Alhamdulillah · 7 rooms live · 184k members</div>
+        <div className="mt-1 flex items-center gap-2 text-[10px] font-semibold" style={{ color: NAVY }}>
+          <TrendingUp className="h-3 w-3" style={{ color: GOLD }} />
+          9.8M lifetime · +12% this week
+        </div>
+      </div>
+      <ChevronRight className="h-4 w-4 text-slate-400" />
+    </div>
+  );
+}
+
+/* V3 — Split: navy icon panel + white stat panel (~400×96) */
+function ChannelCardV3() {
+  return (
+    <div className="flex h-[96px] w-full overflow-hidden rounded-2xl shadow-[0_12px_30px_-16px_rgba(31,58,95,0.45)] ring-1 ring-slate-100">
+      <div className="flex w-[110px] shrink-0 flex-col items-center justify-center gap-1 text-white"
+        style={{ background: `linear-gradient(135deg, ${NAVY}, #16294A)` }}>
+        <div className="flex h-9 w-9 items-center justify-center rounded-full" style={{ background: GOLD }}>
+          <BookOpen className="h-4 w-4" style={{ color: NAVY }} />
+        </div>
+        <div className="bn text-[11.5px] font-bold leading-tight">দরুদ</div>
+        <div className="text-[8.5px] uppercase tracking-wider text-white/60">Durood</div>
+      </div>
+      <div className="flex flex-1 flex-col justify-center gap-1.5 bg-white px-4">
+        <div className="flex items-baseline gap-2">
+          <div className="text-[20px] font-extrabold tabular-nums" style={{ color: NAVY }}>18.2M</div>
+          <div className="text-[10px] text-slate-400">global lifetime</div>
+        </div>
+        <div className="flex items-center gap-2 text-[10px]">
+          <span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-semibold" style={{ background: `${NAVY}10`, color: NAVY }}>
+            <Users className="h-2.5 w-2.5" /> 412k
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-semibold text-rose-700" style={{ background: "#fee2e2" }}>
+            <span className="h-1.5 w-1.5 rounded-full bg-rose-500" /> 21 live
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-semibold" style={{ background: `${GOLD}22`, color: "#7a5a10" }}>
+            <Trophy className="h-2.5 w-2.5" /> Season
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* V4 — Wide stat with sparkline (~400×104) */
+function ChannelCardV4() {
+  const pts = [22, 30, 26, 38, 34, 46, 42, 58, 54, 70, 66, 84];
+  const w = 110, h = 36;
+  const max = Math.max(...pts);
+  const path = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${(i / (pts.length - 1)) * w} ${h - (p / max) * h}`).join(" ");
+  return (
+    <div className="relative h-[104px] w-full overflow-hidden rounded-2xl px-4 py-3 text-white shadow-[0_14px_32px_-14px_rgba(31,58,95,0.55)]"
+      style={{ background: `linear-gradient(115deg, ${NAVY} 0%, #2B4D78 60%, #16294A 100%)` }}>
+      <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full opacity-20" style={{ background: GOLD }} />
+      <div className="relative flex items-start justify-between">
+        <div>
+          <div className="flex items-center gap-2">
+            <div className="bn text-[16px] font-extrabold">ইস্তেগফার</div>
+            <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[8.5px] font-bold uppercase tracking-wider" style={{ color: GOLD_SOFT }}>Channel</span>
+          </div>
+          <div className="text-[10.5px] text-white/70">Istighfar · trending this week</div>
+        </div>
+        <div className="text-right">
+          <div className="text-[20px] font-extrabold tabular-nums" style={{ color: GOLD_SOFT }}>6.1M</div>
+          <div className="text-[9px] text-white/60">lifetime</div>
+        </div>
+      </div>
+      <div className="relative mt-2 flex items-end justify-between gap-3">
+        <div className="flex flex-col gap-1">
+          <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[9.5px] font-semibold">
+            <span className="h-1 w-1 rounded-full bg-rose-400" /> 4 live rooms
+          </span>
+          <span className="inline-flex items-center gap-1 text-[9.5px]" style={{ color: GOLD_SOFT }}>
+            <TrendingUp className="h-2.5 w-2.5" /> +18% · 7d
+          </span>
+        </div>
+        <svg width={w} height={h} className="opacity-90">
+          <defs>
+            <linearGradient id="spark4" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor={GOLD} stopOpacity="0.5" />
+              <stop offset="100%" stopColor={GOLD} stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path d={`${path} L ${w} ${h} L 0 ${h} Z`} fill="url(#spark4)" />
+          <path d={path} fill="none" stroke={GOLD} strokeWidth="1.75" strokeLinecap="round" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* V5 — Outlined minimal (~400×80) */
+function ChannelCardV5() {
+  return (
+    <div className="flex h-[80px] w-full items-center gap-3 rounded-2xl bg-white px-4"
+      style={{ boxShadow: `inset 0 0 0 1.5px ${NAVY}` }}>
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: `${NAVY}08` }}>
+        <span className="bn text-[14px] font-extrabold" style={{ color: NAVY }}>লা</span>
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="bn truncate text-[14.5px] font-extrabold" style={{ color: NAVY }}>লা ইলাহা ইল্লাল্লাহ</div>
+        <div className="flex items-center gap-2 text-[10px] text-slate-500">
+          <span>La ilaha illallah</span>
+          <span className="h-1 w-1 rounded-full bg-slate-300" />
+          <span className="inline-flex items-center gap-0.5 font-semibold" style={{ color: NAVY }}>
+            <span className="h-1.5 w-1.5 rounded-full" style={{ background: GOLD }} /> 9 live
+          </span>
+        </div>
+      </div>
+      <div className="flex flex-col items-end">
+        <div className="text-[14px] font-extrabold tabular-nums" style={{ color: NAVY }}>14.7M</div>
+        <button className="mt-0.5 rounded-full px-2.5 py-0.5 text-[9.5px] font-bold" style={{ background: GOLD, color: NAVY }}>Open</button>
+      </div>
+    </div>
+  );
+}
+
+/* V6 — Sponsored / Featured (~400×128) with ribbon + CTA */
+function ChannelCardV6() {
+  return (
+    <div className="relative w-full overflow-hidden rounded-2xl text-white shadow-[0_18px_40px_-16px_rgba(31,58,95,0.6)]"
+      style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #16294A 100%)` }}>
+      <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+        style={{ background: GOLD, color: NAVY }}>
+        <Sparkles className="h-2.5 w-2.5" /> Featured
+      </div>
+      <div className="absolute -left-10 -bottom-12 h-36 w-36 rounded-full opacity-15" style={{ background: GOLD }} />
+      <div className="relative flex items-center gap-3 px-4 pt-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
+          style={{ background: `linear-gradient(135deg, ${GOLD}, ${GOLD_SOFT})` }}>
+          <Heart className="h-5 w-5" style={{ color: NAVY }} fill={NAVY} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="bn text-[15.5px] font-extrabold leading-tight">আল্লাহু আকবার</div>
+          <div className="text-[10px] text-white/65">Allahu Akbar · sponsored season inside</div>
+        </div>
+      </div>
+      <div className="relative mx-4 mt-2.5 flex items-center justify-between rounded-xl px-3 py-2"
+        style={{ background: "rgba(255,255,255,0.06)", boxShadow: `inset 0 0 0 1px ${GOLD}33` }}>
+        <div>
+          <div className="text-[9.5px] uppercase tracking-wider text-white/55">Active prize</div>
+          <div className="text-[13px] font-extrabold" style={{ color: GOLD_SOFT }}>৳15,000 · ends in 3d 14h</div>
+        </div>
+        <div className="text-right">
+          <div className="text-[9.5px] text-white/55">Lifetime</div>
+          <div className="text-[13px] font-extrabold tabular-nums">7.3M</div>
+        </div>
+      </div>
+      <div className="relative flex items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-1.5 text-[10px] text-white/70">
+          <Users className="h-3 w-3" /> 5 rooms live · 92k joined
+        </div>
+        <button className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-bold"
+          style={{ background: GOLD, color: NAVY }}>
+          Join channel <ArrowRight className="h-3 w-3" />
+        </button>
+      </div>
+    </div>
+  );
+}
