@@ -1376,6 +1376,21 @@ export default function SponsorCards() {
         </div>
 
         <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Channel Card — Variants <span className="bn text-slate-500">— চ্যানেল কার্ড</span></h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Wide horizontal cards for the <b>Featured / Public / My Rooms</b> tabs. Navy · white · gold palette. ~400px wide, varying heights.
+          </p>
+        </header>
+        <div className="mx-auto flex max-w-[460px] flex-col gap-5">
+          <ChannelVariantFrame label="V1 · Classic navy + gold rail"><ChannelCardV1 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V2 · Light glass · navy text"><ChannelCardV2 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V3 · Split · icon panel + stats"><ChannelCardV3 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V4 · Wide stat · sparkline"><ChannelCardV4 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V5 · Outlined minimal"><ChannelCardV5 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V6 · Sponsored / Featured"><ChannelCardV6 /></ChannelVariantFrame>
+        </div>
+
+        <header className="mt-20 mb-8 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Flow 0 · Channel → Room hierarchy <span className="bn text-slate-500">— চ্যানেল → রুম কাঠামো</span></h1>
           <p className="mt-1 text-sm text-slate-500">
             How a zikr <b>Channel</b> contains many <b>Rooms</b>, and how a <b>Season</b> lives inside a room. Each room rolls up into the channel's lifetime total.
