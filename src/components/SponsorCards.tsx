@@ -3143,6 +3143,7 @@ function LBRunningB() {
       </div>
 
       <div className="px-4 pt-4">
+        <div className="mb-2"><TimeRangeChips active="This week" tone="dark" /></div>
         <div className="text-[11px] font-semibold opacity-80">Prize zone · Top 10</div>
         <div className="mt-2 space-y-1">
           {LB_PLAYERS.slice(3, 7).map((p, i) => (
