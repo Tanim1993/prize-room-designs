@@ -3927,29 +3927,7 @@ function AdminPortalV2() {
               </div>
             </AdminFormSection>
 
-            <AdminFormSection icon={<Gift className="h-4 w-4" />} title="Rewards & Prizes" desc="Total prize pool and how it splits across winners.">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <AdminFieldLabel label="Prize Pool" required />
-                  <input className={adminInput} defaultValue="৳1,00,000" />
-                </div>
-                <div>
-                  <AdminFieldLabel label="Currency" />
-                  <select className={adminInput}><option>BDT (৳)</option><option>USD ($)</option></select>
-                </div>
-              </div>
-              <div className="mt-3 rounded-lg bg-amber-50 p-3 ring-1 ring-amber-100">
-                <div className="text-[11px] font-bold uppercase text-amber-800">Prize Tiers</div>
-                <div className="mt-2 space-y-1.5 text-[12px]">
-                  {[["🥇 1st place","৳50,000"],["🥈 2nd place","৳25,000"],["🥉 3rd place","৳15,000"],["🎁 4th–10th","৳10,000 split"]].map(([l,v]) => (
-                    <div key={l} className="flex items-center justify-between rounded bg-white px-2 py-1.5 ring-1 ring-amber-100">
-                      <span className="text-slate-700">{l}</span><span className="font-bold text-slate-900">{v}</span>
-                    </div>
-                  ))}
-                </div>
-                <button className="mt-2 text-[11px] font-bold text-amber-700">+ Add tier</button>
-              </div>
-            </AdminFormSection>
+            {/* Rewards moved into each session inside Sessions Timeline */}
 
             <AdminFormSection icon={<ShieldCheck className="h-4 w-4" />} title="Eligibility & Rules" desc="Who can join, daily target, and fairness rules.">
               <div className="grid grid-cols-3 gap-3">
