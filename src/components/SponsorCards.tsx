@@ -4006,6 +4006,203 @@ function F0AdminCreate() {
 }
 
 /* =========================================================== */
+/*  Room Details — Sponsor Pattern Variants (V2 in-app)         */
+/* =========================================================== */
+
+function RDShell({ step, title, bn, children }: { step: number; title: string; bn: string; children: React.ReactNode }) {
+  return (
+    <StepFrame flow={0} step={step} title={title} bnTitle={bn}>
+      {/* Room hero — shared */}
+      <div className="rounded-2xl bg-gradient-to-br from-indigo-700 to-indigo-900 p-3 text-white">
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+            <InfinityIcon className="h-2.5 w-2.5" />Forever Room
+          </span>
+          <span className="text-[9px] opacity-80">Since 2023</span>
+        </div>
+        <h3 className="bn mt-1.5 text-[14px] font-bold">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+        <div className="mt-2 grid grid-cols-3 gap-1 text-center">
+          <div><div className="text-base font-black">5,820</div><div className="text-[9px] opacity-80">Lifetime</div></div>
+          <div><div className="text-base font-black">8.2M</div><div className="text-[9px] opacity-80">Total zikr</div></div>
+          <div><div className="text-base font-black">128w</div><div className="text-[9px] opacity-80">Active</div></div>
+        </div>
+      </div>
+      {children}
+      <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+        <div className="flex items-center justify-between text-[10px]">
+          <span className="font-bold text-slate-700">Today · 312 / 100</span>
+          <span className="font-bold text-emerald-600">+212 ✓</span>
+        </div>
+        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-100"><div className="h-full w-full bg-emerald-500" /></div>
+      </div>
+      <button className="w-full rounded-xl py-2.5 text-[12px] font-bold text-white" style={{ background: NAVY }}>
+        Start tasbih
+      </button>
+    </StepFrame>
+  );
+}
+
+/* RD1 — No brand at all (clean, organic forever room) */
+function RD1_NoBrand() {
+  return (
+    <RDShell step={1} title="RD · No brand" bn="ভ্যারিয়েন্ট ১ — কোনো ব্র্যান্ড নেই (organic)">
+      <div className="rounded-xl bg-white p-2.5 text-center text-[10px] text-slate-500 ring-1 ring-slate-100">
+        Community-run · no sponsor this season
+      </div>
+    </RDShell>
+  );
+}
+
+/* RD2 — Powered by only (subtle attribution, no prize) */
+function RD2_PoweredBy() {
+  return (
+    <RDShell step={2} title="RD · Powered by" bn="ভ্যারিয়েন্ট ২ — শুধু Powered by">
+      <div className="flex items-center justify-between rounded-xl bg-white px-3 py-2 ring-1 ring-slate-100">
+        <span className="text-[10px] uppercase tracking-wider text-slate-400">Powered by</span>
+        <div className="flex items-center gap-1.5">
+          <div className="grid h-5 w-5 place-items-center rounded bg-sky-100 text-[9px] font-bold text-sky-700">W</div>
+          <span className="text-[11px] font-bold text-slate-800">Wizlife</span>
+        </div>
+      </div>
+    </RDShell>
+  );
+}
+
+/* RD3 — Powered by + Sponsored by (dual attribution, no prize) */
+function RD3_PoweredSponsored() {
+  return (
+    <RDShell step={3} title="RD · Powered + Sponsored" bn="ভ্যারিয়েন্ট ৩ — Powered by + Sponsored by">
+      <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-100">
+        <div className="flex items-center justify-between px-3 py-2 text-white" style={{ background: NAVY }}>
+          <span className="text-[9px] font-bold uppercase tracking-wider opacity-80">Sponsored by</span>
+          <div className="flex items-center gap-1.5">
+            <div className="grid h-5 w-5 place-items-center rounded bg-white/15 text-[9px] font-bold">W</div>
+            <span className="text-[11px] font-bold">Wizlife</span>
+          </div>
+        </div>
+        <div className="flex items-center justify-between px-3 py-1.5">
+          <span className="text-[9px] uppercase tracking-wider text-slate-400">Powered by</span>
+          <span className="text-[10px] font-bold text-slate-700">Ifad Foundation</span>
+        </div>
+      </div>
+    </RDShell>
+  );
+}
+
+/* RD4 — Sponsored by + Prize (the classic season pattern) */
+function RD4_SponsoredPrize() {
+  return (
+    <RDShell step={4} title="RD · Sponsored + Prize" bn="ভ্যারিয়েন্ট ৪ — Sponsored by + পুরস্কার">
+      <div className="overflow-hidden rounded-xl bg-white ring-1 ring-amber-200">
+        <div className="flex items-center justify-between px-3 py-2 text-white" style={{ background: NAVY }}>
+          <div className="flex items-center gap-1.5">
+            <div className="grid h-6 w-6 place-items-center rounded-full bg-white/15 text-[10px] font-bold">W</div>
+            <span className="text-[10px] font-bold uppercase tracking-wider">Sponsored by Wizlife</span>
+          </div>
+          <span className="rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-bold text-slate-900">৳40,000</span>
+        </div>
+        <div className="px-3 py-2 text-[10px] text-amber-800">
+          <div className="flex justify-between"><span className="font-bold uppercase">Live Season 04</span><span>ends 6d 12h</span></div>
+          <div className="mt-1 flex justify-between"><span className="text-slate-500">Your rank</span><span className="font-bold">#42 of 1,820</span></div>
+        </div>
+      </div>
+    </RDShell>
+  );
+}
+
+/* RD5 — Prize only (house prize, no brand) */
+function RD5_PrizeOnly() {
+  return (
+    <RDShell step={5} title="RD · Prize only" bn="ভ্যারিয়েন্ট ৫ — শুধু পুরস্কার (house)">
+      <div className="rounded-xl bg-gradient-to-r from-amber-100 to-amber-50 p-3 ring-1 ring-amber-200">
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase text-amber-800"><Gift className="h-3 w-3" />House Prize Pool</span>
+          <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[11px] font-black text-slate-900">৳25,000</span>
+        </div>
+        <div className="mt-1 text-[10px] text-amber-700">Top 100 contributors win · ends in 9d</div>
+      </div>
+    </RDShell>
+  );
+}
+
+/* RD6 — Brand + wide banner (400×70 ratio) */
+function RD6_WideBanner() {
+  return (
+    <RDShell step={6} title="RD · Brand + Wide banner" bn="ভ্যারিয়েন্ট ৬ — Brand + 400×70 ব্যানার">
+      <div className="flex items-center justify-between rounded-xl bg-white px-3 py-1.5 ring-1 ring-slate-100">
+        <span className="text-[10px] uppercase tracking-wider text-slate-400">Sponsored by</span>
+        <div className="flex items-center gap-1.5">
+          <div className="grid h-5 w-5 place-items-center rounded bg-sky-100 text-[9px] font-bold text-sky-700">W</div>
+          <span className="text-[11px] font-bold text-slate-800">Wizlife</span>
+        </div>
+      </div>
+      {/* 400×70 → ~5.7:1 wide skinny strip */}
+      <div className="overflow-hidden rounded-lg ring-1 ring-slate-200" style={{ aspectRatio: "400/70" }}>
+        <div className="flex h-full w-full items-center justify-between bg-gradient-to-r from-sky-500 to-indigo-600 px-3 text-white">
+          <div className="flex items-center gap-2">
+            <div className="grid h-7 w-7 place-items-center rounded bg-white/20 text-[10px] font-black">W</div>
+            <div className="leading-tight">
+              <div className="text-[10px] font-bold">Wizlife Ramadan</div>
+              <div className="text-[8px] opacity-80">Tap to learn more</div>
+            </div>
+          </div>
+          <ChevronRight className="h-3 w-3 opacity-80" />
+        </div>
+      </div>
+      <div className="text-center text-[9px] uppercase tracking-wider text-slate-400">Banner · 400 × 70</div>
+    </RDShell>
+  );
+}
+
+/* RD7 — Brand + regular banner (16:9 standard) */
+function RD7_RegularBanner() {
+  return (
+    <RDShell step={7} title="RD · Brand + Regular banner" bn="ভ্যারিয়েন্ট ৭ — Brand + 16:9 ব্যানার">
+      <div className="flex items-center justify-between rounded-xl bg-white px-3 py-1.5 ring-1 ring-slate-100">
+        <span className="text-[10px] uppercase tracking-wider text-slate-400">Sponsored by</span>
+        <div className="flex items-center gap-1.5">
+          <div className="grid h-5 w-5 place-items-center rounded bg-emerald-100 text-[9px] font-bold text-emerald-700">I</div>
+          <span className="text-[11px] font-bold text-slate-800">Ifad</span>
+        </div>
+      </div>
+      <div className="overflow-hidden rounded-xl ring-1 ring-slate-200" style={{ aspectRatio: "16/9" }}>
+        <div className="flex h-full w-full flex-col justify-between bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 p-3 text-white">
+          <div className="flex items-center justify-between">
+            <div className="grid h-7 w-7 place-items-center rounded bg-white/20 text-[11px] font-black">I</div>
+            <span className="rounded bg-white/20 px-1.5 py-0.5 text-[8px] font-bold uppercase">Ad</span>
+          </div>
+          <div>
+            <div className="text-[12px] font-bold">Pure Ghee · Pure Reward</div>
+            <div className="text-[9px] opacity-90">Free delivery in Dhaka this Ramadan</div>
+          </div>
+        </div>
+      </div>
+      <div className="text-center text-[9px] uppercase tracking-wider text-slate-400">Banner · 16 : 9</div>
+    </RDShell>
+  );
+}
+
+/* RD8 — Banner only (no brand attribution, generic ad slot) */
+function RD8_BannerOnly() {
+  return (
+    <RDShell step={8} title="RD · Banner only" bn="ভ্যারিয়েন্ট ৮ — শুধু ব্যানার (no brand)">
+      <div className="overflow-hidden rounded-xl ring-1 ring-slate-200" style={{ aspectRatio: "16/9" }}>
+        <div className="flex h-full w-full flex-col justify-between bg-gradient-to-br from-rose-500 to-amber-500 p-3 text-white">
+          <span className="self-start rounded bg-white/20 px-1.5 py-0.5 text-[8px] font-bold uppercase">Sponsored</span>
+          <div>
+            <div className="text-[12px] font-bold">Save 20% this week</div>
+            <div className="text-[9px] opacity-90">Limited time offer</div>
+          </div>
+        </div>
+      </div>
+      <div className="rounded-xl bg-white p-2 text-center text-[9px] text-slate-400 ring-1 ring-slate-100">
+        No sponsor name shown — banner-only ad slot
+      </div>
+    </RDShell>
+  );
+}
+
+/* =========================================================== */
 /*  Admin Portal · Create Featured Room — Desktop V2            */
 /* =========================================================== */
 
