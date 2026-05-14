@@ -1285,8 +1285,9 @@ function SponsorReport() {
 }
 
 export default function SponsorCards() {
-  const [view, setView] = useState<"v1" | "v2">("v2");
+  const [view, setView] = useState<"v1" | "v2" | "v3">("v2");
   return (
+    <FinalSelectionProvider>
     <div className="min-h-screen bg-[#EEF2F7]">
       <div className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur">
         <div className="mx-auto flex max-w-[1800px] items-center justify-between gap-4 px-6 py-3">
@@ -1304,13 +1305,23 @@ export default function SponsorCards() {
             >
               V2 · Flow-wise ▸
             </button>
+            <button
+              onClick={() => setView("v3")}
+              className={`rounded-full px-4 py-1.5 transition ${view === "v3" ? "bg-amber-500 text-white shadow" : "text-slate-500"}`}
+            >
+              ★ V3 · Final
+            </button>
           </div>
         </div>
       </div>
       <div className="px-6 py-10">
       <div className="mx-auto max-w-[1800px]">
         {view === "v2" && <V2FlowDeck />}
-        {view === "v1" && (<FinalSelectionProvider>
+        {view === "v3" && (
+          <FinalSelectionSection PhoneShell={PhoneShell} DetailShell={DetailShell} ChannelShell={ChannelShell} />
+        )}
+        {/* V1 is always mounted (hidden when inactive) so the Final registry stays populated */}
+        <div className={view === "v1" ? "" : "hidden"}>
         <SectionNav />
         <FinalSelectionSection PhoneShell={PhoneShell} DetailShell={DetailShell} ChannelShell={ChannelShell} />
         <header id="sec-sponsored" className="mb-8 scroll-mt-24 text-center">
@@ -1478,10 +1489,11 @@ export default function SponsorCards() {
         <div className="flex flex-wrap justify-center gap-8">
           <DetailFrame label="R1 · Sponsor Brand Report"><SponsorReport /></DetailFrame>
         </div>
-        </FinalSelectionProvider>)}
+        </div>
       </div>
       </div>
     </div>
+    </FinalSelectionProvider>
   );
 }
 
