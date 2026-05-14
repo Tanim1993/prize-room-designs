@@ -24,6 +24,17 @@ import {
   Heart,
   Award,
   TrendingUp,
+  Calendar,
+  Clock,
+  ArrowRight,
+  CheckCircle2,
+  Infinity as InfinityIcon,
+  Zap,
+  MapPin,
+  Upload,
+  Eye,
+  BarChart3,
+  Lock,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
