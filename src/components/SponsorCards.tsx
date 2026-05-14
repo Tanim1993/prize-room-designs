@@ -1363,6 +1363,19 @@ export default function SponsorCards() {
         </div>
 
         <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Room Leaderboard — Organic vs Running Session</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Two contexts: <b>Organic</b> (no sponsor — lifetime zikr, streaks, community pride) and <b>Running Session</b> (active sponsored season — countdown, prize tiers, live rank).
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="Organic A · Lifetime Counter"><LBOrganicA /></DetailFrame>
+          <DetailFrame label="Organic B · Streak Community"><LBOrganicB /></DetailFrame>
+          <DetailFrame label="Running A · Live Prize Race"><LBRunningA /></DetailFrame>
+          <DetailFrame label="Running B · Tiered Podium + Countdown"><LBRunningB /></DetailFrame>
+        </div>
+
+        <header className="mt-20 mb-8 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsor Channel / Profile — Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
             Tapping a sponsor banner opens a channel page (YouTube-style) with bio, stats, and all rooms by that sponsor.
