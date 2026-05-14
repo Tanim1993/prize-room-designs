@@ -1376,6 +1376,21 @@ export default function SponsorCards() {
         </div>
 
         <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Flow 0 · Channel → Room hierarchy <span className="bn text-slate-500">— চ্যানেল → রুম কাঠামো</span></h1>
+          <p className="mt-1 text-sm text-slate-500">
+            How a zikr <b>Channel</b> contains many <b>Rooms</b>, and how a <b>Season</b> lives inside a room. Each room rolls up into the channel's lifetime total.
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="0.1 · Home · Channel grid"><H1ChannelGrid /></DetailFrame>
+          <DetailFrame label="0.2 · Channel detail · Rooms"><H2ChannelDetail /></DetailFrame>
+          <DetailFrame label="0.3 · Channel global leaderboard"><H3ChannelLB /></DetailFrame>
+          <DetailFrame label="0.4 · Room · Worldwide (dormant)"><H4RoomDormant /></DetailFrame>
+          <DetailFrame label="0.5 · Room · Family (active season)"><H5RoomLive /></DetailFrame>
+          <DetailFrame label="0.6 · Create room sheet"><H6CreateRoom /></DetailFrame>
+        </div>
+
+        <header className="mt-20 mb-8 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Leaderboard Flow — User Journey</h1>
           <p className="mt-1 text-sm text-slate-500">
             What happens when a member taps the <b>Leaderboard</b> button — across organic, running session, and post-session states. Step-by-step.
