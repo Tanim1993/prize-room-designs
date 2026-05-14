@@ -40,6 +40,12 @@ import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
 import bannerBooks from "@/assets/banner-books.png";
 import React, { useEffect, useState } from "react";
+import {
+  FinalSelectionProvider,
+  FinalSelectionSection,
+  PickButton,
+  useRegisterFrame,
+} from "./FinalSelection";
 
 /* ------------------------------------------------------------------ */
 /*  Shared bits matching the user's current Zikr Rooms app aesthetic  */
@@ -49,18 +55,29 @@ const NAVY = "#1F3A5F"; // matches the screenshot header
 const FEATURED_YELLOW = "#FFE9A8";
 
 function PhoneFrame({ children, label }: { children: React.ReactNode; label: string }) {
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </div>
-      <div className="w-[360px] overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
-        <AppHeader />
-        <div className="space-y-4 bg-[#F4F6FA] px-4 pb-24 pt-4">{children}</div>
-        <BottomNav />
-      </div>
+  const inner = (
+    <div className="w-[360px] overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
+      <AppHeader />
+      <div className="space-y-4 bg-[#F4F6FA] px-4 pb-24 pt-4">{children}</div>
+      <BottomNav />
     </div>
   );
+  useRegisterFrame(`phone:${label}`, "phone", label, inner);
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          {label}
+        </div>
+        <PickButton frameKey={`phone:${label}`} />
+      </div>
+      {inner}
+    </div>
+  );
+}
+
+function PhoneShell({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }
 
 function AppHeader() {
@@ -1293,8 +1310,9 @@ export default function SponsorCards() {
       <div className="px-6 py-10">
       <div className="mx-auto max-w-[1800px]">
         {view === "v2" && <V2FlowDeck />}
-        {view === "v1" && (<>
+        {view === "v1" && (<FinalSelectionProvider>
         <SectionNav />
+        <FinalSelectionSection PhoneShell={PhoneShell} DetailShell={DetailShell} ChannelShell={ChannelShell} />
         <header id="sec-sponsored" className="mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsored / Prize Room — In-App Patterns</h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -1460,7 +1478,7 @@ export default function SponsorCards() {
         <div className="flex flex-wrap justify-center gap-8">
           <DetailFrame label="R1 · Sponsor Brand Report"><SponsorReport /></DetailFrame>
         </div>
-        </>)}
+        </FinalSelectionProvider>)}
       </div>
       </div>
     </div>
@@ -1473,16 +1491,27 @@ export default function SponsorCards() {
 /* ================================================================== */
 
 function DetailFrame({ children, label }: { children: React.ReactNode; label: string }) {
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </div>
-      <div className="w-[360px] overflow-hidden rounded-[28px] bg-[#F4F6FA] shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
-        {children}
-      </div>
+  const inner = (
+    <div className="w-[360px] overflow-hidden rounded-[28px] bg-[#F4F6FA] shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
+      {children}
     </div>
   );
+  useRegisterFrame(`detail:${label}`, "detail", label, inner);
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          {label}
+        </div>
+        <PickButton frameKey={`detail:${label}`} />
+      </div>
+      {inner}
+    </div>
+  );
+}
+
+function DetailShell({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }
 
 function DetailHeader() {
@@ -5766,14 +5795,23 @@ const GOLD = "#E5B547";
 const GOLD_SOFT = "#F4D27A";
 
 function ChannelVariantFrame({ children, label }: { children: React.ReactNode; label: string }) {
+  const inner = <div className="w-full">{children}</div>;
+  useRegisterFrame(`channel:${label}`, "channel", label, inner);
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="self-start text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-        {label}
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {label}
+        </div>
+        <PickButton frameKey={`channel:${label}`} />
       </div>
-      <div className="w-full">{children}</div>
+      {inner}
     </div>
   );
+}
+
+function ChannelShell({ children }: { children: React.ReactNode }) {
+  return <div className="mx-auto w-full max-w-[460px]">{children}</div>;
 }
 
 /* V1 — Classic navy + gold rail (~400×90) */
@@ -5982,6 +6020,7 @@ function ChannelCardV6() {
 /* ================================================================== */
 
 const SECTION_LINKS: { id: string; label: string }[] = [
+  { id: "sec-final", label: "★ Final Selection" },
   { id: "sec-sponsored", label: "Sponsored Patterns" },
   { id: "sec-room-detail", label: "Room Details" },
   { id: "sec-home", label: "Home Page" },
