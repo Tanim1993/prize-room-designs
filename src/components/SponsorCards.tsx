@@ -55,18 +55,29 @@ const NAVY = "#1F3A5F"; // matches the screenshot header
 const FEATURED_YELLOW = "#FFE9A8";
 
 function PhoneFrame({ children, label }: { children: React.ReactNode; label: string }) {
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </div>
-      <div className="w-[360px] overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
-        <AppHeader />
-        <div className="space-y-4 bg-[#F4F6FA] px-4 pb-24 pt-4">{children}</div>
-        <BottomNav />
-      </div>
+  const inner = (
+    <div className="w-[360px] overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
+      <AppHeader />
+      <div className="space-y-4 bg-[#F4F6FA] px-4 pb-24 pt-4">{children}</div>
+      <BottomNav />
     </div>
   );
+  useRegisterFrame(`phone:${label}`, "phone", label, inner);
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          {label}
+        </div>
+        <PickButton frameKey={`phone:${label}`} />
+      </div>
+      {inner}
+    </div>
+  );
+}
+
+function PhoneShell({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }
 
 function AppHeader() {
