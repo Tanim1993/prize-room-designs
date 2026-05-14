@@ -2973,6 +2973,7 @@ function LBOrganicB() {
       </div>
 
       <div className="px-4 pt-4">
+        <div className="mb-2"><TimeRangeChips active="This month" /></div>
         <div className="text-[12px] font-bold text-slate-900">🔥 Longest active streaks</div>
         <div className="mt-2 space-y-1.5">
           {[...LB_PLAYERS].sort((a,b)=>b.streak-a.streak).slice(0,5).map((p, i) => (
