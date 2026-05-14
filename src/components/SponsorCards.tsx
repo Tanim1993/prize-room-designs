@@ -1310,8 +1310,9 @@ export default function SponsorCards() {
       <div className="px-6 py-10">
       <div className="mx-auto max-w-[1800px]">
         {view === "v2" && <V2FlowDeck />}
-        {view === "v1" && (<>
+        {view === "v1" && (<FinalSelectionProvider>
         <SectionNav />
+        <FinalSelectionSection PhoneShell={PhoneShell} DetailShell={DetailShell} ChannelShell={ChannelShell} />
         <header id="sec-sponsored" className="mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsored / Prize Room — In-App Patterns</h1>
           <p className="mt-1 text-sm text-slate-500">
