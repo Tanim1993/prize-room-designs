@@ -1363,6 +1363,19 @@ export default function SponsorCards() {
         </div>
 
         <header className="mt-20 mb-8 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">Room Leaderboard — Organic vs Running Session</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Two contexts: <b>Organic</b> (no sponsor — lifetime zikr, streaks, community pride) and <b>Running Session</b> (active sponsored season — countdown, prize tiers, live rank).
+          </p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="Organic A · Lifetime Counter"><LBOrganicA /></DetailFrame>
+          <DetailFrame label="Organic B · Streak Community"><LBOrganicB /></DetailFrame>
+          <DetailFrame label="Running A · Live Prize Race"><LBRunningA /></DetailFrame>
+          <DetailFrame label="Running B · Tiered Podium + Countdown"><LBRunningB /></DetailFrame>
+        </div>
+
+        <header className="mt-20 mb-8 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsor Channel / Profile — Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
             Tapping a sponsor banner opens a channel page (YouTube-style) with bio, stats, and all rooms by that sponsor.
@@ -2839,6 +2852,300 @@ function LeaderboardV4() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  LEADERBOARD — Organic vs Running Session                          */
+/* ================================================================== */
+
+/* ---------- Organic A · Lifetime Counter (no sponsor) ---------- */
+function LBOrganicA() {
+  return (
+    <div className="bg-white">
+      <div className="bg-gradient-to-br from-emerald-700 via-emerald-800 to-teal-900 px-5 pb-6 pt-4 text-white">
+        <div className="flex items-center justify-between text-[11px]">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <span className="font-semibold">Leaderboard</span>
+          <InfinityIcon className="h-4 w-4" />
+        </div>
+        <div className="mt-2 text-center">
+          <div className="text-[12px] opacity-80">Subhanallah · Forever Room</div>
+          <div className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-semibold ring-1 ring-white/20">
+            <InfinityIcon className="h-3 w-3" /> Lifetime · No sponsor · Organic
+          </div>
+          <div className="mt-3 text-[28px] font-extrabold tracking-tight">All-Time Champions</div>
+          <div className="mt-0.5 text-[10.5px] opacity-70">Ranked by lifetime zikr count</div>
+        </div>
+      </div>
+
+      <div className="-mt-5 px-4">
+        <div className="rounded-2xl bg-white p-3 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.25)] ring-1 ring-slate-100">
+          <div className="grid grid-cols-3 gap-2 text-center">
+            {LB_PLAYERS.slice(0, 3).map((p, i) => (
+              <div key={p.name} className={`rounded-xl p-2 ${i===0?"bg-emerald-50 ring-1 ring-emerald-200":"bg-slate-50"}`}>
+                <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full text-[11px] font-bold text-white ${i===0?"bg-emerald-600":"bg-slate-400"}`}>{p.avatar}</div>
+                <div className="mt-1 text-[11px] font-bold text-slate-900">#{i+1}</div>
+                <div className="truncate text-[10px] text-slate-600">{p.name.split(" ")[0]}</div>
+                <div className="text-[10.5px] font-bold text-emerald-700">{(p.count*4).toLocaleString()}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 pb-6 pt-4">
+        <div className="flex items-center justify-between">
+          <div className="text-[12px] font-bold text-slate-900">Top members</div>
+          <span className="text-[10px] text-slate-500">{LB_PLAYERS.length * 240} total</span>
+        </div>
+        <div className="mt-2 space-y-1.5">
+          {LB_PLAYERS.slice(3, 7).map((p, i) => (
+            <div key={p.name} className="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-2">
+              <div className="w-5 text-center text-[12px] font-bold text-slate-400">{i+4}</div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-[11px] font-bold text-emerald-800">{p.avatar}</div>
+              <div className="flex-1 truncate text-[12px] font-semibold text-slate-800">{p.name} <span className="ml-1">{p.country}</span></div>
+              <div className="text-right">
+                <div className="text-[11.5px] font-bold text-slate-900">{(p.count*4).toLocaleString()}</div>
+                <div className="text-[9px] text-slate-400">lifetime</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 flex items-center gap-3 rounded-xl bg-emerald-600 px-3 py-2 text-white">
+          <div className="w-5 text-center text-[12px] font-bold">128</div>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[11px] font-bold text-emerald-700">YOU</div>
+          <div className="flex-1 text-[12px] font-semibold">You · 16,840 lifetime</div>
+          <Heart className="h-3.5 w-3.5" fill="currentColor" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Organic B · Streak Community ---------- */
+function LBOrganicB() {
+  return (
+    <div className="bg-[#F7FAF7]">
+      <div className="px-5 pt-4">
+        <div className="flex items-center justify-between text-[12px] font-semibold text-slate-700">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <span>Community</span>
+          <Bell className="h-4 w-4" />
+        </div>
+        <div className="mt-3 rounded-2xl bg-white p-3 ring-1 ring-slate-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Astaghfirullah Room</div>
+              <div className="text-[14px] font-bold text-slate-900">Streak Champions</div>
+            </div>
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700 ring-1 ring-emerald-200">
+              <InfinityIcon className="h-3 w-3" /> Organic
+            </span>
+          </div>
+          <div className="mt-2 grid grid-cols-3 gap-2 text-center text-[10px]">
+            <div className="rounded-lg bg-slate-50 p-2"><div className="text-[14px] font-bold text-slate-900">2,418</div><div className="text-slate-500">members</div></div>
+            <div className="rounded-lg bg-slate-50 p-2"><div className="text-[14px] font-bold text-emerald-700">412</div><div className="text-slate-500">on streak</div></div>
+            <div className="rounded-lg bg-slate-50 p-2"><div className="text-[14px] font-bold text-amber-600">3.2M</div><div className="text-slate-500">total zikr</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 pt-4">
+        <div className="text-[12px] font-bold text-slate-900">🔥 Longest active streaks</div>
+        <div className="mt-2 space-y-1.5">
+          {[...LB_PLAYERS].sort((a,b)=>b.streak-a.streak).slice(0,5).map((p, i) => (
+            <div key={p.name} className="flex items-center gap-3 rounded-xl bg-white px-3 py-2 ring-1 ring-slate-100">
+              <div className={`w-5 text-center text-[12px] font-bold ${i===0?"text-amber-500":"text-slate-400"}`}>{i+1}</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-100 text-[11px] font-bold text-orange-700">{p.avatar}</div>
+              <div className="flex-1 truncate">
+                <div className="text-[12px] font-semibold text-slate-800">{p.name} {p.country}</div>
+                <div className="text-[10px] text-slate-500">{p.count.toLocaleString()} this month</div>
+              </div>
+              <div className="flex items-center gap-1 rounded-full bg-orange-50 px-2 py-0.5 text-[11px] font-bold text-orange-600 ring-1 ring-orange-200">
+                🔥 {p.streak}d
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="px-4 pb-6 pt-3">
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 p-3 ring-1 ring-emerald-100">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-[11px] font-bold text-white">YOU</div>
+            <div className="flex-1">
+              <div className="text-[12px] font-bold text-slate-900">Your streak · 6 days 🔥</div>
+              <div className="text-[10px] text-slate-600">Keep going · 4 more days for "10-day" badge</div>
+            </div>
+          </div>
+          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white">
+            <div className="h-full rounded-full bg-gradient-to-r from-orange-400 to-amber-500" style={{ width: "60%" }} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Running A · Live Prize Race ---------- */
+function LBRunningA() {
+  return (
+    <div className="bg-white">
+      <div style={{ background: NAVY }} className="relative px-5 pb-5 pt-4 text-white">
+        <div className="flex items-center justify-between text-[11px]">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <span className="font-semibold">Live Race</span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-500 px-1.5 py-0.5 text-[9px] font-bold">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-white animate-pulse" /> LIVE
+          </span>
+        </div>
+        <div className="mt-3 flex items-center gap-2">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-[10px] font-bold text-slate-900">WL</div>
+          <div className="min-w-0 flex-1">
+            <div className="text-[10px] opacity-70">Sponsored by Wizlife</div>
+            <div className="truncate text-[14px] font-bold">Subhanallah 100k Sprint</div>
+          </div>
+          <div className="text-right">
+            <div className="text-[10px] opacity-70">Ends in</div>
+            <div className="text-[13px] font-bold tabular-nums">2d 14:32</div>
+          </div>
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[10px]">
+          <div className="rounded-lg bg-white/10 p-2"><div className="text-[13px] font-bold">৳5,000</div><div className="opacity-70">1st prize</div></div>
+          <div className="rounded-lg bg-white/10 p-2"><div className="text-[13px] font-bold">৳2,000</div><div className="opacity-70">2nd</div></div>
+          <div className="rounded-lg bg-white/10 p-2"><div className="text-[13px] font-bold">৳1,000</div><div className="opacity-70">3rd</div></div>
+        </div>
+      </div>
+
+      <div className="px-4 pt-3">
+        <div className="flex items-center justify-between">
+          <div className="text-[12px] font-bold text-slate-900">Live ranking</div>
+          <span className="text-[10px] text-slate-500">Updates every 10s</span>
+        </div>
+        <div className="mt-2 space-y-1.5">
+          {LB_PLAYERS.slice(0, 5).map((p, i) => {
+            const max = LB_PLAYERS[0].count;
+            const pct = (p.count / max) * 100;
+            const tier = i === 0 ? "bg-amber-400 text-amber-950" : i === 1 ? "bg-slate-300 text-slate-800" : i === 2 ? "bg-orange-400 text-orange-950" : "bg-slate-100 text-slate-500";
+            return (
+              <div key={p.name} className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+                <div className="flex items-center gap-2">
+                  <div className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold ${tier}`}>{i+1}</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-[11px] font-bold text-slate-700">{p.avatar}</div>
+                  <div className="min-w-0 flex-1 truncate text-[12px] font-semibold text-slate-800">{p.name}</div>
+                  <div className="text-right">
+                    <div className="text-[12px] font-bold text-slate-900">{p.count.toLocaleString()}</div>
+                    {i < 3 && <div className="text-[9px] font-bold text-emerald-600">+{[5,2,1][i]}k prize</div>}
+                  </div>
+                </div>
+                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                  <div className={`h-full rounded-full ${i===0?"bg-gradient-to-r from-amber-400 to-amber-500":i===1?"bg-slate-400":i===2?"bg-orange-400":"bg-slate-300"}`} style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="px-4 pb-5 pt-3">
+        <div className="rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200">
+          <div className="flex items-center gap-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-500 text-[11px] font-bold text-white">YOU</div>
+            <div className="flex-1">
+              <div className="text-[12px] font-bold text-amber-900">Rank #14 · 4,210</div>
+              <div className="text-[10px] text-amber-800">820 zikr to enter prize zone (top 3)</div>
+            </div>
+            <TrendingUp className="h-4 w-4 text-amber-700" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Running B · Tiered Podium + Countdown ---------- */
+function LBRunningB() {
+  const top3 = LB_PLAYERS.slice(0, 3);
+  return (
+    <div className="bg-[#0B1B36] text-white">
+      <div className="px-5 pb-3 pt-4">
+        <div className="flex items-center justify-between text-[11px]">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <span className="font-semibold">Season Standings</span>
+          <Trophy className="h-4 w-4 text-amber-300" />
+        </div>
+        <div className="mt-3 rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1 rounded-full bg-red-500 px-1.5 py-0.5 text-[9px] font-bold">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-white animate-pulse" /> LIVE
+            </span>
+            <span className="text-[10px] opacity-70">Season 4 · Sponsored by Wizlife</span>
+          </div>
+          <div className="mt-2 flex items-end justify-between">
+            <div>
+              <div className="text-[18px] font-extrabold tracking-tight">Astaghfirullah Sprint</div>
+              <div className="text-[10px] opacity-70">Total prize pool ৳15,000</div>
+            </div>
+            <div className="text-right">
+              <div className="text-[9px] uppercase opacity-60">Ends</div>
+              <div className="text-[15px] font-bold tabular-nums text-amber-300">2d 14h</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-5 pt-3">
+        <div className="grid grid-cols-3 items-end gap-2">
+          {[1,0,2].map((i) => {
+            const p = top3[i];
+            const isFirst = i === 0;
+            const prizes = ["৳5,000","৳2,000","৳1,000"];
+            return (
+              <div key={p.name} className="flex flex-col items-center">
+                <div className={`relative flex items-center justify-center rounded-full bg-white text-slate-900 font-bold ring-2 ${isFirst ? "h-14 w-14 text-base ring-amber-300" : "h-11 w-11 text-sm ring-white/30"}`}>
+                  {p.avatar}
+                  {isFirst && <Crown className="absolute -top-3 h-4 w-4 text-amber-300" fill="currentColor" />}
+                </div>
+                <div className="mt-1 truncate text-[11px] font-semibold">{p.name.split(" ")[0]}</div>
+                <div className="text-[10px] opacity-70">{p.count.toLocaleString()}</div>
+                <div className={`mt-1 w-full rounded-t-md ${isFirst ? "h-14 bg-gradient-to-t from-amber-500 to-amber-300" : i===1 ? "h-9 bg-slate-300/80" : "h-7 bg-orange-400/80"} flex flex-col items-center justify-center`}>
+                  <span className={`text-[11px] font-bold ${isFirst?"text-amber-950":"text-slate-900"}`}>{i+1}</span>
+                  <span className={`text-[9px] font-semibold ${isFirst?"text-amber-950":"text-slate-800"}`}>{prizes[i]}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="px-4 pt-4">
+        <div className="text-[11px] font-semibold opacity-80">Prize zone · Top 10</div>
+        <div className="mt-2 space-y-1">
+          {LB_PLAYERS.slice(3, 7).map((p, i) => (
+            <div key={p.name} className="flex items-center gap-3 rounded-lg bg-white/5 px-3 py-1.5 ring-1 ring-white/5">
+              <div className="w-5 text-center text-[11px] font-bold opacity-60">{i+4}</div>
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-[10px] font-bold">{p.avatar}</div>
+              <div className="flex-1 truncate text-[12px]">{p.name}</div>
+              <div className="text-[11px] font-bold tabular-nums">{p.count.toLocaleString()}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="px-4 pb-5 pt-3">
+        <div className="rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 p-3 text-amber-950">
+          <div className="flex items-center gap-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-950 text-[11px] font-bold text-amber-300">YOU</div>
+            <div className="flex-1">
+              <div className="text-[12px] font-bold">Rank #14 · 4,210</div>
+              <div className="text-[10px]">Push 820 more to enter prize zone</div>
+            </div>
+            <Zap className="h-4 w-4" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
