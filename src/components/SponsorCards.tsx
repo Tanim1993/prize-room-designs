@@ -3204,6 +3204,272 @@ function LBRunningB() {
 }
 
 /* ================================================================== */
+/*  FLOW 0 — Channel → Room → Season hierarchy                        */
+/* ================================================================== */
+
+const CHANNELS = [
+  { bn: "সুবহানাল্লাহি", en: "Subhanallah", count: "12.4M", live: 12, color: "from-emerald-500 to-teal-600" },
+  { bn: "আলহামদুলিল্লাহ", en: "Alhamdulillah", count: "9.8M", live: 7, color: "from-sky-500 to-indigo-600" },
+  { bn: "দরুদ", en: "Durood", count: "18.2M", live: 21, color: "from-amber-500 to-orange-600" },
+  { bn: "ইস্তেগফার", en: "Istighfar", count: "6.1M", live: 4, color: "from-rose-500 to-pink-600" },
+  { bn: "লা ইলাহা ইল্লাল্লাহ", en: "La ilaha", count: "14.7M", live: 9, color: "from-violet-500 to-purple-600" },
+  { bn: "আল্লাহু আকবার", en: "Allahu Akbar", count: "7.3M", live: 5, color: "from-cyan-500 to-blue-600" },
+];
+
+const ROOMS_OF_SUBHANALLAH = [
+  { icon: "🌍", name: "Worldwide · Public", sub: "auto · default", members: "2.4M", live: true, season: "100k Sprint · 3d left" },
+  { icon: "👨‍👩‍👧", name: "Family Circle", sub: "private", members: "6", live: false, season: null as string | null },
+  { icon: "🇧🇩", name: "Bangladesh Youth", sub: "community", members: "1,248", live: false, season: "Season starts in 3d" },
+  { icon: "🕌", name: "Masjid Al-Noor", sub: "community", members: "312", live: false, season: null as string | null },
+];
+
+function H1ChannelGrid() {
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <div className="flex items-center justify-between px-4 pt-3">
+        <div>
+          <div className="text-[16px] font-extrabold text-slate-900">Zikr</div>
+          <div className="text-[10px] text-slate-500">Pick a channel · pick a room</div>
+        </div>
+        <Search className="h-4 w-4 text-slate-400" />
+      </div>
+      <div className="px-4 pt-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Channels · permanent</div>
+      <div className="grid flex-1 grid-cols-2 gap-2 px-3 pt-2 pb-3">
+        {CHANNELS.map((c) => (
+          <button key={c.en} className={`relative flex flex-col justify-between rounded-2xl bg-gradient-to-br ${c.color} p-2.5 text-left text-white shadow-sm`}>
+            <div>
+              <div className="bn text-[12.5px] font-extrabold leading-tight">{c.bn}</div>
+              <div className="text-[9px] opacity-85">{c.en}</div>
+            </div>
+            <div className="mt-2">
+              <div className="text-[13px] font-bold tabular-nums">{c.count}</div>
+              <div className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-white/20 px-1.5 py-0.5 text-[8.5px] font-semibold ring-1 ring-white/25">
+                <span className="h-1 w-1 rounded-full bg-rose-300" /> {c.live} live
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function H2ChannelDetail() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="bg-gradient-to-br from-emerald-600 to-teal-700 px-4 pb-4 pt-3 text-white">
+        <FlowChrome title="Subhanallah" sub="Channel · permanent" tone="dark" />
+        <div className="mt-2 text-center">
+          <div className="bn text-[18px] font-extrabold">সুবহানাল্লাহি</div>
+          <div className="mt-0.5 text-[20px] font-extrabold tabular-nums">12,418,206</div>
+          <div className="text-[10px] opacity-80">global lifetime · 12 rooms live</div>
+        </div>
+        <div className="mt-2 flex items-center justify-center gap-1 text-[9px] opacity-90">
+          <Sparkles className="h-3 w-3" /> Past sponsors · Wizlife · Halal Foods · Anchor +4
+        </div>
+      </div>
+      <div className="flex border-b border-slate-100 px-3 text-[11px] font-semibold">
+        <div className="border-b-2 border-emerald-600 px-2 py-2 text-emerald-700">Rooms</div>
+        <div className="px-2 py-2 text-slate-400">Global leaderboard</div>
+      </div>
+      <div className="flex-1 space-y-1.5 px-3 pt-2 pb-3">
+        {ROOMS_OF_SUBHANALLAH.map((r) => (
+          <div key={r.name} className="flex items-center gap-2 rounded-xl bg-slate-50 p-2.5 ring-1 ring-slate-100">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-[16px] ring-1 ring-slate-200">{r.icon}</div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <div className="truncate text-[12px] font-bold text-slate-800">{r.name}</div>
+                {r.live && (
+                  <span className="inline-flex items-center gap-0.5 rounded-full bg-rose-100 px-1.5 py-0.5 text-[8.5px] font-bold text-rose-700">
+                    <span className="h-1 w-1 rounded-full bg-rose-500" />LIVE
+                  </span>
+                )}
+              </div>
+              <div className="text-[9.5px] text-slate-500">{r.sub} · {r.members} members</div>
+              {r.season && <div className="mt-0.5 text-[9.5px] font-semibold text-amber-700">🏆 {r.season}</div>}
+            </div>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+          </div>
+        ))}
+        <button className="flex w-full items-center justify-center gap-1 rounded-xl border border-dashed border-emerald-300 bg-emerald-50/50 py-2 text-[11px] font-bold text-emerald-700">
+          <Plus className="h-3.5 w-3.5" /> Create a new room
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function H3ChannelLB() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="bg-gradient-to-br from-emerald-700 to-teal-800 px-4 pb-4 pt-3 text-white">
+        <FlowChrome title="Global leaderboard" sub="Subhanallah channel" tone="dark" />
+        <div className="mt-2 text-center">
+          <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-semibold ring-1 ring-white/20">
+            <Globe2 className="h-3 w-3" /> Across every room in this zikr
+          </span>
+          <div className="mt-1.5 text-[18px] font-extrabold">All-Time · Channel</div>
+        </div>
+      </div>
+      <div className="px-3 pt-2"><TimeRangeChips active="All-time" /></div>
+      <div className="flex-1 space-y-1.5 px-3 pt-1 pb-3">
+        {LB_PLAYERS.slice(0, 5).map((p, i) => (
+          <div key={p.name} className={`flex items-center gap-2 rounded-xl px-3 py-2 ${i === 0 ? "bg-emerald-50 ring-1 ring-emerald-200" : "bg-slate-50"}`}>
+            <div className={`w-5 text-center text-[12px] font-bold ${i === 0 ? "text-emerald-700" : "text-slate-400"}`}>{i + 1}</div>
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-800">{p.avatar}</div>
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-[12px] font-semibold text-slate-800">{p.name}</div>
+              <div className="text-[9px] text-slate-500">across {2 + (i % 3)} rooms</div>
+            </div>
+            <div className="text-right">
+              <div className="text-[11.5px] font-bold text-slate-900 tabular-nums">{(p.count * 6).toLocaleString()}</div>
+              <div className="text-[9px] text-slate-400">channel total</div>
+            </div>
+          </div>
+        ))}
+        <div className="flex items-center gap-2 rounded-xl bg-emerald-600 px-3 py-2 text-white">
+          <div className="w-5 text-center text-[12px] font-bold">#42</div>
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/25 text-[10px] font-bold">YOU</div>
+          <div className="flex-1 text-[12px] font-semibold">Your channel total</div>
+          <div className="text-[12px] font-bold tabular-nums">38,640</div>
+        </div>
+        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-2 text-center text-[9.5px] text-slate-500">
+          Counts add up from every room you've joined in this zikr.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function H4RoomDormant() {
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <FlowChrome title="🌍 Worldwide" sub="Subhanallah · public room" />
+      <div className="px-4 pt-2">
+        <div className="rounded-2xl bg-gradient-to-br from-slate-700 to-slate-900 p-3.5 text-white">
+          <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-wider opacity-80">
+            <InfinityIcon className="h-3 w-3" /> Organic mode · no active season
+          </div>
+          <div className="mt-1 text-[22px] font-extrabold tabular-nums">2,418,902</div>
+          <div className="text-[10px] opacity-80">room lifetime · 2.4M members</div>
+        </div>
+        <div className="mt-2 rounded-xl border border-dashed border-amber-300 bg-amber-50 p-2.5">
+          <div className="flex items-center gap-1.5">
+            <Clock className="h-3.5 w-3.5 text-amber-600" />
+            <div className="text-[11px] font-bold text-amber-900">Next sponsored season</div>
+          </div>
+          <div className="mt-0.5 text-[10px] text-amber-800">starts in <b>6d 4h</b> · Wizlife · ৳20k prize pool</div>
+        </div>
+        <div className="mt-2 grid grid-cols-2 gap-2 text-[11px]">
+          <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+            <div className="text-[9px] uppercase tracking-wider text-slate-400">Your room</div>
+            <div className="text-[15px] font-extrabold text-slate-900 tabular-nums">6,120</div>
+          </div>
+          <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+            <div className="text-[9px] uppercase tracking-wider text-slate-400">Channel total</div>
+            <div className="text-[15px] font-extrabold text-emerald-700 tabular-nums">38,640</div>
+          </div>
+        </div>
+        <div className="mt-2 grid grid-cols-2 gap-2 text-[11px]">
+          <button className="rounded-xl bg-emerald-600 p-2.5 text-left font-bold text-white shadow-sm">
+            <BookOpen className="mb-1 h-4 w-4" />
+            Start zikr
+          </button>
+          <button className="rounded-xl bg-white p-2.5 text-left ring-1 ring-slate-200">
+            <Trophy className="mb-1 h-4 w-4 text-amber-600" />
+            <div className="font-bold text-slate-800">Room leaderboard</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function H5RoomLive() {
+  const fam = [
+    { name: "Abu (you)", avatar: "AB", count: 1840, you: true },
+    { name: "Mom", avatar: "MM", count: 2120, you: false },
+    { name: "Yusuf", avatar: "YS", count: 1610, you: false },
+    { name: "Fatima", avatar: "FT", count: 980, you: false },
+  ].sort((a, b) => b.count - a.count);
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="px-4 pb-3 pt-3" style={{ background: NAVY, color: "white" }}>
+        <FlowChrome title="👨‍👩‍👧 Family Circle" sub="Subhanallah · 6 members" tone="dark" />
+        <div className="mt-2 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 p-3">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-[14px]">🛍️</div>
+            <div className="flex-1">
+              <div className="text-[10px] font-semibold uppercase tracking-wider opacity-90">Wizlife · Sponsored</div>
+              <div className="text-[12px] font-extrabold">100k Sprint · ৳15,000 prize</div>
+            </div>
+            <div className="text-right">
+              <div className="text-[9px] opacity-90">ends in</div>
+              <div className="text-[12px] font-bold tabular-nums">3d 14h</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="px-3 pt-2"><SessionTabs active="session" /></div>
+      <div className="flex-1 space-y-1.5 px-3 pt-2 pb-3">
+        {fam.map((p, i) => (
+          <div key={p.name} className={`flex items-center gap-2 rounded-xl px-3 py-2 ${p.you ? "bg-emerald-50 ring-1 ring-emerald-300" : "bg-slate-50"}`}>
+            <div className={`w-5 text-center text-[12px] font-bold ${i === 0 ? "text-amber-600" : "text-slate-400"}`}>{i + 1}</div>
+            <div className={`flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-bold ${p.you ? "bg-emerald-600 text-white" : "bg-slate-200 text-slate-700"}`}>{p.avatar}</div>
+            <div className="flex-1 truncate text-[12px] font-semibold text-slate-800">{p.name}</div>
+            <div className="text-[12px] font-bold text-slate-900 tabular-nums">{p.count.toLocaleString()}</div>
+          </div>
+        ))}
+        <div className="rounded-xl border border-dashed border-emerald-200 bg-emerald-50/40 p-2 text-center text-[9.5px] text-emerald-800">
+          ✓ Counts here also add to your <b>Subhanallah channel</b> total.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function H6CreateRoom() {
+  return (
+    <div className="relative flex h-full flex-col">
+      <div className="absolute inset-0 bg-gradient-to-b from-emerald-600/40 to-slate-900/70" />
+      <div className="relative mt-auto rounded-t-3xl bg-white p-4 shadow-2xl">
+        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-slate-200" />
+        <div className="mb-1 text-center text-[14px] font-extrabold text-slate-900">Create a room</div>
+        <div className="mb-3 text-center text-[10px] text-slate-500">Invite family, friends, or a community</div>
+        <div className="space-y-2.5">
+          <div>
+            <div className="mb-1 text-[9.5px] font-semibold uppercase tracking-wider text-slate-500">Room name</div>
+            <div className="rounded-xl bg-slate-50 px-3 py-2 text-[12px] text-slate-800 ring-1 ring-slate-200">Family Circle</div>
+          </div>
+          <div>
+            <div className="mb-1 text-[9.5px] font-semibold uppercase tracking-wider text-slate-500">Zikr channel</div>
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-1 text-[11px] font-bold text-emerald-800 ring-1 ring-emerald-200">
+              <Lock className="h-3 w-3" /> Subhanallah · cannot change
+            </div>
+            <div className="mt-1 text-[9px] text-slate-400">A room belongs to one zikr · multi-zikr coming later</div>
+          </div>
+          <div>
+            <div className="mb-1 text-[9.5px] font-semibold uppercase tracking-wider text-slate-500">Privacy</div>
+            <div className="grid grid-cols-3 gap-1.5 text-[10.5px] font-semibold">
+              <div className="rounded-lg bg-emerald-600 py-1.5 text-center text-white">Private</div>
+              <div className="rounded-lg bg-slate-100 py-1.5 text-center text-slate-600">Community</div>
+              <div className="rounded-lg bg-slate-100 py-1.5 text-center text-slate-600">Public</div>
+            </div>
+          </div>
+          <label className="flex items-center gap-2 rounded-xl bg-amber-50 p-2 text-[10.5px] text-amber-900 ring-1 ring-amber-200">
+            <div className="h-3.5 w-3.5 rounded border-2 border-amber-500 bg-amber-500" />
+            <span>Schedule a sponsored season later <span className="opacity-70">(optional)</span></span>
+          </label>
+          <button className="mt-1 w-full rounded-xl bg-slate-900 py-2.5 text-[12px] font-bold text-white">
+            Create room
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
 /*  LEADERBOARD FLOW — User Journey                                   */
 /* ================================================================== */
 
