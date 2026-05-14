@@ -1350,7 +1350,7 @@ export default function SponsorCards() {
         </header>
         <AdminCreateRoom />
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-lb-variants" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Room Leaderboard — Design Variants</h1>
           <p className="mt-1 text-sm text-slate-500">
             Four directions for ranking + weekly winners hall of fame.
