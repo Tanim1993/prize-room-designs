@@ -1025,9 +1025,32 @@ function SponsorReport() {
 }
 
 export default function SponsorCards() {
+  const [view, setView] = useState<"v1" | "v2">("v2");
   return (
-    <div className="min-h-screen bg-[#EEF2F7] px-6 py-10">
+    <div className="min-h-screen bg-[#EEF2F7]">
+      <div className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur">
+        <div className="mx-auto flex max-w-[1800px] items-center justify-between gap-4 px-6 py-3">
+          <div className="text-sm font-semibold text-slate-900">Zikr Rooms — Sponsor Design</div>
+          <div className="inline-flex rounded-full bg-slate-100 p-1 text-[12px] font-semibold">
+            <button
+              onClick={() => setView("v1")}
+              className={`rounded-full px-4 py-1.5 transition ${view === "v1" ? "bg-white text-slate-900 shadow" : "text-slate-500"}`}
+            >
+              V1 · Exploration
+            </button>
+            <button
+              onClick={() => setView("v2")}
+              className={`rounded-full px-4 py-1.5 transition ${view === "v2" ? "bg-slate-900 text-white shadow" : "text-slate-500"}`}
+            >
+              V2 · Flow-wise ▸
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="px-6 py-10">
       <div className="mx-auto max-w-[1800px]">
+        {view === "v2" && <V2FlowDeck />}
+        {view === "v1" && (<>
         <header className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsored / Prize Room — In-App Patterns</h1>
           <p className="mt-1 text-sm text-slate-500">
