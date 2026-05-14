@@ -1376,7 +1376,7 @@ export default function SponsorCards() {
           <DetailFrame label="Running B · Tiered Podium + Countdown"><LBRunningB /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-channel-cards" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Channel Card — Variants <span className="bn text-slate-500">— চ্যানেল কার্ড</span></h1>
           <p className="mt-1 text-sm text-slate-500">
             Wide horizontal cards for the <b>Featured / Public / My Rooms</b> tabs. Navy · white · gold palette. ~400px wide, varying heights.
