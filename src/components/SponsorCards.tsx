@@ -40,6 +40,12 @@ import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
 import bannerBooks from "@/assets/banner-books.png";
 import React, { useEffect, useState } from "react";
+import {
+  FinalSelectionProvider,
+  FinalSelectionSection,
+  PickButton,
+  useRegisterFrame,
+} from "./FinalSelection";
 
 /* ------------------------------------------------------------------ */
 /*  Shared bits matching the user's current Zikr Rooms app aesthetic  */
