@@ -1433,7 +1433,7 @@ export default function SponsorCards() {
           <DetailFrame label="Sponsor 3 · Magazine / Editorial"><SponsorChannelV3 /></DetailFrame>
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-analytics" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Sponsor Analytics — Brand Report</h1>
           <p className="mt-1 text-sm text-slate-500">
             Report the app owner shows to a sponsor brand for their aligned room — demographics, engagement, growth.
