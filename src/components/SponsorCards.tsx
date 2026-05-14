@@ -617,6 +617,230 @@ function B6_FullSponsorRoom() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  ADDITIONAL ROOM VARIANTS (12-19)                                   */
+/*  Brand attribution combinations: no brand, Powered by, Sponsored    */
+/*  by, Prize only, plus banner-size variants.                         */
+/* ------------------------------------------------------------------ */
+
+/* V12 — Room with NO brand (clean baseline, no sponsor anywhere). */
+function V12_NoBrand() {
+  return (
+    <div className="rounded-2xl bg-white p-4 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="flex items-start gap-3">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+        <div className="min-w-0 flex-1">
+          <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+          <p className="bn mt-0.5 line-clamp-1 text-[12px] text-slate-500">প্রতিদিন ১০০ বার পড়ুন</p>
+        </div>
+        <ChevronRight className="h-5 w-5 text-slate-400" />
+      </div>
+      <div className="mt-3"><StatRow /></div>
+    </div>
+  );
+}
+
+/* V13 — Room with "Powered by" only (subtle attribution, no prize). */
+function V13_PoweredBy() {
+  return (
+    <div className="rounded-2xl bg-white p-4 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="flex items-start gap-3">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+        <div className="min-w-0 flex-1">
+          <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+          <p className="bn mt-0.5 line-clamp-1 text-[12px] text-slate-500">প্রতিদিন ১০০ বার পড়ুন</p>
+        </div>
+        <ChevronRight className="h-5 w-5 text-slate-400" />
+      </div>
+      <div className="mt-3 flex items-center justify-between">
+        <StatRow />
+        <span className="inline-flex items-center gap-1 text-[10px] font-medium text-slate-500">
+          Powered by
+          <img src={sponsorLogo} alt="" className="h-3.5 w-3.5 rounded-full object-cover" />
+          <span className="font-semibold text-slate-700">Wizlife</span>
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* V14 — Room with "Powered by" + "Sponsored by" (dual attribution). */
+function V14_PoweredAndSponsored() {
+  return (
+    <div className="rounded-2xl bg-white p-4 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="mb-2 flex items-center justify-between text-[10px]">
+        <span className="inline-flex items-center gap-1 font-medium text-slate-500">
+          Powered by
+          <img src={sponsorLogo} alt="" className="h-3.5 w-3.5 rounded-full object-cover" />
+          <span className="font-semibold text-slate-700">Wizlife</span>
+        </span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 font-semibold uppercase tracking-wider text-slate-600">
+          <ShieldCheck className="h-3 w-3" /> Sponsored · Ifad
+        </span>
+      </div>
+      <div className="flex items-start gap-3">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+        <div className="min-w-0 flex-1">
+          <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+          <p className="bn mt-0.5 line-clamp-1 text-[12px] text-slate-500">প্রতিদিন ১০০ বার পড়ুন</p>
+        </div>
+        <ChevronRight className="h-5 w-5 text-slate-400" />
+      </div>
+      <div className="mt-3"><StatRow /></div>
+    </div>
+  );
+}
+
+/* V15 — Room with "Sponsored by" + Prize. */
+function V15_SponsoredAndPrize() {
+  return (
+    <div className="rounded-2xl bg-white p-4 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="mb-2 flex items-center justify-between">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-600">
+          <ShieldCheck className="h-3 w-3" /> Sponsored · Wizlife
+        </span>
+        <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-extrabold text-emerald-800">
+          <Gift className="h-3 w-3" /> ৳40,000
+        </span>
+      </div>
+      <div className="flex items-start gap-3">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+        <div className="min-w-0 flex-1">
+          <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+          <span className="mt-1 inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-amber-900" style={{ background: FEATURED_YELLOW }}>
+            <Star className="h-3 w-3 fill-amber-500 text-amber-500" /> Featured
+          </span>
+        </div>
+        <ChevronRight className="h-5 w-5 text-slate-400" />
+      </div>
+      <div className="mt-3"><StatRow /></div>
+    </div>
+  );
+}
+
+/* V16 — Room with Prize only (no brand attribution). House prize. */
+function V16_PrizeOnly() {
+  return (
+    <div className="rounded-2xl bg-white p-4 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="mb-2 flex items-center justify-between">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700">House Prize Room</span>
+        <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-extrabold text-emerald-800">
+          <Gift className="h-3 w-3" /> ৳40,000
+        </span>
+      </div>
+      <div className="flex items-start gap-3">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+        <div className="min-w-0 flex-1">
+          <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+          <span className="mt-1 inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-amber-900" style={{ background: FEATURED_YELLOW }}>
+            <Star className="h-3 w-3 fill-amber-500 text-amber-500" /> Featured
+          </span>
+        </div>
+        <ChevronRight className="h-5 w-5 text-slate-400" />
+      </div>
+      <div className="mt-3"><StatRow /></div>
+    </div>
+  );
+}
+
+/* V17 — Room with Brand + small wide banner (400×70 ratio ≈ 40:7). */
+function V17_BrandSmallBanner() {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_6px_18px_-10px_rgba(15,23,42,0.25)]">
+      <div className="flex items-center justify-between px-3 py-1.5 text-white" style={{ background: NAVY }}>
+        <div className="flex items-center gap-2">
+          <img src={sponsorLogo} alt="" className="h-5 w-5 rounded-full object-cover ring-1 ring-white/30" />
+          <div className="text-[11px] font-bold">Wizlife</div>
+        </div>
+        <span className="text-[9px] uppercase tracking-wider text-white/55">Sponsored</span>
+      </div>
+      <div className="px-2 pt-2">
+        <div className="relative w-full overflow-hidden rounded-md bg-slate-100" style={{ aspectRatio: "400 / 70" }}>
+          <img src={bannerBaby} alt="" className="h-full w-full object-cover" />
+          <div className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded bg-black/45 px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-wider text-white">
+            400×70
+          </div>
+        </div>
+      </div>
+      <div className="p-4 pt-3">
+        <div className="flex items-start gap-3">
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+          <div className="min-w-0 flex-1">
+            <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+            <p className="bn mt-0.5 line-clamp-1 text-[12px] text-slate-500">প্রতিদিন ১০০ বার পড়ুন</p>
+          </div>
+          <ChevronRight className="h-5 w-5 text-slate-400" />
+        </div>
+        <div className="mt-3"><StatRow /></div>
+      </div>
+    </div>
+  );
+}
+
+/* V18 — Room with Brand + regular banner (16:9 standard). */
+function V18_BrandRegularBanner() {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_6px_18px_-10px_rgba(15,23,42,0.25)]">
+      <div className="flex items-center justify-between px-3 py-2 text-white" style={{ background: NAVY }}>
+        <div className="flex items-center gap-2">
+          <img src={sponsorLogo} alt="" className="h-6 w-6 rounded-full object-cover ring-1 ring-white/30" />
+          <div className="leading-tight">
+            <div className="text-[9px] uppercase tracking-wider text-white/60">Sponsored by</div>
+            <div className="text-[12px] font-bold">Wizlife</div>
+          </div>
+        </div>
+        <ShieldCheck className="h-3.5 w-3.5 text-amber-300" />
+      </div>
+      <div className="p-2 pb-0">
+        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-slate-100">
+          <img src={bannerBooks} alt="" className="h-full w-full object-cover" />
+          <div className="absolute right-2 top-2 rounded bg-black/45 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white">
+            16:9
+          </div>
+        </div>
+      </div>
+      <div className="p-4 pt-3">
+        <div className="flex items-start gap-3">
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+          <div className="min-w-0 flex-1">
+            <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+            <p className="bn mt-0.5 line-clamp-1 text-[12px] text-slate-500">প্রতিদিন ১০০ বার পড়ুন</p>
+          </div>
+          <ChevronRight className="h-5 w-5 text-slate-400" />
+        </div>
+        <div className="mt-3"><StatRow /></div>
+      </div>
+    </div>
+  );
+}
+
+/* V19 — Room with banner only (no brand attribution). Generic ad slot. */
+function V19_BannerOnly() {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_6px_18px_-10px_rgba(15,23,42,0.25)]">
+      <div className="p-2 pb-0">
+        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-slate-100">
+          <img src={bannerBaby} alt="" className="h-full w-full object-cover" />
+          <div className="absolute left-2 top-2 rounded-full bg-black/45 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white">
+            Ad
+          </div>
+        </div>
+      </div>
+      <div className="p-4 pt-3">
+        <div className="flex items-start gap-3">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+          <div className="min-w-0 flex-1">
+            <h3 className="bn truncate text-[15px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</h3>
+            <p className="bn mt-0.5 line-clamp-1 text-[12px] text-slate-500">প্রতিদিন ১০০ বার পড়ুন</p>
+          </div>
+          <ChevronRight className="h-5 w-5 text-slate-400" />
+        </div>
+        <div className="mt-3"><StatRow /></div>
+      </div>
+    </div>
+  );
+}
+
 type Variant = {
   label: string;
   desc: string;
@@ -638,6 +862,14 @@ const VARIANTS: Variant[] = [
   { label: "Variant 9", desc: "Banner slider INSIDE room (top)", node: <B4_BannerInsideRoom /> },
   { label: "Variant 10", desc: "Room info, then banner slider", node: <B5_RoomThenBanner /> },
   { label: "Variant 11", desc: "Sponsor header + slider + room", node: <B6_FullSponsorRoom /> },
+  { label: "Variant 12", desc: "Room with no brand (clean baseline)", node: <V12_NoBrand /> },
+  { label: "Variant 13", desc: "Room with Powered by", node: <V13_PoweredBy /> },
+  { label: "Variant 14", desc: "Room with Powered by + Sponsored by", node: <V14_PoweredAndSponsored /> },
+  { label: "Variant 15", desc: "Room with Sponsored by + Prize", node: <V15_SponsoredAndPrize /> },
+  { label: "Variant 16", desc: "Room with Prize only (house prize)", node: <V16_PrizeOnly /> },
+  { label: "Variant 17", desc: "Room with Brand + banner 400×70", node: <V17_BrandSmallBanner /> },
+  { label: "Variant 18", desc: "Room with Brand + regular banner (16:9)", node: <V18_BrandRegularBanner /> },
+  { label: "Variant 19", desc: "Room with banner only (no brand)", node: <V19_BannerOnly /> },
 ];
 
 /* ================================================================== */
