@@ -3042,6 +3042,8 @@ function LBRunningA() {
 
       <div className="px-4 pt-3">
         <div className="mb-2"><TimeRangeChips active="Today" tone="amber" /></div>
+        <div className="flex items-center justify-between">
+          <div className="text-[12px] font-bold text-slate-900">Live ranking</div>
           <span className="text-[10px] text-slate-500">Updates every 10s</span>
         </div>
         <div className="mt-2 space-y-1.5">
