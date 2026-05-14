@@ -1,64 +1,81 @@
-## What you're confused about — clarified first
+# Sponsor Brand Analytics Report — Design Variant
 
-Yes, your intuition is right. The sponsor banner on Home is just a **doorway**. Tapping it should not jump straight into a single room — it should open a **Sponsor Channel page** (like a YouTube channel) where one sponsor (e.g. Wizlife) hosts:
+A new exploration variant in `SponsorCards.tsx`, shown inside the same `PhoneFrame` as the existing concepts. This is the report screen the **app owner shows a sponsor brand** for the room their brand is aligned with (e.g. Wizlife → "সুবহানাল্লাহি" room).
 
-- a **cover banner** + **logo/avatar**
-- **bio / about** (who they are, verified badge, website, social)
-- **stats** (followers, total prize given, active rooms)
-- a **Follow / Subscribe** button
-- **tabs**: Active Rooms · Upcoming · Past Winners · About
-- a **list/grid of all rooms** sponsored by them (some live, some scheduled, some ended)
+Goal: in one scrollable mobile screen, the brand sees *who* engaged, *where they came from*, *what they did*, and *whether the room is growing*.
 
-This makes the sponsor a long-term brand presence in the app, not a one-shot ad.
+## Where it lives
 
-## New section to add: "Sponsor Channel"
+- New section at the bottom of `SponsorCards.tsx` titled **"Sponsor Analytics — Brand Report"**.
+- Rendered inside a `PhoneFrame` labeled `R1 — Sponsor Report`.
+- Replaces the normal room-feed body with a report layout (header + KPI grid + sections). Bottom nav stays so the app shell stays consistent.
+- Uses existing tokens: `NAVY`, `FEATURED_YELLOW`, lucide icons, no new deps. Tiny inline SVG for charts (no recharts) to keep it lightweight and on-brand.
 
-Add a new section in `src/components/SponsorCards.tsx` titled **"Sponsor Channel / Profile"** with **3 variants**, each rendered inside a `DetailFrame` (mobile phone mock, same pattern as Home/Leaderboard sections).
+## Layout (top → bottom)
 
-### Variant 1 — YouTube-style Channel
-- Wide cover banner (16:9) at top
-- Circular sponsor logo overlapping banner bottom-left
-- Name + verified tick + handle (`@wizlife`)
-- "1.2M followers · 24 rooms · ৳12L prize given"
-- Primary **Subscribe** (filled) + **Share** (outline) buttons
-- Short bio with "...more" expand
-- Sticky tabs: **Active · Upcoming · Past · About**
-- Active tab content: vertical list of room cards (thumbnail, title, prize, joined count, "Live" pulse dot or countdown)
+```text
+┌──────────────────────────────────────────┐
+│ Report header                            │
+│  Wizlife logo · "Brand Report"           │
+│  Room: সুবহানাল্লাহি · Last 30 days ▾   │
+├──────────────────────────────────────────┤
+│ KPI grid (2×2)                           │
+│  Total reach 24,380   ▲ 18%              │
+│  Active members 1,820 ▲ 9%               │
+│  Click-through 3,140  ▲ 22%              │
+│  Sponsor visits 612   ▲ 5%               │
+├──────────────────────────────────────────┤
+│ Growth — area sparkline (30d)            │
+│  + new joins / churned split below       │
+├──────────────────────────────────────────┤
+│ Audience: Age                            │
+│  Stacked horizontal bars 13-17 … 55+     │
+├──────────────────────────────────────────┤
+│ Audience: Gender                         │
+│  Donut + legend (M / F / Other)          │
+├──────────────────────────────────────────┤
+│ Top locations                            │
+│  Country rows w/ flag, %, bar            │
+│  Dhaka, Chattogram, Sylhet, KL, Riyadh   │
+├──────────────────────────────────────────┤
+│ Engagement funnel                        │
+│  Impressions → Visits → Joined → Active  │
+├──────────────────────────────────────────┤
+│ Members: New vs Returning                │
+│  Two stat cards + 7-day mini bars        │
+├──────────────────────────────────────────┤
+│ Footer: "Download PDF" · "Share report"  │
+└──────────────────────────────────────────┘
+```
 
-### Variant 2 — Premium Brand Page (navy/gold, matches your app)
-- Navy header with sponsor logo center + "PRESENTED BY" kicker
-- Gradient hero card showing **flagship room** ("Ramadan Zikr Challenge · ৳40,000")
-- Stat strip: Active Rooms · Total Prize · Winners Crowned
-- Horizontal **Rooms carousel** (snap cards)
-- **Past Winners wall** (avatar grid with month labels)
-- Floating "Follow Sponsor" CTA
+## Sections in detail
 
-### Variant 3 — Magazine / Editorial Profile
-- Full-bleed banner with overlay gradient + sponsor name in serif display type
-- Two-column meta strip: left = bio paragraph, right = quick facts (founded, location, website link)
-- Section: **"Now Running"** — 1 large featured room card
-- Section: **"More Rooms by Wizlife"** — 2-column grid of compact room tiles with status pills (Live / Starts in 3d / Ended)
-- Section: **"Hall of Champions"** — winners with prize won
-- Footer: social icons (FB, IG, YT, Web)
+1. **Report header** — navy band like the existing P3 hero. Sponsor logo, "Brand Report" eyebrow, room name in Bengali, date-range chip (`Last 30 days`).
+2. **KPI grid** — 2×2 white cards. Each: label, big number, ▲/▼ delta vs previous period (emerald / rose). Metrics: Total reach, Active members, Click-through, Sponsor profile visits.
+3. **Growth** — full-width card. Inline SVG area sparkline (30 points). Below: two pills `+412 new joins`, `−38 left`, plus net growth %.
+4. **Age demographics** — horizontal stacked bars per bucket (13-17, 18-24, 25-34, 35-44, 45-54, 55+). Each bar shows % and count on hover-equivalent (static label on right).
+5. **Gender** — SVG donut (Male / Female / Other) with legend and counts.
+6. **Top locations** — list rows: flag emoji + city/country + % share + thin bar. Mix of BD cities + diaspora (KL, Riyadh, London).
+7. **Engagement funnel** — 4 descending bars: Impressions → Room visits → Joined → Active 7d. Show absolute number + conversion % between steps.
+8. **New vs Returning members** — two side-by-side stat cards with 7-day mini bar charts. Highlights retention story for the sponsor.
+9. **Footer actions** — secondary "Download PDF" and primary navy "Share report" button. Non-functional (design exploration only).
 
-## Fields each sponsor profile should support
-(Drives the data model the admin variant should later expose)
+## Visual rules
 
-- Cover banner image, logo/avatar, display name, handle, verified flag
-- Short bio, long description, founded year, location, website, socials
-- Follower count (derived), total prize awarded (derived), rooms count (derived)
-- Room list with: status (live/upcoming/ended), title, prize, joined, starts/ends at
-- Past winners list (user, room, prize, date)
+- Match existing aesthetic: white cards, `rounded-2xl`, soft shadow `shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]`, navy header band, amber/gold for sponsor accents, emerald for positive deltas, rose-500 for negative.
+- All numbers are **mocked** inline constants — clearly fake but plausible (24,380 / 1,820 / etc.).
+- All charts are **inline SVG** (sparkline, donut, bars) — no chart library. Keeps bundle small and matches the hand-crafted feel of the other variants.
+- Bengali text reuses the `bn` class already in the file for room name.
 
-## Implementation notes
-- All new code appended to `src/components/SponsorCards.tsx`
-- Add a new section block in the default export between the Home section and Admin/Leaderboard sections, titled **"Sponsor Channel / Profile (variants)"**
-- Reuse existing helpers: `PhoneFrame` style via `DetailFrame`, `BANNERS`, `sponsorLogo`, `BannerSlider`, navy/yellow tokens
-- Reuse `LB_PLAYERS` for winner avatars; create a small local `SPONSOR_ROOMS` array (4–5 rooms with mixed status) inside the file
-- No backend, no routing, no business logic — pure presentational variants, same approach as previous variant sections
-- No new dependencies
+## Files touched
 
-## Out of scope (will not do in this turn)
-- Wiring the Home banner tap → channel page
-- Admin "Create Sponsor Profile" form (can follow in a later step if you like the variants)
-- Real follower/subscribe logic
+- `src/components/SponsorCards.tsx` — add the new section + helper components (`SponsorReport`, `KpiCard`, `Sparkline`, `Donut`, `BarRow`, `FunnelStep`). Append to the existing default-exported page so it shows up at the bottom of the current preview at `/`.
+
+No new routes, no new assets, no dependency changes, no backend.
+
+## Out of scope
+
+- Real data wiring, auth, role gating ("only app owner sees this").
+- PDF export / share functionality.
+- Multi-room selector, comparisons across rooms, time-range picker logic.
+- Desktop/tablet layout — mobile phone-frame only, matching the rest of this exploration file.
