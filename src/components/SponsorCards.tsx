@@ -2900,6 +2900,7 @@ function LBOrganicA() {
       </div>
 
       <div className="-mt-5 px-4">
+        <div className="mb-2"><TimeRangeChips active="All-time" /></div>
         <div className="rounded-2xl bg-white p-3 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.25)] ring-1 ring-slate-100">
           <div className="grid grid-cols-3 gap-2 text-center">
             {LB_PLAYERS.slice(0, 3).map((p, i) => (
