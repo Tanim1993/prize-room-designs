@@ -1314,7 +1314,7 @@ export default function SponsorCards() {
           ))}
         </div>
 
-        <header className="mt-20 mb-8 text-center">
+        <header id="sec-room-detail" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h1 className="text-2xl font-bold text-slate-900">Room Details Page — Sponsor Patterns</h1>
           <p className="mt-1 text-sm text-slate-500">
             Three approaches to surface sponsor branding, ads & sliders inside the room detail screen.
