@@ -3968,21 +3968,158 @@ function AdminPortalV2() {
               </div>
             </AdminFormSection>
 
-            <AdminFormSection icon={<Calendar className="h-4 w-4" />} title="Schedule & Publish" desc="Forever room stays — only the season window changes.">
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <AdminFieldLabel label="Room Type" />
-                  <div className="inline-flex items-center gap-1 rounded-lg bg-indigo-50 px-2.5 py-2 text-[12px] font-bold text-indigo-700 ring-1 ring-indigo-100">
-                    <InfinityIcon className="h-3.5 w-3.5" /> Forever
+            <AdminFormSection icon={<Calendar className="h-4 w-4" />} title="Sponsor Sessions Timeline" desc="Forever room stays alive 365 days. Schedule different brands in different time slots — gaps run as organic (no sponsor).">
+              {/* Room type pill */}
+              <div className="mb-4 flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1 rounded-lg bg-indigo-50 px-2.5 py-1.5 text-[11px] font-bold text-indigo-700 ring-1 ring-indigo-100">
+                  <InfinityIcon className="h-3.5 w-3.5" /> Forever Room — never closes
+                </span>
+                <span className="text-[11px] text-slate-500">Sponsors plug in for a session, then leave. Room continues.</span>
+              </div>
+
+              {/* Visual timeline bar */}
+              <div className="mb-1 flex justify-between px-1 text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                <span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
+              </div>
+              <div className="relative h-9 overflow-hidden rounded-lg bg-slate-100 ring-1 ring-slate-200">
+                {/* Wizlife block */}
+                <div className="absolute top-1 bottom-1 rounded-md bg-amber-400 px-2 text-[10px] font-bold text-slate-900 shadow ring-1 ring-amber-500" style={{ left: "2%", width: "16%" }}>
+                  <div className="flex h-full items-center gap-1 truncate"><Sparkles className="h-3 w-3" />Wizlife</div>
+                </div>
+                {/* Gap = organic */}
+                <div className="absolute top-2 bottom-2 flex items-center justify-center rounded-md bg-slate-200 px-2 text-[9px] font-semibold text-slate-500" style={{ left: "20%", width: "12%" }}>
+                  Organic
+                </div>
+                {/* Ifad block */}
+                <div className="absolute top-1 bottom-1 rounded-md bg-rose-400 px-2 text-[10px] font-bold text-white shadow ring-1 ring-rose-500" style={{ left: "34%", width: "20%" }}>
+                  <div className="flex h-full items-center gap-1 truncate"><Sparkles className="h-3 w-3" />Ifad Group</div>
+                </div>
+                <div className="absolute top-2 bottom-2 flex items-center justify-center rounded-md bg-slate-200 px-2 text-[9px] font-semibold text-slate-500" style={{ left: "56%", width: "8%" }}>
+                  Organic
+                </div>
+                <div className="absolute top-1 bottom-1 rounded-md bg-emerald-400 px-2 text-[10px] font-bold text-white shadow ring-1 ring-emerald-500" style={{ left: "66%", width: "18%" }}>
+                  <div className="flex h-full items-center gap-1 truncate"><Sparkles className="h-3 w-3" />ACI Pure</div>
+                </div>
+                <div className="absolute top-2 bottom-2 flex items-center justify-center rounded-md border-2 border-dashed border-slate-300 px-2 text-[9px] font-semibold text-slate-400" style={{ left: "86%", width: "12%" }}>
+                  + open
+                </div>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-3 text-[10px] text-slate-500">
+                <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm bg-amber-400" />Sponsor session</span>
+                <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm bg-slate-200" />Organic (no brand)</span>
+                <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm border-2 border-dashed border-slate-300" />Open slot</span>
+              </div>
+
+              {/* Sessions list */}
+              <div className="mt-5 space-y-2">
+                <div className="flex items-center justify-between px-1">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Scheduled sessions</div>
+                  <button className="rounded-full bg-emerald-600 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-emerald-700">+ Add session</button>
+                </div>
+
+                {/* Session 1 — sponsor */}
+                <div className="rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-2">
+                      <div className="grid h-9 w-9 place-items-center rounded-lg bg-amber-200 text-[11px] font-bold text-amber-900">W</div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[13px] font-bold text-slate-900">Session #1 · Wizlife</span>
+                          <span className="rounded bg-emerald-500 px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">Live</span>
+                        </div>
+                        <div className="text-[11px] text-slate-600">May 5 → May 25 · 21 days</div>
+                        <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-amber-800">
+                          <Gift className="h-3 w-3" /> Prize ৳40,000 · 1st 25k / 2nd 10k / 3rd 5k
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <button className="rounded p-1.5 text-slate-500 hover:bg-white"><Eye className="h-3.5 w-3.5" /></button>
+                      <button className="rounded p-1.5 text-slate-500 hover:bg-white">✎</button>
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <AdminFieldLabel label="Season Start" />
-                  <input className={adminInput} defaultValue="2026-05-20" />
+
+                {/* Gap card */}
+                <div className="flex items-center justify-between rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-3">
+                  <div className="flex items-center gap-2">
+                    <div className="grid h-9 w-9 place-items-center rounded-lg bg-slate-200 text-slate-500"><Clock className="h-4 w-4" /></div>
+                    <div>
+                      <div className="text-[12px] font-bold text-slate-700">Organic period · no sponsor</div>
+                      <div className="text-[11px] text-slate-500">May 26 → Jun 9 · 15 days · members keep zikr-ing, no prize</div>
+                    </div>
+                  </div>
+                  <button className="rounded-lg bg-white px-2.5 py-1.5 text-[11px] font-bold text-emerald-700 ring-1 ring-emerald-200 hover:bg-emerald-50">Fill with sponsor</button>
                 </div>
-                <div>
-                  <AdminFieldLabel label="Season End" />
-                  <input className={adminInput} defaultValue="2026-06-19" />
+
+                {/* Session 2 — sponsor */}
+                <div className="rounded-xl bg-rose-50 p-3 ring-1 ring-rose-200">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-2">
+                      <div className="grid h-9 w-9 place-items-center rounded-lg bg-rose-200 text-[11px] font-bold text-rose-900">I</div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[13px] font-bold text-slate-900">Session #2 · Ifad Group</span>
+                          <span className="rounded bg-sky-500 px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">Scheduled</span>
+                        </div>
+                        <div className="text-[11px] text-slate-600">Jun 10 → Jul 5 · 26 days</div>
+                        <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-rose-800">
+                          <Gift className="h-3 w-3" /> Prize ৳60,000 · top 10 win
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <button className="rounded p-1.5 text-slate-500 hover:bg-white"><Eye className="h-3.5 w-3.5" /></button>
+                      <button className="rounded p-1.5 text-slate-500 hover:bg-white">✎</button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Session 3 — sponsor */}
+                <div className="rounded-xl bg-emerald-50 p-3 ring-1 ring-emerald-200">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-2">
+                      <div className="grid h-9 w-9 place-items-center rounded-lg bg-emerald-200 text-[11px] font-bold text-emerald-900">A</div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[13px] font-bold text-slate-900">Session #3 · ACI Pure</span>
+                          <span className="rounded bg-slate-400 px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">Draft</span>
+                        </div>
+                        <div className="text-[11px] text-slate-600">Jul 15 → Aug 14 · 31 days</div>
+                        <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800">
+                          <Gift className="h-3 w-3" /> Prize ৳50,000
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <button className="rounded p-1.5 text-slate-500 hover:bg-white"><Eye className="h-3.5 w-3.5" /></button>
+                      <button className="rounded p-1.5 text-slate-500 hover:bg-white">✎</button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Empty add-card */}
+                <button className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-emerald-300 bg-emerald-50/40 py-3 text-[12px] font-bold text-emerald-700 hover:bg-emerald-50">
+                  <Plus className="h-4 w-4" /> Add another session (sponsor or organic)
+                </button>
+              </div>
+
+              {/* Default behaviour when no sponsor */}
+              <div className="mt-4 rounded-xl bg-slate-50 p-3 ring-1 ring-slate-200">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-slate-600">When no sponsor is active</div>
+                <div className="mt-1.5 grid grid-cols-3 gap-2 text-[11px]">
+                  <label className="flex cursor-pointer items-start gap-1.5 rounded-lg bg-white p-2 ring-1 ring-emerald-300">
+                    <input type="radio" defaultChecked className="mt-0.5" />
+                    <div><div className="font-bold text-slate-800">Run organic</div><div className="text-[10px] text-slate-500">No prize, lifetime counter only</div></div>
+                  </label>
+                  <label className="flex cursor-pointer items-start gap-1.5 rounded-lg bg-white p-2 ring-1 ring-slate-200">
+                    <input type="radio" className="mt-0.5" />
+                    <div><div className="font-bold text-slate-800">House prize</div><div className="text-[10px] text-slate-500">App pays a small prize</div></div>
+                  </label>
+                  <label className="flex cursor-pointer items-start gap-1.5 rounded-lg bg-white p-2 ring-1 ring-slate-200">
+                    <input type="radio" className="mt-0.5" />
+                    <div><div className="font-bold text-slate-800">Hide banner</div><div className="text-[10px] text-slate-500">Show clean room only</div></div>
+                  </label>
                 </div>
               </div>
             </AdminFormSection>
