@@ -4055,7 +4055,7 @@ function RDShell({ step, title, bn, children }: { step: number; title: string; b
         </div>
         <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
           <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Scope</div>
-          <div className="mt-0.5 flex items-center gap-1 text-[11px] font-semibold text-slate-700"><Globe className="h-3 w-3 text-slate-400" />Bangladesh</div>
+          <div className="mt-0.5 flex items-center gap-1 text-[11px] font-semibold text-slate-700"><Globe2 className="h-3 w-3 text-slate-400" />Bangladesh</div>
         </div>
         <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
           <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Started</div>
