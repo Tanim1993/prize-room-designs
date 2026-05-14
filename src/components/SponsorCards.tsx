@@ -629,6 +629,401 @@ const VARIANTS: Variant[] = [
   { label: "Variant 11", desc: "Sponsor header + slider + room", node: <B6_FullSponsorRoom /> },
 ];
 
+/* ================================================================== */
+/*  SPONSOR ANALYTICS — BRAND REPORT                                  */
+/*  Shown by the app owner to a sponsor brand for an aligned room.    */
+/* ================================================================== */
+
+function Delta({ value }: { value: number }) {
+  const positive = value >= 0;
+  return (
+    <span
+      className={`inline-flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[10px] font-bold ${
+        positive ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
+      }`}
+    >
+      {positive ? "▲" : "▼"} {Math.abs(value)}%
+    </span>
+  );
+}
+
+function KpiCard({
+  label,
+  value,
+  delta,
+  icon: Icon,
+}: {
+  label: string;
+  value: string;
+  delta: number;
+  icon: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <div className="rounded-2xl bg-white p-3 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="flex items-center justify-between">
+        <div
+          className="grid h-7 w-7 place-items-center rounded-lg text-white"
+          style={{ background: NAVY }}
+        >
+          <Icon className="h-3.5 w-3.5" />
+        </div>
+        <Delta value={delta} />
+      </div>
+      <div className="mt-2 text-[19px] font-extrabold leading-none text-slate-900">{value}</div>
+      <div className="mt-1 text-[10.5px] font-medium uppercase tracking-wider text-slate-500">
+        {label}
+      </div>
+    </div>
+  );
+}
+
+function Sparkline({ points, height = 56 }: { points: number[]; height?: number }) {
+  const w = 280;
+  const h = height;
+  const max = Math.max(...points);
+  const min = Math.min(...points);
+  const span = max - min || 1;
+  const step = w / (points.length - 1);
+  const coords = points.map((p, i) => [i * step, h - ((p - min) / span) * (h - 6) - 3] as const);
+  const line = coords.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+  const area = `${line} L${w},${h} L0,${h} Z`;
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="h-14 w-full">
+      <defs>
+        <linearGradient id="spark" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor={NAVY} stopOpacity="0.35" />
+          <stop offset="100%" stopColor={NAVY} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path d={area} fill="url(#spark)" />
+      <path d={line} fill="none" stroke={NAVY} strokeWidth="1.75" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function AgeBar({ label, pct, count }: { label: string; pct: number; count: string }) {
+  return (
+    <div>
+      <div className="mb-1 flex items-center justify-between text-[11px]">
+        <span className="font-semibold text-slate-700">{label}</span>
+        <span className="text-slate-500">
+          {count} <span className="text-slate-400">· {pct}%</span>
+        </span>
+      </div>
+      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+        <div
+          className="h-full rounded-full"
+          style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${NAVY}, #4F76A8)` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function Donut({
+  segments,
+}: {
+  segments: { label: string; value: number; color: string }[];
+}) {
+  const total = segments.reduce((s, x) => s + x.value, 0);
+  const r = 36;
+  const c = 2 * Math.PI * r;
+  let offset = 0;
+  return (
+    <div className="flex items-center gap-4">
+      <svg viewBox="0 0 100 100" className="h-24 w-24 -rotate-90">
+        <circle cx="50" cy="50" r={r} fill="none" stroke="#EEF2F7" strokeWidth="14" />
+        {segments.map((s) => {
+          const len = (s.value / total) * c;
+          const dash = `${len} ${c - len}`;
+          const el = (
+            <circle
+              key={s.label}
+              cx="50"
+              cy="50"
+              r={r}
+              fill="none"
+              stroke={s.color}
+              strokeWidth="14"
+              strokeDasharray={dash}
+              strokeDashoffset={-offset}
+            />
+          );
+          offset += len;
+          return el;
+        })}
+      </svg>
+      <div className="flex-1 space-y-1.5">
+        {segments.map((s) => (
+          <div key={s.label} className="flex items-center justify-between text-[11.5px]">
+            <span className="flex items-center gap-1.5 text-slate-700">
+              <span className="h-2.5 w-2.5 rounded-sm" style={{ background: s.color }} />
+              {s.label}
+            </span>
+            <span className="font-semibold text-slate-600">
+              {Math.round((s.value / total) * 100)}%
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LocationRow({ flag, name, pct }: { flag: string; name: string; pct: number }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-base leading-none">{flag}</span>
+      <span className="w-24 shrink-0 text-[12px] font-semibold text-slate-700">{name}</span>
+      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
+        <div className="h-full rounded-full" style={{ width: `${pct * 2.5}%`, background: NAVY }} />
+      </div>
+      <span className="w-9 text-right text-[11px] font-bold text-slate-600">{pct}%</span>
+    </div>
+  );
+}
+
+function FunnelStep({
+  label,
+  value,
+  pct,
+  conv,
+}: {
+  label: string;
+  value: string;
+  pct: number;
+  conv?: string;
+}) {
+  return (
+    <div>
+      <div className="mb-1 flex items-center justify-between text-[11.5px]">
+        <span className="font-semibold text-slate-700">{label}</span>
+        <span className="text-slate-500">
+          <span className="font-extrabold text-slate-900">{value}</span>
+          {conv && <span className="ml-1.5 text-emerald-600">{conv}</span>}
+        </span>
+      </div>
+      <div className="h-3 w-full overflow-hidden rounded-md bg-slate-100">
+        <div
+          className="h-full rounded-md"
+          style={{
+            width: `${pct}%`,
+            background: `linear-gradient(90deg, ${NAVY}, #2B4D78)`,
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function MiniBars({ data, color }: { data: number[]; color: string }) {
+  const max = Math.max(...data);
+  return (
+    <div className="flex h-10 items-end gap-1">
+      {data.map((v, i) => (
+        <div
+          key={i}
+          className="flex-1 rounded-sm"
+          style={{ height: `${(v / max) * 100}%`, background: color }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function SponsorReport() {
+  const growth = [
+    18, 22, 19, 25, 28, 24, 31, 35, 33, 38, 42, 40, 45, 48, 52, 49, 55, 58, 62, 60, 64, 70, 68, 74, 78, 82, 80, 86, 90, 95,
+  ];
+  return (
+    <div className="bg-[#F4F6FA] pb-6">
+      {/* Header */}
+      <div
+        className="relative overflow-hidden px-5 pb-5 pt-4 text-white"
+        style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #16294A 100%)` }}
+      >
+        <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-amber-300/15 blur-2xl" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <ChevronRight className="h-4 w-4 rotate-180 opacity-80" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-white/60">
+              Brand Report
+            </span>
+          </div>
+          <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold text-amber-200 ring-1 ring-amber-300/30">
+            <ShieldCheck className="h-3 w-3" /> Verified
+          </span>
+        </div>
+
+        <div className="mt-3 flex items-center gap-3">
+          <img
+            src={sponsorLogo}
+            alt=""
+            className="h-11 w-11 rounded-xl object-cover ring-2 ring-amber-300/40"
+          />
+          <div className="min-w-0 flex-1">
+            <div className="text-[15px] font-extrabold leading-tight">Wizlife</div>
+            <div className="bn truncate text-[12px] text-white/70">
+              Room: সুবহানাল্লাহি ওয়া বিহামদিহী
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-3 flex items-center justify-between">
+          <button className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold ring-1 ring-white/15">
+            <Timer className="h-3 w-3" /> Last 30 days
+            <ChevronRight className="h-3 w-3 rotate-90" />
+          </button>
+          <span className="text-[10.5px] text-white/55">vs prev. period</span>
+        </div>
+      </div>
+
+      <div className="space-y-3 px-4 pt-4">
+        {/* KPI grid */}
+        <div className="grid grid-cols-2 gap-2.5">
+          <KpiCard label="Total reach" value="24,380" delta={18} icon={Globe2} />
+          <KpiCard label="Active members" value="1,820" delta={9} icon={Users} />
+          <KpiCard label="Click-through" value="3,140" delta={22} icon={TrendingUp} />
+          <KpiCard label="Sponsor visits" value="612" delta={-3} icon={Heart} />
+        </div>
+
+        {/* Growth */}
+        <div className="rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                Growth
+              </div>
+              <div className="mt-0.5 text-[18px] font-extrabold text-slate-900">
+                +374 members
+              </div>
+            </div>
+            <Delta value={26} />
+          </div>
+          <div className="mt-1">
+            <Sparkline points={growth} />
+          </div>
+          <div className="mt-2 flex items-center gap-2 text-[11px]">
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-700">
+              <Plus className="h-3 w-3" /> 412 joined
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2 py-0.5 font-semibold text-rose-700">
+              − 38 left
+            </span>
+            <span className="ml-auto text-[10.5px] text-slate-400">30 days</span>
+          </div>
+        </div>
+
+        {/* Age */}
+        <div className="rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+              Audience · Age
+            </div>
+            <span className="text-[10.5px] text-slate-400">1,820 members</span>
+          </div>
+          <div className="space-y-2.5">
+            <AgeBar label="13–17" pct={6} count="109" />
+            <AgeBar label="18–24" pct={28} count="510" />
+            <AgeBar label="25–34" pct={36} count="655" />
+            <AgeBar label="35–44" pct={18} count="328" />
+            <AgeBar label="45–54" pct={8} count="146" />
+            <AgeBar label="55+" pct={4} count="72" />
+          </div>
+        </div>
+
+        {/* Gender */}
+        <div className="rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+              Audience · Gender
+            </div>
+            <span className="text-[10.5px] text-slate-400">All time</span>
+          </div>
+          <Donut
+            segments={[
+              { label: "Male", value: 62, color: NAVY },
+              { label: "Female", value: 34, color: "#E5A93C" },
+              { label: "Other", value: 4, color: "#94A3B8" },
+            ]}
+          />
+        </div>
+
+        {/* Locations */}
+        <div className="rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+              Top Locations
+            </div>
+            <span className="text-[10.5px] text-slate-400">By active</span>
+          </div>
+          <div className="space-y-2.5">
+            <LocationRow flag="🇧🇩" name="Dhaka" pct={38} />
+            <LocationRow flag="🇧🇩" name="Chattogram" pct={18} />
+            <LocationRow flag="🇧🇩" name="Sylhet" pct={11} />
+            <LocationRow flag="🇲🇾" name="Kuala Lumpur" pct={9} />
+            <LocationRow flag="🇸🇦" name="Riyadh" pct={7} />
+            <LocationRow flag="🇬🇧" name="London" pct={5} />
+          </div>
+        </div>
+
+        {/* Funnel */}
+        <div className="rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+              Engagement Funnel
+            </div>
+            <span className="text-[10.5px] text-slate-400">30 days</span>
+          </div>
+          <div className="space-y-2.5">
+            <FunnelStep label="Impressions" value="24,380" pct={100} />
+            <FunnelStep label="Room visits" value="6,210" pct={62} conv="25.5%" />
+            <FunnelStep label="Joined room" value="2,108" pct={32} conv="33.9%" />
+            <FunnelStep label="Active 7-day" value="1,420" pct={20} conv="67.4%" />
+          </div>
+        </div>
+
+        {/* New vs Returning */}
+        <div className="grid grid-cols-2 gap-2.5">
+          <div className="rounded-2xl bg-white p-3 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+            <div className="flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-slate-500">
+              <Sparkles className="h-3 w-3 text-emerald-500" /> New
+            </div>
+            <div className="mt-1 text-[18px] font-extrabold text-slate-900">412</div>
+            <div className="mt-2">
+              <MiniBars data={[12, 18, 22, 17, 28, 32, 26]} color="#10B981" />
+            </div>
+            <div className="mt-1 text-[10px] text-slate-400">Last 7 days</div>
+          </div>
+          <div className="rounded-2xl bg-white p-3 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+            <div className="flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-slate-500">
+              <Award className="h-3 w-3 text-amber-500" /> Returning
+            </div>
+            <div className="mt-1 text-[18px] font-extrabold text-slate-900">1,408</div>
+            <div className="mt-2">
+              <MiniBars data={[120, 132, 128, 145, 138, 152, 160]} color={NAVY} />
+            </div>
+            <div className="mt-1 text-[10px] text-slate-400">Last 7 days</div>
+          </div>
+        </div>
+
+        {/* Footer actions */}
+        <div className="flex items-center gap-2 pt-1">
+          <button className="flex-1 rounded-xl bg-white px-3 py-2.5 text-[12px] font-bold text-slate-700 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)] ring-1 ring-slate-200">
+            Download PDF
+          </button>
+          <button
+            className="flex-1 rounded-xl px-3 py-2.5 text-[12px] font-extrabold text-white shadow-[0_8px_22px_-10px_rgba(15,58,95,0.6)]"
+            style={{ background: NAVY }}
+          >
+            Share report
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function SponsorCards() {
   return (
     <div className="min-h-screen bg-[#EEF2F7] px-6 py-10">
