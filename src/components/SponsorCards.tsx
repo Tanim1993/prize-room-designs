@@ -6300,7 +6300,78 @@ function AdminCreateChannel() {
     "from-violet-500 to-purple-600",
     "from-cyan-500 to-blue-600",
   ];
-  const activeColor = palette[2];
+  const [activeColor, setActiveColor] = useState(palette[2]);
+
+  const layouts = [
+    { id: "v1", name: "V1 · Classic navy + gold rail" },
+    { id: "v2", name: "V2 · Light glass" },
+    { id: "v3", name: "V3 · Split · icon + stats" },
+    { id: "v4", name: "V4 · Wide stat · sparkline" },
+    { id: "v5", name: "V5 · Outlined minimal" },
+    { id: "v6", name: "V6 · Sponsored / Featured" },
+    { id: "v7", name: "V7 · Seasonal (Zilhajj)" },
+    { id: "v8", name: "V8 · Seasonal (Ramadan)" },
+    { id: "v9", name: "V9 · Weekly (Jumu'ah)" },
+    { id: "v10", name: "V10 · Nightly (Tahajjud)" },
+  ];
+  const [layout, setLayout] = useState("v7");
+
+  const iconOptions = [
+    { id: "moon", Icon: Moon, label: "Moon" },
+    { id: "star", Icon: Star, label: "Star" },
+    { id: "sparkles", Icon: Sparkles, label: "Sparkles" },
+    { id: "book", Icon: BookOpen, label: "Quran" },
+    { id: "heart", Icon: Heart, label: "Heart" },
+    { id: "crown", Icon: Crown, label: "Crown" },
+    { id: "trophy", Icon: Trophy, label: "Trophy" },
+    { id: "sun", Icon: Sun, label: "Sun" },
+  ];
+  const [iconId, setIconId] = useState("moon");
+  const ActiveIcon = iconOptions.find((i) => i.id === iconId)?.Icon ?? Moon;
+
+  const amalIcons = [
+    { id: "sparkles", Icon: Sparkles },
+    { id: "book", Icon: BookOpen },
+    { id: "heart", Icon: Heart },
+    { id: "moon", Icon: Moon },
+    { id: "star", Icon: Star },
+  ];
+  const [amals, setAmals] = useState([
+    { name: "Takbir", icon: "sparkles" },
+    { name: "Tahlil", icon: "sparkles" },
+    { name: "Hamd", icon: "sparkles" },
+    { name: "Qurbani Dua", icon: "book" },
+  ]);
+  const [newAmal, setNewAmal] = useState("");
+
+  const [tag, setTag] = useState("Seasonal");
+  const tagPresets = ["Seasonal", "Ramadan", "Weekly", "Nightly", "Featured", "New"];
+
+  const [recurrence, setRecurrence] = useState("seasonal");
+  const recurrenceOpts = [
+    { id: "one-time", label: "One-time" },
+    { id: "daily", label: "Daily" },
+    { id: "weekly", label: "Weekly" },
+    { id: "monthly", label: "Monthly" },
+    { id: "seasonal", label: "Seasonal (window)" },
+    { id: "nightly", label: "Nightly window" },
+  ];
+
+  const [progress, setProgress] = useState({ current: 3, total: 10, unit: "Day" });
+  const [countdown, setCountdown] = useState("7d 4h left");
+  const [ctaLabel, setCtaLabel] = useState("Join season");
+  const [stats, setStats] = useState({ live: 18, lifetime: "2.1M", joined: "248k" });
+
+  const motifs = [
+    { id: "none", label: "None" },
+    { id: "crescent", label: "Crescent + sun" },
+    { id: "stars", label: "Starfield" },
+    { id: "rail", label: "Gold rail" },
+  ];
+  const [motif, setMotif] = useState("crescent");
+
+  const ActiveAmalIcon = (id: string) =>
+    amalIcons.find((a) => a.id === id)?.Icon ?? Sparkles;
 
   return (
     <div className="mx-auto w-full max-w-[1200px] rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
@@ -6330,37 +6401,214 @@ function AdminCreateChannel() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Channel name (Bangla)</label>
-                <input className="bn w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="দরুদ শরীফ" />
+                <input className="bn w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="জিলহজ্জ স্পেশাল" />
               </div>
               <div>
                 <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Channel name (English)</label>
-                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="Durood Sharif" />
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="Dhul Hijjah Special" />
               </div>
               <div className="col-span-2">
                 <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Zikr text (Arabic)</label>
-                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-right text-sm" defaultValue="اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ" dir="rtl" />
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-right text-sm" defaultValue="اللَّهُ أَكْبَرُ كَبِيرًا" dir="rtl" />
               </div>
               <div className="col-span-2">
-                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Short description</label>
-                <textarea rows={2} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="Sending blessings upon the Prophet ﷺ — recited together by rooms worldwide." />
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Subtitle / short description</label>
+                <textarea rows={2} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="Dhul Hijjah · first 10 blessed days" />
               </div>
-              <div className="col-span-2">
+              <div>
                 <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Channel color</label>
                 <div className="flex flex-wrap gap-2">
-                  {palette.map((p, i) => (
-                    <div key={p} className={`relative h-9 w-14 rounded-lg bg-gradient-to-br ${p} ${p === activeColor ? "ring-2 ring-offset-2" : ""}`} style={p === activeColor ? { boxShadow: `0 0 0 2px ${NAVY}` } : undefined}>
+                  {palette.map((p) => (
+                    <button
+                      type="button"
+                      key={p}
+                      onClick={() => setActiveColor(p)}
+                      className={`relative h-9 w-12 rounded-lg bg-gradient-to-br ${p}`}
+                      style={p === activeColor ? { boxShadow: `0 0 0 2px ${NAVY}` } : undefined}
+                    >
                       {p === activeColor && <CheckCircle2 className="absolute right-1 top-1 h-3.5 w-3.5 text-white" />}
-                    </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Header icon</label>
+                <div className="flex flex-wrap gap-1.5">
+                  {iconOptions.map(({ id, Icon, label }) => (
+                    <button
+                      type="button"
+                      key={id}
+                      onClick={() => setIconId(id)}
+                      title={label}
+                      className={`flex h-9 w-9 items-center justify-center rounded-lg ring-1 ${id === iconId ? "ring-2" : "ring-slate-200 hover:bg-slate-50"}`}
+                      style={id === iconId ? { background: `${GOLD_SOFT}40`, color: NAVY, boxShadow: `0 0 0 2px ${NAVY}` } : { color: "#64748b" }}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </button>
                   ))}
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Section 2 — Sponsor & Banner */}
+          {/* Section 2 — Card layout + tag/badge + motif */}
           <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
             <div className="mb-4 flex items-center gap-2">
               <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>2</div>
+              <div className="text-sm font-bold text-slate-900">Card layout & visuals</div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="col-span-2">
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Card layout variant</label>
+                <select className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm" value={layout} onChange={(e) => setLayout(e.target.value)}>
+                  {layouts.map((l) => <option key={l.id} value={l.id}>{l.name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Tag / badge label</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value={tag} onChange={(e) => setTag(e.target.value)} />
+                <div className="mt-1.5 flex flex-wrap gap-1">
+                  {tagPresets.map((t) => (
+                    <button type="button" key={t} onClick={() => setTag(t)}
+                      className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ring-1 ${tag === t ? "" : "ring-slate-200 text-slate-500 hover:bg-slate-50"}`}
+                      style={tag === t ? { background: GOLD, color: NAVY, borderColor: GOLD } : undefined}>
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Background motif</label>
+                <select className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm" value={motif} onChange={(e) => setMotif(e.target.value)}>
+                  {motifs.map((m) => <option key={m.id} value={m.id}>{m.label}</option>)}
+                </select>
+              </div>
+              <div className="col-span-2">
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">CTA button label</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value={ctaLabel} onChange={(e) => setCtaLabel(e.target.value)} placeholder="Join season" />
+              </div>
+            </div>
+          </section>
+
+          {/* Section 3 — Amals (lines with icons) */}
+          <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>3</div>
+              <div className="text-sm font-bold text-slate-900">Amals (tag chips)</div>
+              <span className="ml-auto text-[10px] text-slate-400">Shown as pill chips on the card</span>
+            </div>
+            <div className="space-y-2">
+              {amals.map((a, i) => {
+                const IconC = ActiveAmalIcon(a.icon);
+                return (
+                  <div key={i} className="flex items-center gap-2 rounded-lg border border-slate-200 px-2 py-1.5">
+                    <select className="rounded-md border border-slate-200 bg-white px-1.5 py-1 text-xs" value={a.icon}
+                      onChange={(e) => setAmals(amals.map((x, idx) => idx === i ? { ...x, icon: e.target.value } : x))}>
+                      {amalIcons.map((ic) => <option key={ic.id} value={ic.id}>{ic.id}</option>)}
+                    </select>
+                    <IconC className="h-3.5 w-3.5 text-slate-500" />
+                    <input className="flex-1 rounded-md border border-slate-200 px-2 py-1 text-sm" value={a.name}
+                      onChange={(e) => setAmals(amals.map((x, idx) => idx === i ? { ...x, name: e.target.value } : x))} />
+                    <button type="button" onClick={() => setAmals(amals.filter((_, idx) => idx !== i))}
+                      className="rounded-md px-2 py-1 text-xs font-semibold text-rose-600 hover:bg-rose-50">Remove</button>
+                  </div>
+                );
+              })}
+              <div className="flex items-center gap-2">
+                <input className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="Add new amal (e.g. Tarawih)"
+                  value={newAmal} onChange={(e) => setNewAmal(e.target.value)} />
+                <button type="button"
+                  onClick={() => { if (newAmal.trim()) { setAmals([...amals, { name: newAmal.trim(), icon: "sparkles" }]); setNewAmal(""); } }}
+                  className="rounded-lg px-3 py-2 text-xs font-bold text-white" style={{ background: NAVY }}>+ Add</button>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 4 — Schedule & recurrence */}
+          <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>4</div>
+              <div className="text-sm font-bold text-slate-900">Schedule, progress & countdown</div>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="col-span-3">
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Recurrence</label>
+                <div className="flex flex-wrap gap-1.5">
+                  {recurrenceOpts.map((r) => (
+                    <button type="button" key={r.id} onClick={() => setRecurrence(r.id)}
+                      className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold ring-1 ${recurrence === r.id ? "text-white" : "ring-slate-200 text-slate-600 hover:bg-slate-50"}`}
+                      style={recurrence === r.id ? { background: NAVY, borderColor: NAVY } : undefined}>
+                      {r.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Start date</label>
+                <input type="date" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="2026-05-29" />
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">End date</label>
+                <input type="date" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="2026-06-07" />
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Time window</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" defaultValue="3:00 AM — Fajr" />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Progress unit</label>
+                <select className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm" value={progress.unit} onChange={(e) => setProgress({ ...progress, unit: e.target.value })}>
+                  <option>Day</option><option>Night</option><option>Week</option><option>Round</option>
+                </select>
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Current</label>
+                <input type="number" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value={progress.current}
+                  onChange={(e) => setProgress({ ...progress, current: Number(e.target.value) })} />
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Total</label>
+                <input type="number" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value={progress.total}
+                  onChange={(e) => setProgress({ ...progress, total: Number(e.target.value) })} />
+              </div>
+
+              <div className="col-span-3">
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Countdown text</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value={countdown} onChange={(e) => setCountdown(e.target.value)} placeholder="7d 4h left" />
+              </div>
+            </div>
+          </section>
+
+          {/* Section 5 — Stats */}
+          <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>5</div>
+              <div className="text-sm font-bold text-slate-900">Stats shown on card</div>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Live now</label>
+                <input type="number" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value={stats.live}
+                  onChange={(e) => setStats({ ...stats, live: Number(e.target.value) })} />
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Lifetime</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value={stats.lifetime}
+                  onChange={(e) => setStats({ ...stats, lifetime: e.target.value })} />
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">Joined</label>
+                <input className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value={stats.joined}
+                  onChange={(e) => setStats({ ...stats, joined: e.target.value })} />
+              </div>
+            </div>
+          </section>
+
+          {/* Section 6 — Sponsor & Banner */}
+          <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>6</div>
               <div className="text-sm font-bold text-slate-900">Sponsor & banner</div>
               <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800">Optional</span>
             </div>
@@ -6401,10 +6649,10 @@ function AdminCreateChannel() {
             </div>
           </section>
 
-          {/* Section 3 — Prize */}
+          {/* Section 7 — Prize */}
           <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
             <div className="mb-4 flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>3</div>
+              <div className="flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-bold text-white" style={{ background: NAVY }}>7</div>
               <div className="text-sm font-bold text-slate-900">Prize pool</div>
               <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800">Optional</span>
             </div>
@@ -6443,22 +6691,85 @@ function AdminCreateChannel() {
         {/* RIGHT — Live preview */}
         <aside className="space-y-4">
           <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-200">
-            <div className="mb-3 flex items-center gap-2">
-              <Eye className="h-4 w-4 text-slate-500" />
-              <div className="text-sm font-bold text-slate-900">Live preview</div>
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Eye className="h-4 w-4 text-slate-500" />
+                <div className="text-sm font-bold text-slate-900">Live preview</div>
+              </div>
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">{layout}</span>
             </div>
 
-            {/* Channel card preview */}
-            <div className={`rounded-2xl bg-gradient-to-br ${activeColor} p-4 text-white shadow-sm`}>
-              <div className="bn text-[16px] font-extrabold leading-tight">দরুদ শরীফ</div>
-              <div className="text-[10.5px] opacity-90">Durood Sharif</div>
-              <div className="mt-3 flex items-end justify-between">
-                <div>
-                  <div className="text-[9px] uppercase opacity-80">Lifetime</div>
-                  <div className="text-[18px] font-black tabular-nums">0</div>
+            {/* Seasonal/Amal-aware card preview (mirrors V7-style) */}
+            <div className="relative w-full overflow-hidden rounded-2xl text-white shadow-[0_18px_40px_-16px_rgba(31,58,95,0.6)]"
+              style={{ background: `linear-gradient(135deg, #0E1F3D 0%, ${NAVY} 55%, #2E1A0B 100%)` }}>
+              {motif === "crescent" && (
+                <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-20" style={{ background: GOLD }} />
+              )}
+              {motif === "stars" && (
+                <div className="absolute inset-0 opacity-40">
+                  <div className="absolute left-6 top-3 h-1 w-1 rounded-full bg-white" />
+                  <div className="absolute left-16 top-6 h-0.5 w-0.5 rounded-full bg-white" />
+                  <div className="absolute right-24 top-4 h-1 w-1 rounded-full bg-white" />
+                  <div className="absolute right-10 top-10 h-0.5 w-0.5 rounded-full bg-white" />
                 </div>
-                <div className="rounded-full bg-white/20 px-2 py-0.5 text-[9.5px] font-bold backdrop-blur">🔴 0 live</div>
+              )}
+              {motif === "rail" && (
+                <div className="absolute left-0 top-0 h-full w-1.5" style={{ background: GOLD }} />
+              )}
+              <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+                style={{ background: GOLD, color: NAVY }}>
+                <ActiveIcon className="h-2.5 w-2.5" /> {tag}
               </div>
+              <div className="relative flex items-center gap-3 px-4 pt-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
+                  style={{ background: `linear-gradient(135deg, ${GOLD}, ${GOLD_SOFT})` }}>
+                  <ActiveIcon className="h-6 w-6" style={{ color: NAVY }} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="bn text-[15.5px] font-extrabold leading-tight">জিলহজ্জ স্পেশাল</div>
+                  <div className="text-[10px] text-white/65">Dhul Hijjah · first 10 blessed days</div>
+                </div>
+              </div>
+              {amals.length > 0 && (
+                <div className="relative mx-4 mt-2.5 flex flex-wrap gap-1.5">
+                  {amals.map((a, i) => {
+                    const IconC = ActiveAmalIcon(a.icon);
+                    return (
+                      <span key={i} className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9.5px] font-semibold"
+                        style={{ background: "rgba(255,255,255,0.08)", color: GOLD_SOFT, boxShadow: `inset 0 0 0 1px ${GOLD}33` }}>
+                        <IconC className="h-2.5 w-2.5" /> {a.name}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
+              <div className="relative mx-4 mt-2 h-1 overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.1)" }}>
+                <div className="h-full rounded-full"
+                  style={{ width: `${Math.min(100, Math.round((progress.current / Math.max(1, progress.total)) * 100))}%`, background: `linear-gradient(90deg, ${GOLD_SOFT}, ${GOLD})` }} />
+              </div>
+              <div className="relative flex items-center justify-between px-4 py-3">
+                <div className="flex items-center gap-1.5 text-[10px] text-white/70">
+                  <Clock className="h-3 w-3" /> {progress.unit} {progress.current} of {progress.total} · {countdown}
+                </div>
+                <button className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-bold"
+                  style={{ background: GOLD, color: NAVY }}>
+                  {ctaLabel} <ArrowRight className="h-3 w-3" />
+                </button>
+              </div>
+              <div className="relative flex items-center justify-between border-t border-white/10 px-4 py-2 text-[10px] text-white/70">
+                <span className="inline-flex items-center gap-1"><span className="h-1.5 w-1.5 rounded-full bg-rose-400" /> {stats.live} live</span>
+                <span>Lifetime <b className="text-white">{stats.lifetime}</b></span>
+                <span>{stats.joined} joined</span>
+              </div>
+            </div>
+
+            {/* Mini swatch card (legacy compact preview) */}
+            <div className={`mt-4 rounded-2xl bg-gradient-to-br ${activeColor} p-3 text-white shadow-sm`}>
+              <div className="flex items-center gap-2">
+                <ActiveIcon className="h-4 w-4" />
+                <div className="bn text-[13px] font-extrabold leading-tight">জিলহজ্জ স্পেশাল</div>
+              </div>
+              <div className="text-[10px] opacity-90">Dhul Hijjah Special</div>
             </div>
 
             {/* Banner 400x90 preview (scaled) */}
@@ -6500,7 +6811,7 @@ function AdminCreateChannel() {
             <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-700">
               <ShieldCheck className="h-3.5 w-3.5" /> Channels are permanent
             </div>
-            Once published, a channel cannot be deleted — only archived. Sponsor & prize can rotate per season.
+            Once published, a channel cannot be deleted — only archived. Sponsor, prize & schedule can rotate per season.
           </div>
         </aside>
       </div>
