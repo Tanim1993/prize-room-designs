@@ -1435,6 +1435,19 @@ export default function SponsorCards() {
           <ChannelVariantFrame label="V4 · Wide stat · sparkline"><ChannelCardV4 /></ChannelVariantFrame>
           <ChannelVariantFrame label="V5 · Outlined minimal"><ChannelCardV5 /></ChannelVariantFrame>
           <ChannelVariantFrame label="V6 · Sponsored / Featured"><ChannelCardV6 /></ChannelVariantFrame>
+
+          <div className="mt-6 mb-1 text-center">
+            <div className="bn text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">
+              Seasonal &amp; Amal-fitted Channels — মৌসুমী / আমল-ভিত্তিক
+            </div>
+            <p className="mt-1 text-[11px] text-slate-400">
+              Time-bound channels with curated amals: Zilhajj, Ramadan, weekly &amp; nightly.
+            </p>
+          </div>
+          <ChannelVariantFrame label="V7 · Zilhajj Special · 10 days + Takbir"><ChannelCardV7 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V8 · Ramadan Special · Tarawih + Qiyam"><ChannelCardV8 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V9 · Jumu'ah Special · Durood weekly"><ChannelCardV9 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V10 · Tahajjud · Last third nightly"><ChannelCardV10 /></ChannelVariantFrame>
         </div>
 
         <header id="sec-flow0" className="mt-20 mb-8 scroll-mt-24 text-center">
@@ -6027,7 +6040,169 @@ function ChannelCardV6() {
 }
 
 /* ================================================================== */
-/*  SectionNav — fixed left-side jump menu (V1 view)                  */
+/*  Seasonal / Amal-fitted Channel Cards (V7–V10)                     */
+/* ================================================================== */
+
+/* V7 — Zilhajj Special · 10 days + Takbir + curated amals (~400×128) */
+function ChannelCardV7() {
+  const amals = ["Takbir", "Tahlil", "Hamd", "Qurbani Dua"];
+  return (
+    <div className="relative w-full overflow-hidden rounded-2xl text-white shadow-[0_18px_40px_-16px_rgba(31,58,95,0.6)]"
+      style={{ background: `linear-gradient(135deg, #0E1F3D 0%, ${NAVY} 55%, #2E1A0B 100%)` }}>
+      {/* crescent + sun motif */}
+      <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-20" style={{ background: GOLD }} />
+      <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+        style={{ background: GOLD, color: NAVY }}>
+        <Moon className="h-2.5 w-2.5" /> Seasonal
+      </div>
+      <div className="relative flex items-center gap-3 px-4 pt-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
+          style={{ background: `linear-gradient(135deg, ${GOLD}, ${GOLD_SOFT})` }}>
+          <span className="text-[18px] font-black" style={{ color: NAVY }}>১০</span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="bn text-[15.5px] font-extrabold leading-tight">জিলহজ্জ স্পেশাল</div>
+          <div className="text-[10px] text-white/65">Dhul Hijjah · first 10 blessed days</div>
+        </div>
+      </div>
+      <div className="relative mx-4 mt-2.5 flex flex-wrap gap-1.5">
+        {amals.map((a) => (
+          <span key={a} className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9.5px] font-semibold"
+            style={{ background: "rgba(255,255,255,0.08)", color: GOLD_SOFT, boxShadow: `inset 0 0 0 1px ${GOLD}33` }}>
+            <Sparkles className="h-2.5 w-2.5" /> {a}
+          </span>
+        ))}
+      </div>
+      <div className="relative flex items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-1.5 text-[10px] text-white/70">
+          <Clock className="h-3 w-3" /> Day 3 of 10 · 7d 4h left
+        </div>
+        <button className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-bold"
+          style={{ background: GOLD, color: NAVY }}>
+          Join season <ArrowRight className="h-3 w-3" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* V8 — Ramadan Special · Tarawih + Qiyam + Quran (~400×128) */
+function ChannelCardV8() {
+  const amals = ["Tarawih", "Qiyam", "Quran khatm", "Iftar dua"];
+  return (
+    <div className="relative w-full overflow-hidden rounded-2xl text-white shadow-[0_18px_40px_-16px_rgba(31,58,95,0.6)]"
+      style={{ background: `linear-gradient(135deg, #1A0F3D 0%, #2B1B5A 55%, ${NAVY} 100%)` }}>
+      {/* stars */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute left-6 top-3 h-1 w-1 rounded-full bg-white" />
+        <div className="absolute left-16 top-6 h-0.5 w-0.5 rounded-full bg-white" />
+        <div className="absolute right-24 top-4 h-1 w-1 rounded-full bg-white" />
+        <div className="absolute right-10 top-10 h-0.5 w-0.5 rounded-full bg-white" />
+      </div>
+      <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+        style={{ background: GOLD, color: NAVY }}>
+        <Moon className="h-2.5 w-2.5" /> Ramadan
+      </div>
+      <div className="relative flex items-center gap-3 px-4 pt-4">
+        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
+          style={{ background: "rgba(255,255,255,0.08)", boxShadow: `inset 0 0 0 1px ${GOLD}55` }}>
+          <Moon className="h-6 w-6" style={{ color: GOLD_SOFT }} fill={GOLD} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="bn text-[15.5px] font-extrabold leading-tight">রমাদান স্পেশাল</div>
+          <div className="text-[10px] text-white/65">Ramadan · 30 nights of barakah</div>
+        </div>
+      </div>
+      <div className="relative mx-4 mt-2.5 flex flex-wrap gap-1.5">
+        {amals.map((a) => (
+          <span key={a} className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9.5px] font-semibold"
+            style={{ background: "rgba(255,255,255,0.08)", color: GOLD_SOFT, boxShadow: `inset 0 0 0 1px ${GOLD}33` }}>
+            <BookOpen className="h-2.5 w-2.5" /> {a}
+          </span>
+        ))}
+      </div>
+      <div className="relative mx-4 mt-2 h-1 overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.1)" }}>
+        <div className="h-full rounded-full" style={{ width: "47%", background: `linear-gradient(90deg, ${GOLD_SOFT}, ${GOLD})` }} />
+      </div>
+      <div className="relative flex items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-1.5 text-[10px] text-white/70">
+          <Calendar className="h-3 w-3" /> Night 14 of 30 · Laylatul Qadr soon
+        </div>
+        <span className="text-[11px] font-extrabold tabular-nums" style={{ color: GOLD_SOFT }}>2.1M</span>
+      </div>
+    </div>
+  );
+}
+
+/* V9 — Jumu'ah Special · Durood weekly recurring (~400×96) */
+function ChannelCardV9() {
+  return (
+    <div className="flex h-[96px] w-full overflow-hidden rounded-2xl bg-white shadow-[0_12px_30px_-16px_rgba(31,58,95,0.45)] ring-1 ring-slate-100">
+      <div className="flex w-[96px] shrink-0 flex-col items-center justify-center gap-0.5"
+        style={{ background: `linear-gradient(160deg, ${GOLD_SOFT}, ${GOLD})` }}>
+        <div className="text-[9.5px] font-bold uppercase tracking-wider" style={{ color: NAVY }}>Friday</div>
+        <div className="text-[26px] font-black leading-none" style={{ color: NAVY }}>৮০</div>
+        <div className="text-[8.5px] font-semibold" style={{ color: NAVY }}>min durood</div>
+      </div>
+      <div className="flex flex-1 flex-col justify-center gap-1 px-3.5">
+        <div className="flex items-center gap-1.5">
+          <div className="bn truncate text-[14.5px] font-extrabold" style={{ color: NAVY }}>জুমু'আ স্পেশাল</div>
+          <span className="rounded-full px-1.5 py-0.5 text-[8.5px] font-bold uppercase tracking-wider"
+            style={{ background: `${GOLD}22`, color: NAVY }}>Weekly</span>
+        </div>
+        <div className="text-[10px] text-slate-500">Durood Sharif · every Friday, all day</div>
+        <div className="mt-0.5 flex items-center gap-2 text-[10px]">
+          <span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-semibold" style={{ background: `${NAVY}10`, color: NAVY }}>
+            <Heart className="h-2.5 w-2.5" fill={NAVY} /> 248k joined
+          </span>
+          <span className="inline-flex items-center gap-1 font-semibold" style={{ color: "#7a5a10" }}>
+            <Clock className="h-2.5 w-2.5" /> next in 2d
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* V10 — Tahajjud · Last third of night nightly (~400×96) */
+function ChannelCardV10() {
+  return (
+    <div className="relative flex h-[96px] w-full items-stretch overflow-hidden rounded-2xl text-white shadow-[0_12px_30px_-14px_rgba(10,15,40,0.7)]"
+      style={{ background: `linear-gradient(115deg, #050B22 0%, #0F1A3D 50%, #1A2658 100%)` }}>
+      <div className="absolute right-4 top-3 opacity-60">
+        <Star className="h-2 w-2 text-white" fill="white" />
+      </div>
+      <div className="absolute right-10 top-6 opacity-40">
+        <Star className="h-1.5 w-1.5 text-white" fill="white" />
+      </div>
+      <div className="w-1.5 shrink-0" style={{ background: GOLD }} />
+      <div className="flex flex-1 items-center gap-3 px-4">
+        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
+          style={{ background: "rgba(255,255,255,0.06)", boxShadow: `inset 0 0 0 1px ${GOLD}55` }}>
+          <Moon className="h-5 w-5" style={{ color: GOLD_SOFT }} />
+          <span className="absolute -bottom-0.5 -right-0.5 rounded-full px-1 text-[7px] font-bold"
+            style={{ background: GOLD, color: NAVY }}>3/3</span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5">
+            <div className="bn truncate text-[14.5px] font-extrabold">তাহাজ্জুদ</div>
+            <span className="rounded-full px-1.5 py-0.5 text-[8.5px] font-bold uppercase tracking-wider"
+              style={{ background: "rgba(255,255,255,0.1)", color: GOLD_SOFT }}>Nightly</span>
+          </div>
+          <div className="text-[10px] text-white/60">Last third · Istighfar + Dua qabool hour</div>
+          <div className="mt-0.5 flex items-center gap-2 text-[9.5px]">
+            <span className="inline-flex items-center gap-1 font-semibold" style={{ color: GOLD_SOFT }}>
+              <Clock className="h-2.5 w-2.5" /> 3:14 AM tonight
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-1.5 py-0.5 font-semibold">
+              <span className="h-1 w-1 rounded-full bg-rose-400" /> 18 live
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 /* ================================================================== */
 
 const SECTION_LINKS: { id: string; label: string }[] = [
