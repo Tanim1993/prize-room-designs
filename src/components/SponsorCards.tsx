@@ -1435,6 +1435,19 @@ export default function SponsorCards() {
           <ChannelVariantFrame label="V4 · Wide stat · sparkline"><ChannelCardV4 /></ChannelVariantFrame>
           <ChannelVariantFrame label="V5 · Outlined minimal"><ChannelCardV5 /></ChannelVariantFrame>
           <ChannelVariantFrame label="V6 · Sponsored / Featured"><ChannelCardV6 /></ChannelVariantFrame>
+
+          <div className="mt-6 mb-1 text-center">
+            <div className="bn text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">
+              Seasonal &amp; Amal-fitted Channels — মৌসুমী / আমল-ভিত্তিক
+            </div>
+            <p className="mt-1 text-[11px] text-slate-400">
+              Time-bound channels with curated amals: Zilhajj, Ramadan, weekly &amp; nightly.
+            </p>
+          </div>
+          <ChannelVariantFrame label="V7 · Zilhajj Special · 10 days + Takbir"><ChannelCardV7 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V8 · Ramadan Special · Tarawih + Qiyam"><ChannelCardV8 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V9 · Jumu'ah Special · Durood weekly"><ChannelCardV9 /></ChannelVariantFrame>
+          <ChannelVariantFrame label="V10 · Tahajjud · Last third nightly"><ChannelCardV10 /></ChannelVariantFrame>
         </div>
 
         <header id="sec-flow0" className="mt-20 mb-8 scroll-mt-24 text-center">
