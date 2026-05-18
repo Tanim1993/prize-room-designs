@@ -61,7 +61,7 @@ async function copyText(text: string, label: string) {
   }
 }
 
-export function CopyButtons({ targetRef }: { targetRef: React.RefObject<HTMLDivElement> }) {
+export function CopyButtons({ targetRef }: { targetRef: React.RefObject<HTMLDivElement | null> }) {
   const getHtml = () => targetRef.current?.firstElementChild?.outerHTML ?? targetRef.current?.innerHTML ?? "";
   return (
     <div className="inline-flex items-center gap-1">
