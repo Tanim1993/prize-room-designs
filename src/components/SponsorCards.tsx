@@ -6807,6 +6807,161 @@ function AdminCreateChannel() {
             </div>
           </div>
 
+          {/* ============== FULL PREVIEW — all fields populated ============== */}
+          <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-200">
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Eye className="h-4 w-4" style={{ color: GOLD }} />
+                <div className="text-sm font-bold text-slate-900">Full preview</div>
+                <span className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+                  style={{ background: `${GOLD}22`, color: NAVY }}>
+                  All fields filled
+                </span>
+              </div>
+              <span className="text-[10px] text-slate-400">As it appears in feed</span>
+            </div>
+            <div className="mb-2 text-[10.5px] text-slate-500">
+              This is how the channel looks once every field above is completed and published.
+            </div>
+
+            {/* Hero card — full filled */}
+            <div className="relative overflow-hidden rounded-2xl text-white shadow-[0_20px_50px_-18px_rgba(31,58,95,0.7)]"
+              style={{ background: `linear-gradient(135deg, #0E1F3D 0%, ${NAVY} 50%, #2E1A0B 100%)` }}>
+              {/* Motif */}
+              <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-20" style={{ background: GOLD }} />
+              <div className="absolute inset-0 opacity-30">
+                <div className="absolute left-6 top-4 h-1 w-1 rounded-full bg-white" />
+                <div className="absolute left-20 top-8 h-0.5 w-0.5 rounded-full bg-white" />
+                <div className="absolute right-28 top-5 h-1 w-1 rounded-full bg-white" />
+                <div className="absolute right-12 top-12 h-0.5 w-0.5 rounded-full bg-white" />
+                <div className="absolute left-32 top-14 h-0.5 w-0.5 rounded-full bg-white" />
+              </div>
+              <div className="absolute left-0 top-0 h-full w-1.5" style={{ background: GOLD }} />
+
+              {/* Tag */}
+              <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+                style={{ background: GOLD, color: NAVY }}>
+                <ActiveIcon className="h-2.5 w-2.5" /> {tag}
+              </div>
+
+              {/* Header */}
+              <div className="relative flex items-start gap-3 px-4 pt-4">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-lg"
+                  style={{ background: `linear-gradient(135deg, ${GOLD}, ${GOLD_SOFT})` }}>
+                  <ActiveIcon className="h-7 w-7" style={{ color: NAVY }} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="bn text-[16px] font-extrabold leading-tight">জিলহজ্জ স্পেশাল</div>
+                  <div className="text-[11px] font-semibold text-white/85">Dhul Hijjah Special</div>
+                  <div className="mt-0.5 text-[13px] font-bold" style={{ color: GOLD_SOFT, fontFamily: "serif" }} dir="rtl">
+                    سُبْحَانَ ٱللَّٰهِ
+                  </div>
+                </div>
+              </div>
+
+              {/* Amals */}
+              <div className="relative mx-4 mt-3">
+                <div className="mb-1 text-[8.5px] font-bold uppercase tracking-wider text-white/55">Daily amals</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {amals.map((a, i) => {
+                    const IconC = ActiveAmalIcon(a.icon);
+                    return (
+                      <span key={i} className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9.5px] font-semibold"
+                        style={{ background: "rgba(255,255,255,0.08)", color: GOLD_SOFT, boxShadow: `inset 0 0 0 1px ${GOLD}44` }}>
+                        <IconC className="h-2.5 w-2.5" /> {a.name}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Progress + schedule */}
+              <div className="relative mx-4 mt-3">
+                <div className="mb-1 flex items-center justify-between text-[9.5px] text-white/70">
+                  <span>{progress.unit} {progress.current} of {progress.total}</span>
+                  <span>{Math.round((progress.current / Math.max(1, progress.total)) * 100)}%</span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.1)" }}>
+                  <div className="h-full rounded-full"
+                    style={{ width: `${Math.min(100, Math.round((progress.current / Math.max(1, progress.total)) * 100))}%`, background: `linear-gradient(90deg, ${GOLD_SOFT}, ${GOLD})` }} />
+                </div>
+              </div>
+
+              {/* Schedule row */}
+              <div className="relative mx-4 mt-2.5 grid grid-cols-3 gap-1.5 text-[9.5px]">
+                <div className="rounded-lg px-2 py-1.5" style={{ background: "rgba(255,255,255,0.06)" }}>
+                  <div className="text-white/55">Window</div>
+                  <div className="font-bold text-white">3:00 AM — Fajr</div>
+                </div>
+                <div className="rounded-lg px-2 py-1.5" style={{ background: "rgba(255,255,255,0.06)" }}>
+                  <div className="text-white/55">Recurrence</div>
+                  <div className="font-bold capitalize text-white">{recurrence}</div>
+                </div>
+                <div className="rounded-lg px-2 py-1.5" style={{ background: "rgba(255,255,255,0.06)" }}>
+                  <div className="text-white/55">Ends in</div>
+                  <div className="font-bold text-white">{countdown}</div>
+                </div>
+              </div>
+
+              {/* CTA */}
+              <div className="relative flex items-center justify-between px-4 py-3 pt-3">
+                <div className="flex items-center gap-1.5 text-[10px] text-white/70">
+                  <Clock className="h-3 w-3" /> Live now · join anytime
+                </div>
+                <button className="inline-flex items-center gap-1 rounded-full px-3.5 py-1.5 text-[11px] font-bold shadow"
+                  style={{ background: GOLD, color: NAVY }}>
+                  {ctaLabel} <ArrowRight className="h-3 w-3" />
+                </button>
+              </div>
+
+              {/* Sponsor banner inline */}
+              <div className="relative mx-3 mb-3 flex items-center gap-2 rounded-xl px-3 py-2"
+                style={{ background: "rgba(255,255,255,0.08)", boxShadow: `inset 0 0 0 1px ${GOLD}33` }}>
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/15">
+                  <Crown className="h-4 w-4" style={{ color: GOLD }} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[8.5px] uppercase tracking-wider text-white/60">Sponsored by</div>
+                  <div className="truncate text-[11px] font-extrabold text-white">Bismillah Foundation</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[8.5px] uppercase tracking-wider text-white/60">Prize</div>
+                  <div className="text-[11px] font-extrabold" style={{ color: GOLD }}>৳15,000</div>
+                </div>
+              </div>
+
+              {/* Stats footer */}
+              <div className="relative flex items-center justify-between border-t border-white/10 px-4 py-2 text-[10px] text-white/75">
+                <span className="inline-flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-400" />
+                  <b className="text-white">{stats.live}</b> live
+                </span>
+                <span>Lifetime <b className="text-white">{stats.lifetime}</b></span>
+                <span><b className="text-white">{stats.joined}</b> joined</span>
+              </div>
+            </div>
+
+            {/* Summary chips — quick recap of what's configured */}
+            <div className="mt-3 grid grid-cols-2 gap-2 text-[10px]">
+              <div className="rounded-lg bg-slate-50 p-2 ring-1 ring-slate-200">
+                <div className="font-semibold text-slate-500">Layout</div>
+                <div className="font-bold text-slate-900">{layout.toUpperCase()}</div>
+              </div>
+              <div className="rounded-lg bg-slate-50 p-2 ring-1 ring-slate-200">
+                <div className="font-semibold text-slate-500">Icon</div>
+                <div className="font-bold capitalize text-slate-900">{iconId}</div>
+              </div>
+              <div className="rounded-lg bg-slate-50 p-2 ring-1 ring-slate-200">
+                <div className="font-semibold text-slate-500">Motif</div>
+                <div className="font-bold capitalize text-slate-900">{motif}</div>
+              </div>
+              <div className="rounded-lg bg-slate-50 p-2 ring-1 ring-slate-200">
+                <div className="font-semibold text-slate-500">Amals</div>
+                <div className="font-bold text-slate-900">{amals.length} configured</div>
+              </div>
+            </div>
+          </div>
+
           <div className="rounded-2xl bg-white p-4 text-[11px] text-slate-500 ring-1 ring-slate-200">
             <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-700">
               <ShieldCheck className="h-3.5 w-3.5" /> Channels are permanent
