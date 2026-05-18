@@ -1576,9 +1576,9 @@ export default function SponsorCards() {
             <PhoneFrame key={v.label} label={`${v.label} · ${v.desc}`}>
               {v.bannerTop}
               {v.node}
-              <NormalRoomCard />
+              {!v.fullCustom && <NormalRoomCard />}
               {v.bannerMid}
-              <NormalRoomCard />
+              {!v.fullCustom && <NormalRoomCard />}
             </PhoneFrame>
           ))}
         </div>
