@@ -44,6 +44,7 @@ import {
   FinalSelectionProvider,
   FinalSelectionSection,
   PickButton,
+  CopyButtons,
   useRegisterFrame,
 } from "./FinalSelection";
 
@@ -55,6 +56,7 @@ const NAVY = "#1F3A5F"; // matches the screenshot header
 const FEATURED_YELLOW = "#FFE9A8";
 
 function PhoneFrame({ children, label }: { children: React.ReactNode; label: string }) {
+  const captureRef = React.useRef<HTMLDivElement>(null);
   const inner = (
     <div className="w-[360px] overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
       <AppHeader />
@@ -69,9 +71,12 @@ function PhoneFrame({ children, label }: { children: React.ReactNode; label: str
         <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           {label}
         </div>
-        <PickButton frameKey={`phone:${label}`} />
+        <div className="flex items-center gap-1.5">
+          <CopyButtons targetRef={captureRef} />
+          <PickButton frameKey={`phone:${label}`} />
+        </div>
       </div>
-      {inner}
+      <div ref={captureRef}>{inner}</div>
     </div>
   );
 }
@@ -1515,6 +1520,7 @@ export default function SponsorCards() {
 /* ================================================================== */
 
 function DetailFrame({ children, label }: { children: React.ReactNode; label: string }) {
+  const captureRef = React.useRef<HTMLDivElement>(null);
   const inner = (
     <div className="w-[360px] overflow-hidden rounded-[28px] bg-[#F4F6FA] shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] ring-1 ring-black/5">
       {children}
@@ -1527,9 +1533,12 @@ function DetailFrame({ children, label }: { children: React.ReactNode; label: st
         <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           {label}
         </div>
-        <PickButton frameKey={`detail:${label}`} />
+        <div className="flex items-center gap-1.5">
+          <CopyButtons targetRef={captureRef} />
+          <PickButton frameKey={`detail:${label}`} />
+        </div>
       </div>
-      {inner}
+      <div ref={captureRef}>{inner}</div>
     </div>
   );
 }
@@ -5819,6 +5828,7 @@ const GOLD = "#E5B547";
 const GOLD_SOFT = "#F4D27A";
 
 function ChannelVariantFrame({ children, label }: { children: React.ReactNode; label: string }) {
+  const captureRef = React.useRef<HTMLDivElement>(null);
   const inner = <div className="w-full">{children}</div>;
   useRegisterFrame(`channel:${label}`, "channel", label, inner);
   return (
@@ -5827,9 +5837,12 @@ function ChannelVariantFrame({ children, label }: { children: React.ReactNode; l
         <div className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">
           {label}
         </div>
-        <PickButton frameKey={`channel:${label}`} />
+        <div className="flex items-center gap-1.5">
+          <CopyButtons targetRef={captureRef} />
+          <PickButton frameKey={`channel:${label}`} />
+        </div>
       </div>
-      {inner}
+      <div ref={captureRef} className="w-full">{inner}</div>
     </div>
   );
 }
