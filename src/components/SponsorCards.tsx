@@ -44,6 +44,7 @@ import {
   FinalSelectionProvider,
   FinalSelectionSection,
   PickButton,
+  CopyButtons,
   useRegisterFrame,
 } from "./FinalSelection";
 
