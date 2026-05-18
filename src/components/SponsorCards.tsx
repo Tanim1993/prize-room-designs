@@ -5828,6 +5828,7 @@ const GOLD = "#E5B547";
 const GOLD_SOFT = "#F4D27A";
 
 function ChannelVariantFrame({ children, label }: { children: React.ReactNode; label: string }) {
+  const captureRef = React.useRef<HTMLDivElement>(null);
   const inner = <div className="w-full">{children}</div>;
   useRegisterFrame(`channel:${label}`, "channel", label, inner);
   return (
@@ -5836,9 +5837,12 @@ function ChannelVariantFrame({ children, label }: { children: React.ReactNode; l
         <div className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">
           {label}
         </div>
-        <PickButton frameKey={`channel:${label}`} />
+        <div className="flex items-center gap-1.5">
+          <CopyButtons targetRef={captureRef} />
+          <PickButton frameKey={`channel:${label}`} />
+        </div>
       </div>
-      {inner}
+      <div ref={captureRef} className="w-full">{inner}</div>
     </div>
   );
 }
