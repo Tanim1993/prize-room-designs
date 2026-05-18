@@ -863,6 +863,236 @@ function V19_BannerOnly() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  CHANNEL DETAIL — what you see AFTER entering a channel.           */
+/*  A channel-identity HEADER establishes visibility, then a list of  */
+/*  rooms (Family / Worldwide / My Team) lives under it.              */
+/* ------------------------------------------------------------------ */
+
+function ChannelRoomMini({
+  title,
+  meta,
+  badge,
+  badgeTone = "slate",
+  live,
+}: {
+  title: string;
+  meta: string;
+  badge?: string;
+  badgeTone?: "slate" | "gold" | "rose" | "emerald";
+  live?: boolean;
+}) {
+  const tones: Record<string, string> = {
+    slate: "bg-slate-100 text-slate-700",
+    gold: "bg-amber-100 text-amber-800",
+    rose: "bg-rose-100 text-rose-700",
+    emerald: "bg-emerald-100 text-emerald-700",
+  };
+  return (
+    <div className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-lg">📿</div>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-1.5">
+          <h3 className="truncate text-[13.5px] font-bold text-slate-900">{title}</h3>
+          {badge && (
+            <span className={`rounded-md px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${tones[badgeTone]}`}>
+              {badge}
+            </span>
+          )}
+        </div>
+        <p className="mt-0.5 truncate text-[11px] text-slate-500">{meta}</p>
+      </div>
+      {live && (
+        <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 px-1.5 py-0.5 text-[9px] font-bold text-rose-700">
+          <span className="h-1 w-1 rounded-full bg-rose-500" /> live
+        </span>
+      )}
+      <ChevronRight className="h-4 w-4 text-slate-400" />
+    </div>
+  );
+}
+
+/* V20 — Navy hero channel header + rooms. Maximum channel identity. */
+function V20_ChannelHeroNavy() {
+  return (
+    <>
+      <div className="overflow-hidden rounded-2xl text-white shadow-[0_10px_30px_-12px_rgba(31,58,95,0.5)]" style={{ background: NAVY }}>
+        <div className="px-4 pt-4 pb-3">
+          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-white/60">
+            <ChevronRight className="h-3 w-3 rotate-180" /> Channels · Permanent
+          </div>
+          <div className="mt-2 flex items-center gap-3">
+            <div className="grid h-12 w-12 place-items-center rounded-xl" style={{ background: "rgba(255,255,255,0.08)", boxShadow: "inset 0 0 0 1px #E5B54755" }}>
+              <Sparkles className="h-5 w-5" style={{ color: "#E5B547" }} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="bn text-[17px] font-extrabold leading-tight">সুবহানাল্লাহি ওয়া বিহামদিহী</div>
+              <div className="text-[10.5px] tracking-wide text-white/65">Subhanallahi wa bihamdihi · permanent</div>
+            </div>
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-lg bg-white/10 py-1.5">
+              <div className="text-[13px] font-extrabold tabular-nums" style={{ color: "#F4D27A" }}>12.4M</div>
+              <div className="text-[9px] uppercase tracking-wider text-white/55">lifetime</div>
+            </div>
+            <div className="rounded-lg bg-white/10 py-1.5">
+              <div className="text-[13px] font-extrabold tabular-nums">248</div>
+              <div className="text-[9px] uppercase tracking-wider text-white/55">rooms</div>
+            </div>
+            <div className="rounded-lg bg-white/10 py-1.5">
+              <div className="inline-flex items-center gap-1 text-[12px] font-extrabold text-rose-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />12
+              </div>
+              <div className="text-[9px] uppercase tracking-wider text-white/55">live now</div>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-between border-t border-white/10 bg-white/5 px-4 py-2">
+          <div className="inline-flex items-center gap-1.5 text-[10px] text-white/75">
+            <Crown className="h-3 w-3" style={{ color: "#E5B547" }} /> Powered by <b className="text-white">Halal Foods</b>
+          </div>
+          <button className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[10px] font-bold text-slate-900">
+            <Plus className="h-3 w-3" /> New room
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-1 flex items-center justify-between px-1 text-[11px]">
+        <span className="font-semibold text-slate-700">Rooms in this channel</span>
+        <span className="text-slate-400">248 · by activity</span>
+      </div>
+
+      <ChannelRoomMini title="Rahman Family" meta="6 / 8 members · 100/day" badge="Family" badgeTone="emerald" live />
+      <ChannelRoomMini title="Worldwide" meta="12.4k members · open" badge="Public" />
+      <ChannelRoomMini title="My Office Team" meta="14 / 20 · 50/day" badge="Private" />
+    </>
+  );
+}
+
+/* V21 — Sticky compact chip + sponsor strip. Low chrome, fast scan. */
+function V21_ChannelStickyChip() {
+  return (
+    <>
+      <div className="sticky top-0 z-10 -mx-4 -mt-4 mb-1 border-b border-slate-200 bg-white/95 px-4 py-2 backdrop-blur">
+        <div className="flex items-center gap-2">
+          <ChevronRight className="h-4 w-4 rotate-180 text-slate-500" />
+          <div className="grid h-7 w-7 place-items-center rounded-lg text-white" style={{ background: NAVY }}>
+            <Sparkles className="h-3.5 w-3.5" style={{ color: "#E5B547" }} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="bn truncate text-[13px] font-bold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</div>
+            <div className="flex items-center gap-2 text-[10px] text-slate-500">
+              <span>12.4M lifetime</span><span>·</span>
+              <span className="inline-flex items-center gap-1 text-rose-600"><span className="h-1 w-1 rounded-full bg-rose-500" />12 live</span>
+            </div>
+          </div>
+          <button className="rounded-full bg-slate-900 px-2.5 py-1 text-[10px] font-bold text-white">+ Room</button>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 px-3 py-2">
+        <div className="flex items-center gap-2 text-[11px] text-amber-900">
+          <Crown className="h-3.5 w-3.5" /> <span>Sponsored by <b>Halal Foods</b></span>
+        </div>
+        <div className="text-[10px] font-bold text-amber-800">Prize · ৳25,000</div>
+      </div>
+
+      <ChannelRoomMini title="Rahman Family" meta="6 / 8 · 100/day" badge="Family" badgeTone="emerald" live />
+      <ChannelRoomMini title="Worldwide" meta="12.4k members" badge="Public" />
+      <ChannelRoomMini title="Office Team" meta="14 / 20 · 50/day" badge="Private" />
+    </>
+  );
+}
+
+/* V22 — Seasonal channel header (Zilhajj) with progress + amal chips. */
+function V22_ChannelSeasonal() {
+  return (
+    <>
+      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-[#1F3A5F] via-[#264a78] to-[#1F3A5F] p-4 text-white shadow-[0_10px_30px_-12px_rgba(31,58,95,0.5)]">
+        <div className="flex items-center justify-between text-[9.5px] uppercase tracking-[0.18em] text-white/65">
+          <span className="inline-flex items-center gap-1"><Moon className="h-3 w-3" style={{ color: "#E5B547" }} /> Zilhajj Special</span>
+          <span>Day 3 of 10</span>
+        </div>
+        <div className="mt-2 bn text-[17px] font-extrabold leading-tight">জিলহজ্জের ১০ দিন</div>
+        <div className="text-[10.5px] text-white/65">First 10 blessed days · curated amals</div>
+
+        <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/15">
+          <div className="h-full rounded-full" style={{ width: "30%", background: "#E5B547" }} />
+        </div>
+
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {["Takbir", "Tahlil", "Hamd", "Qurbani Dua"].map((a) => (
+            <span key={a} className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold ring-1 ring-white/15">
+              <CheckCircle2 className="h-2.5 w-2.5" style={{ color: "#E5B547" }} /> {a}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-3">
+          <div className="flex items-center gap-3 text-[10px] text-white/65">
+            <span><b className="text-white">186</b> rooms</span>
+            <span className="inline-flex items-center gap-1 text-rose-300"><span className="h-1 w-1 rounded-full bg-rose-400" /><b>21</b> live</span>
+          </div>
+          <button className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[10px] font-bold text-slate-900">
+            <Plus className="h-3 w-3" /> Join a room
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-1 px-1 text-[11px] font-semibold text-slate-700">Active rooms today</div>
+      <ChannelRoomMini title="Hujjaj 2026" meta="Live · 432 members" badge="Hot" badgeTone="rose" live />
+      <ChannelRoomMini title="Family Takbir" meta="6 / 8 · 100/day" badge="Family" badgeTone="emerald" />
+      <ChannelRoomMini title="Worldwide · Zilhajj" meta="8.2k members · open" badge="Public" />
+    </>
+  );
+}
+
+/* V23 — Channel + sponsor co-branded header with 400×90 banner. */
+function V23_ChannelCoBranded() {
+  return (
+    <>
+      <div className="overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_-12px_rgba(15,23,42,0.2)] ring-1 ring-slate-200">
+        <div className="flex items-center gap-2 px-4 pt-3">
+          <ChevronRight className="h-4 w-4 rotate-180 text-slate-400" />
+          <span className="text-[9.5px] font-bold uppercase tracking-[0.18em] text-slate-500">Channel</span>
+        </div>
+        <div className="flex items-center gap-3 px-4 pb-3 pt-1">
+          <div className="grid h-11 w-11 place-items-center rounded-xl text-white" style={{ background: NAVY }}>
+            <Sparkles className="h-5 w-5" style={{ color: "#E5B547" }} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="bn truncate text-[15px] font-extrabold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</div>
+            <div className="flex items-center gap-2 text-[10.5px] text-slate-500">
+              <span>12.4M</span><span>·</span><span>248 rooms</span><span>·</span>
+              <span className="inline-flex items-center gap-1 text-rose-600"><span className="h-1 w-1 rounded-full bg-rose-500" />12 live</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-3 mb-3 flex h-[72px] items-center gap-3 overflow-hidden rounded-xl px-3" style={{ background: "linear-gradient(90deg, #FFF7E0 0%, #FFE9A8 100%)", boxShadow: "inset 0 0 0 1px #E5B54755" }}>
+          <img src={sponsorLogo} alt="" className="h-10 w-10 rounded-lg object-cover" />
+          <div className="min-w-0 flex-1">
+            <div className="text-[9.5px] font-bold uppercase tracking-wide text-amber-800">Sponsored season</div>
+            <div className="truncate text-[12.5px] font-extrabold text-slate-900">Halal Foods · Win ৳25,000 + hamper</div>
+          </div>
+          <button className="inline-flex shrink-0 items-center gap-1 rounded-full bg-slate-900 px-2.5 py-1 text-[10px] font-bold text-white">
+            See <ArrowRight className="h-3 w-3" />
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-1 flex items-center justify-between px-1 text-[11px]">
+        <span className="font-semibold text-slate-700">Rooms in this channel</span>
+        <span className="text-slate-400">Top by activity</span>
+      </div>
+
+      <ChannelRoomMini title="Rahman Family" meta="6 / 8 · 100/day" badge="Family" badgeTone="emerald" live />
+      <ChannelRoomMini title="Worldwide" meta="12.4k members" badge="Public" />
+      <ChannelRoomMini title="My Office Team" meta="14 / 20 · 50/day" badge="Private" />
+    </>
+  );
+}
+
 type Variant = {
   label: string;
   desc: string;
@@ -870,6 +1100,8 @@ type Variant = {
   // banner variants render the banner ABOVE the room list instead of as a card
   bannerTop?: React.ReactNode;
   bannerMid?: React.ReactNode;
+  // when true, the variant renders its own room list — skip auto NormalRoomCards
+  fullCustom?: boolean;
 };
 
 const VARIANTS: Variant[] = [
@@ -892,6 +1124,10 @@ const VARIANTS: Variant[] = [
   { label: "Variant 17", desc: "Room with Brand + banner 400×70", node: <V17_BrandSmallBanner /> },
   { label: "Variant 18", desc: "Room with Brand + regular banner (16:9)", node: <V18_BrandRegularBanner /> },
   { label: "Variant 19", desc: "Room with banner only (no brand)", node: <V19_BannerOnly /> },
+  { label: "Variant 20", desc: "Inside channel · Navy hero header + rooms", node: <V20_ChannelHeroNavy />, fullCustom: true },
+  { label: "Variant 21", desc: "Inside channel · Sticky chip + sponsor strip", node: <V21_ChannelStickyChip />, fullCustom: true },
+  { label: "Variant 22", desc: "Inside channel · Seasonal (Zilhajj) header", node: <V22_ChannelSeasonal />, fullCustom: true },
+  { label: "Variant 23", desc: "Inside channel · Co-branded + 400×90 banner", node: <V23_ChannelCoBranded />, fullCustom: true },
 ];
 
 /* ================================================================== */
@@ -1340,9 +1576,9 @@ export default function SponsorCards() {
             <PhoneFrame key={v.label} label={`${v.label} · ${v.desc}`}>
               {v.bannerTop}
               {v.node}
-              <NormalRoomCard />
+              {!v.fullCustom && <NormalRoomCard />}
               {v.bannerMid}
-              <NormalRoomCard />
+              {!v.fullCustom && <NormalRoomCard />}
             </PhoneFrame>
           ))}
         </div>
