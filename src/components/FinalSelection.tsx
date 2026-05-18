@@ -7,7 +7,85 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Check, Plus, Pencil, Trash2, ArrowUp, ArrowDown, Star } from "lucide-react";
+import { Check, Plus, Pencil, Trash2, ArrowUp, ArrowDown, Star, Code2, FileCode } from "lucide-react";
+import { toast } from "sonner";
+
+/* ------------------------------------------------------------------ */
+/*  Copy buttons — copies rendered HTML or auto-converted JSX         */
+/* ------------------------------------------------------------------ */
+
+/** Convert raw HTML markup to paste-ready JSX (Tailwind-friendly). */
+function htmlToJsx(html: string): string {
+  let out = html;
+  // attribute renames
+  out = out.replace(/\sclass=/g, " className=");
+  out = out.replace(/\sfor=/g, " htmlFor=");
+  out = out.replace(/\stabindex=/g, " tabIndex=");
+  out = out.replace(/\sreadonly(=|\s|>)/g, " readOnly$1");
+  out = out.replace(/\smaxlength=/g, " maxLength=");
+  out = out.replace(/\scolspan=/g, " colSpan=");
+  out = out.replace(/\srowspan=/g, " rowSpan=");
+  out = out.replace(/\sautocomplete=/g, " autoComplete=");
+  // inline style="a:b;c:d" → style={{ a: "b", c: "d" }}
+  out = out.replace(/\sstyle="([^"]*)"/g, (_m, css: string) => {
+    const obj = css
+      .split(";")
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((decl) => {
+        const i = decl.indexOf(":");
+        if (i < 0) return "";
+        const prop = decl.slice(0, i).trim().replace(/-([a-z])/g, (_x, c: string) => c.toUpperCase());
+        const val = decl.slice(i + 1).trim().replace(/"/g, '\\"');
+        return `${prop}: "${val}"`;
+      })
+      .filter(Boolean)
+      .join(", ");
+    return ` style={{ ${obj} }}`;
+  });
+  // self-close void elements
+  const voids = ["br", "hr", "img", "input", "meta", "link", "source", "track", "wbr", "area", "base", "col", "embed", "param"];
+  for (const tag of voids) {
+    const re = new RegExp(`<${tag}([^>]*?)(?<!/)>`, "g");
+    out = out.replace(re, `<${tag}$1 />`);
+  }
+  return out;
+}
+
+async function copyText(text: string, label: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.success(`${label} copied`, { description: `${text.length.toLocaleString()} characters` });
+  } catch {
+    toast.error(`Could not copy ${label}`);
+  }
+}
+
+export function CopyButtons({ targetRef }: { targetRef: React.RefObject<HTMLDivElement> }) {
+  const getHtml = () => targetRef.current?.firstElementChild?.outerHTML ?? targetRef.current?.innerHTML ?? "";
+  return (
+    <div className="inline-flex items-center gap-1">
+      <button
+        type="button"
+        onClick={() => copyText(getHtml(), "HTML")}
+        className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-sky-50 hover:text-sky-700 hover:ring-sky-300"
+        title="Copy rendered HTML (for Figma plugins, design-to-code tools)"
+      >
+        <Code2 className="h-3 w-3" />
+        HTML
+      </button>
+      <button
+        type="button"
+        onClick={() => copyText(htmlToJsx(getHtml()), "JSX")}
+        className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-violet-50 hover:text-violet-700 hover:ring-violet-300"
+        title="Copy as React/JSX (Tailwind, paste into a .tsx file)"
+      >
+        <FileCode className="h-3 w-3" />
+        JSX
+      </button>
+    </div>
+  );
+}
 
 type RegistryEntry = {
   node: React.ReactNode;
