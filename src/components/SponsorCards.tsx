@@ -1093,6 +1093,127 @@ function V23_ChannelCoBranded() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  V24–V27 — Lightweight channel-name branding inside room header.   */
+/*  No full channel concept yet; just surfaces the channel (zikr)     */
+/*  this room belongs to, as a tag/pill/breadcrumb/ribbon.            */
+/* ------------------------------------------------------------------ */
+
+/* V24 — Tiny outline chip next to room name. Lowest-friction. */
+function V24_ChannelChip() {
+  return (
+    <div className="rounded-2xl bg-white p-4 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="flex items-start gap-3">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-[#C2410C]">
+          <span className="text-lg">📿</span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="mb-1 flex items-center gap-1.5">
+            <span
+              className="bn inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10.5px] font-semibold"
+              style={{ borderColor: `${NAVY}33`, color: NAVY }}
+            >
+              <Sparkles className="h-3 w-3" /> সুবহানাল্লাহ
+            </span>
+          </div>
+          <h3 className="truncate text-[15px] font-bold text-slate-900">Rahman Family</h3>
+          <p className="mt-0.5 text-[11.5px] text-slate-500">6 / 8 members · 100/day</p>
+        </div>
+        <ChevronRight className="h-5 w-5 text-slate-400" />
+      </div>
+      <div className="mt-3"><StatRow /></div>
+    </div>
+  );
+}
+
+/* V25 — Breadcrumb above title: Channel › Room. */
+function V25_ChannelBreadcrumb() {
+  return (
+    <div className="rounded-2xl bg-white p-4 shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="bn mb-1.5 flex items-center gap-1 text-[10.5px] font-semibold uppercase tracking-wide text-slate-500">
+        <span style={{ color: NAVY }}>Channel</span>
+        <ChevronRight className="h-3 w-3" />
+        <span className="bn normal-case tracking-normal text-slate-700">সুবহানাল্লাহি ওয়া বিহামদিহী</span>
+      </div>
+      <div className="flex items-start gap-3">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-[#C2410C]">
+          <span className="text-lg">📿</span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <h3 className="truncate text-[15px] font-bold text-slate-900">Worldwide · Public</h3>
+          <p className="mt-0.5 text-[11.5px] text-slate-500">12.4k members · open</p>
+        </div>
+        <ChevronRight className="h-5 w-5 text-slate-400" />
+      </div>
+      <div className="mt-3"><StatRow /></div>
+    </div>
+  );
+}
+
+/* V26 — Top navy ribbon strip with channel identity. */
+function V26_ChannelRibbon() {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div
+        className="flex items-center justify-between px-3 py-1.5 text-white"
+        style={{ background: NAVY }}
+      >
+        <div className="flex items-center gap-1.5 text-[10.5px] font-semibold">
+          <Sparkles className="h-3 w-3" style={{ color: "#E5B547" }} />
+          <span className="opacity-70">Channel</span>
+          <span className="bn">· আলহামদুলিল্লাহ</span>
+        </div>
+        <span className="inline-flex items-center gap-1 text-[10px] opacity-80">
+          <span className="h-1 w-1 rounded-full bg-rose-400" /> 12 live
+        </span>
+      </div>
+      <div className="p-4">
+        <div className="flex items-start gap-3">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-[#C2410C]">
+            <span className="text-lg">📿</span>
+          </div>
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate text-[15px] font-bold text-slate-900">Bangladesh Youth</h3>
+            <p className="mt-0.5 text-[11.5px] text-slate-500">1.2k members · community</p>
+          </div>
+          <ChevronRight className="h-5 w-5 text-slate-400" />
+        </div>
+        <div className="mt-3"><StatRow /></div>
+      </div>
+    </div>
+  );
+}
+
+/* V27 — Side accent bar + channel pill inline with meta. */
+function V27_ChannelSideAccent() {
+  return (
+    <div className="flex overflow-hidden rounded-2xl bg-white shadow-[0_4px_14px_-8px_rgba(15,23,42,0.18)]">
+      <div className="w-1.5 shrink-0" style={{ background: NAVY }} />
+      <div className="min-w-0 flex-1 p-4">
+        <div className="flex items-start gap-3">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#EEF1F6] text-[#C2410C]">
+            <span className="text-lg">📿</span>
+          </div>
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate text-[15px] font-bold text-slate-900">My Office Team</h3>
+            <div className="mt-1 flex flex-wrap items-center gap-1.5">
+              <span
+                className="bn inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10.5px] font-semibold"
+                style={{ background: `${NAVY}11`, color: NAVY }}
+              >
+                <Sparkles className="h-2.5 w-2.5" /> দরুদ শরীফ
+              </span>
+              <span className="text-[10.5px] text-slate-500">· Private · 14 / 20</span>
+            </div>
+          </div>
+          <ChevronRight className="h-5 w-5 text-slate-400" />
+        </div>
+        <div className="mt-3"><StatRow /></div>
+      </div>
+    </div>
+  );
+}
+
 type Variant = {
   label: string;
   desc: string;
