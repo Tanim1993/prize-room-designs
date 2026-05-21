@@ -1249,6 +1249,10 @@ const VARIANTS: Variant[] = [
   { label: "Variant 21", desc: "Inside channel · Sticky chip + sponsor strip", node: <V21_ChannelStickyChip />, fullCustom: true },
   { label: "Variant 22", desc: "Inside channel · Seasonal (Zilhajj) header", node: <V22_ChannelSeasonal />, fullCustom: true },
   { label: "Variant 23", desc: "Inside channel · Co-branded + 400×90 banner", node: <V23_ChannelCoBranded />, fullCustom: true },
+  { label: "Variant 24", desc: "Channel name as outline chip in header", node: <V24_ChannelChip /> },
+  { label: "Variant 25", desc: "Channel › Room breadcrumb above title", node: <V25_ChannelBreadcrumb /> },
+  { label: "Variant 26", desc: "Top navy ribbon with channel identity", node: <V26_ChannelRibbon /> },
+  { label: "Variant 27", desc: "Side accent bar + inline channel pill", node: <V27_ChannelSideAccent /> },
 ];
 
 /* ================================================================== */
