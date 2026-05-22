@@ -3343,6 +3343,115 @@ function LeaderboardV4() {
   );
 }
 
+/* ---------- Variant 5: Lifetime + Competition Toggle ---------- */
+function LeaderboardV5() {
+  const [mode, setMode] = useState<"lifetime" | "competition">("lifetime");
+  const top3 = LB_PLAYERS.slice(0, 3);
+  const rest = LB_PLAYERS.slice(3);
+  return (
+    <div className={mode === "lifetime" ? "bg-white" : "bg-[#0B1B36] text-white"}>
+      {/* Header + mode toggle */}
+      <div className={mode === "lifetime" ? "px-4 pt-4" : "px-4 pt-4 text-white"} style={mode === "competition" ? { background: "#0B1B36" } : undefined}>
+        <div className={`flex items-center justify-between text-[12px] ${mode==="lifetime"?"text-slate-700":""}`}>
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <span className="font-semibold">Astaghfirullah Room</span>
+          <Trophy className={`h-4 w-4 ${mode==="lifetime"?"text-amber-500":"text-amber-300"}`} />
+        </div>
+        <div className={`mt-3 grid grid-cols-2 gap-1 rounded-xl p-1 text-[11px] font-semibold ${mode==="lifetime"?"bg-slate-100":"bg-white/10"}`}>
+          <button onClick={() => setMode("lifetime")} className={`rounded-lg py-1.5 transition ${mode==="lifetime"?"bg-white text-slate-900 shadow":"text-white/70"}`}>Lifetime</button>
+          <button onClick={() => setMode("competition")} className={`rounded-lg py-1.5 transition ${mode==="competition"?"bg-amber-400 text-slate-900 shadow":"text-slate-500"}`}>Competition</button>
+        </div>
+      </div>
+
+      {mode === "lifetime" ? (
+        <>
+          {/* Podium (no Weekly Champions / reset / prize) */}
+          <div style={{ background: NAVY }} className="mt-3 px-5 pb-6 pt-4 text-white">
+            <div className="grid grid-cols-3 items-end gap-2">
+              {[1,0,2].map((i) => {
+                const p = top3[i];
+                const isFirst = i === 0;
+                return (
+                  <div key={p.name} className="flex flex-col items-center">
+                    <div className={`relative flex items-center justify-center rounded-full bg-white text-slate-900 font-bold ring-2 ${isFirst ? "h-14 w-14 text-base ring-amber-300" : "h-11 w-11 text-sm ring-white/40"}`}>
+                      {p.avatar}
+                      {isFirst && <Crown className="absolute -top-3 h-4 w-4 text-amber-300" fill="currentColor" />}
+                    </div>
+                    <div className="mt-1 truncate text-[11px] font-semibold">{p.name.split(" ")[0]}</div>
+                    <div className="text-[10px] opacity-70">{p.count.toLocaleString()}</div>
+                    <div className={`mt-1 w-full rounded-t-md ${isFirst ? "h-12 bg-amber-300" : "h-7 bg-white/25"} flex items-center justify-center text-[11px] font-bold ${isFirst ? "text-slate-900" : ""}`}>
+                      {i + 1}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="px-4 pb-6 pt-4">
+            <div className="space-y-1.5">
+              {rest.map((p, i) => (
+                <div key={p.name} className="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-2">
+                  <div className="w-5 text-center text-[12px] font-bold text-slate-400">{i + 4}</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-[11px] font-bold text-slate-700">{p.avatar}</div>
+                  <div className="flex-1 truncate text-[12px] font-semibold text-slate-800">{p.name} <span className="ml-1">{p.country}</span></div>
+                  <div className="text-[11px] font-bold text-slate-700">{p.count.toLocaleString()}</div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 flex items-center gap-3 rounded-xl bg-emerald-50 px-3 py-2 ring-1 ring-emerald-200">
+              <div className="w-5 text-center text-[12px] font-bold text-emerald-700">42</div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 text-[11px] font-bold text-white">YOU</div>
+              <div className="flex-1 text-[12px] font-semibold text-emerald-900">Your rank · 4,210</div>
+              <TrendingUp className="h-3.5 w-3.5 text-emerald-700" />
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* Past weeks strip (no Reigning Champion spotlight) */}
+          <div className="mt-4 px-4">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-white/60">Past Weeks</div>
+            <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+              {WEEKLY_WINNERS.map((w, i) => (
+                <div key={w.week} className="w-[120px] shrink-0 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
+                  <div className="text-[9px] text-white/50">W{18 - i}</div>
+                  <div className="mt-1 flex items-center gap-1.5">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-slate-900">{w.avatar}</div>
+                    <div>
+                      <div className="text-[10.5px] font-semibold leading-tight">{w.name.split(" ")[0]}</div>
+                      <div className="text-[9px] text-amber-300">{w.prize}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Live ranking with streaks */}
+          <div className="mt-4 px-4 pb-6">
+            <div className="flex items-center justify-between text-[11px]">
+              <span className="font-semibold uppercase tracking-wider text-white/60">This Week</span>
+              <span className="text-white/50">2d 14h left</span>
+            </div>
+            <div className="mt-2 space-y-1.5">
+              {LB_PLAYERS.slice(0, 6).map((p, i) => (
+                <div key={p.name} className={`flex items-center gap-3 rounded-xl px-3 py-2 ${i<3?"bg-amber-400/10 ring-1 ring-amber-300/20":"bg-white/5"}`}>
+                  <div className={`flex h-6 w-6 items-center justify-center rounded-md text-[11px] font-bold ${i===0?"bg-amber-400 text-slate-900":i===1?"bg-slate-300 text-slate-900":i===2?"bg-amber-700 text-white":"bg-white/10 text-white/70"}`}>{i+1}</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-[10.5px] font-bold">{p.avatar}</div>
+                  <div className="flex-1 truncate text-[12px] font-semibold">{p.name}</div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-orange-300">🔥{p.streak}</span>
+                    <span className="text-[11.5px] font-bold">{(p.count/1000).toFixed(1)}K</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 /* ================================================================== */
 /*  LEADERBOARD — Organic vs Running Session                          */
 /* ================================================================== */
