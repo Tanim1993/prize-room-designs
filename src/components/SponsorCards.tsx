@@ -1773,6 +1773,7 @@ export default function SponsorCards() {
           <DetailFrame label="LB 2 · Hall of Fame Carousel"><LeaderboardV2 /></DetailFrame>
           <DetailFrame label="LB 3 · Dark Stadium + Streaks"><LeaderboardV3 /></DetailFrame>
           <DetailFrame label="LB 4 · Timeline of Champions"><LeaderboardV4 /></DetailFrame>
+          <DetailFrame label="LB 5 · Lifetime + Competition Toggle"><LeaderboardV5 /></DetailFrame>
         </div>
 
         <header id="sec-lb-organic" className="mt-20 mb-8 scroll-mt-24 text-center">
