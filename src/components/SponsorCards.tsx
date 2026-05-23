@@ -74,6 +74,7 @@ function PhoneFrame({ children, label }: { children: React.ReactNode; label: str
         </div>
         <div className="flex items-center gap-1.5">
           <CopyButtons targetRef={captureRef} />
+          <ExportButton targetRef={captureRef} label={label} />
           <PickButton frameKey={`phone:${label}`} />
         </div>
       </div>
