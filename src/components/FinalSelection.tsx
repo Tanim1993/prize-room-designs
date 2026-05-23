@@ -7,8 +7,16 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Check, Plus, Pencil, Trash2, ArrowUp, ArrowDown, Star, Code2, FileCode } from "lucide-react";
+import { Check, Plus, Pencil, Trash2, ArrowUp, ArrowDown, Star, Code2, FileCode, Download, ChevronDown, Minus } from "lucide-react";
 import { toast } from "sonner";
+import { toPng, toJpeg, toSvg } from "html-to-image";
+import jsPDF from "jspdf";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 /* ------------------------------------------------------------------ */
 /*  Copy buttons — copies rendered HTML or auto-converted JSX         */
