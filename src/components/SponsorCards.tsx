@@ -6257,6 +6257,7 @@ function AdminPortalV2() {
           </aside>
         </div>
       </div>
+      </div>
     </section>
   );
 }
