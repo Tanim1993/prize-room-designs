@@ -6313,6 +6313,7 @@ function ChannelVariantFrame({ children, label }: { children: React.ReactNode; l
         </div>
         <div className="flex items-center gap-1.5">
           <CopyButtons targetRef={captureRef} />
+          <ExportButton targetRef={captureRef} label={label} />
           <PickButton frameKey={`channel:${label}`} />
         </div>
       </div>
