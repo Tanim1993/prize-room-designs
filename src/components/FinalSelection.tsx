@@ -95,6 +95,135 @@ export function CopyButtons({ targetRef }: { targetRef: React.RefObject<HTMLDivE
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Export button — Figma-style PNG / JPEG / SVG / PDF with scale     */
+/* ------------------------------------------------------------------ */
+
+const EXPORT_FORMATS = ["PNG", "JPEG", "SVG", "PDF"] as const;
+type ExportFormat = (typeof EXPORT_FORMATS)[number];
+const EXPORT_SCALES = [1, 2, 3, 4] as const;
+type ExportScale = (typeof EXPORT_SCALES)[number];
+
+function triggerDownload(dataUrl: string, filename: string) {
+  const a = document.createElement("a");
+  a.href = dataUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function slugify(s: string) {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "frame";
+}
+
+export function ExportButton({
+  targetRef,
+  label,
+}: {
+  targetRef: React.RefObject<HTMLDivElement | null>;
+  label: string;
+}) {
+  const [scaleIdx, setScaleIdx] = useState(1); // default 2x
+  const [busy, setBusy] = useState(false);
+  const scale = EXPORT_SCALES[scaleIdx];
+
+  const run = async (format: ExportFormat) => {
+    const node = targetRef.current?.firstElementChild as HTMLElement | null;
+    if (!node) {
+      toast.error("Nothing to export");
+      return;
+    }
+    setBusy(true);
+    const filename = `${slugify(label)}@${scale}x`;
+    try {
+      const opts = {
+        pixelRatio: scale,
+        cacheBust: true,
+        backgroundColor: format === "JPEG" ? "#ffffff" : undefined,
+      };
+      if (format === "PNG") {
+        const url = await toPng(node, opts);
+        triggerDownload(url, `${filename}.png`);
+      } else if (format === "JPEG") {
+        const url = await toJpeg(node, { ...opts, quality: 0.95 });
+        triggerDownload(url, `${filename}.jpg`);
+      } else if (format === "SVG") {
+        const url = await toSvg(node, opts);
+        triggerDownload(url, `${filename}.svg`);
+      } else {
+        const url = await toPng(node, opts);
+        const img = new Image();
+        img.src = url;
+        await new Promise((r) => (img.onload = r));
+        const w = img.width;
+        const h = img.height;
+        const pdf = new jsPDF({
+          orientation: w >= h ? "landscape" : "portrait",
+          unit: "px",
+          format: [w, h],
+        });
+        pdf.addImage(url, "PNG", 0, 0, w, h);
+        pdf.save(`${filename}.pdf`);
+      }
+      toast.success(`Exported ${format}`, { description: `${filename}` });
+    } catch (e) {
+      console.error(e);
+      toast.error(`Export failed`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="inline-flex items-center gap-0.5 rounded-full bg-white shadow-sm ring-1 ring-slate-200">
+      {/* scale stepper */}
+      <button
+        type="button"
+        onClick={() => setScaleIdx((i) => Math.max(0, i - 1))}
+        disabled={scaleIdx === 0}
+        className="flex h-6 w-5 items-center justify-center text-slate-500 hover:text-slate-900 disabled:opacity-30"
+        title="Decrease scale"
+      >
+        <Minus className="h-2.5 w-2.5" />
+      </button>
+      <span className="w-6 text-center text-[10px] font-bold tabular-nums text-slate-700">{scale}x</span>
+      <button
+        type="button"
+        onClick={() => setScaleIdx((i) => Math.min(EXPORT_SCALES.length - 1, i + 1))}
+        disabled={scaleIdx === EXPORT_SCALES.length - 1}
+        className="flex h-6 w-5 items-center justify-center text-slate-500 hover:text-slate-900 disabled:opacity-30"
+        title="Increase scale"
+      >
+        <Plus className="h-2.5 w-2.5" />
+      </button>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          disabled={busy}
+          className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-700 disabled:opacity-50"
+          title="Export as image / PDF"
+        >
+          <Download className="h-3 w-3" />
+          {busy ? "..." : "Export"}
+          <ChevronDown className="h-2.5 w-2.5 opacity-60" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="min-w-[120px] border-slate-800 bg-slate-900 text-slate-100">
+          {EXPORT_FORMATS.map((f) => (
+            <DropdownMenuItem
+              key={f}
+              onClick={() => run(f)}
+              className="text-xs focus:bg-slate-800 focus:text-white"
+            >
+              {f}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
+
 type RegistryEntry = {
   node: React.ReactNode;
   frame: "phone" | "detail" | "channel";
