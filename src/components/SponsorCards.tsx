@@ -78,7 +78,7 @@ function PhoneFrame({ children, label }: { children: React.ReactNode; label: str
           <PickButton frameKey={`phone:${label}`} />
         </div>
       </div>
-      <div ref={captureRef}>{inner}</div>
+      <div ref={captureRef} data-export-frame={label}>{inner}</div>
     </div>
   );
 }
@@ -1903,7 +1903,7 @@ function DetailFrame({ children, label }: { children: React.ReactNode; label: st
           <PickButton frameKey={`detail:${label}`} />
         </div>
       </div>
-      <div ref={captureRef}>{inner}</div>
+      <div ref={captureRef} data-export-frame={label}>{inner}</div>
     </div>
   );
 }
@@ -4726,7 +4726,7 @@ function StepFrame({
           <PickButton frameKey={`v2:${label}`} />
         </div>
       </div>
-      <div ref={captureRef}>{inner}</div>
+      <div ref={captureRef} data-export-frame={label}>{inner}</div>
       {bnTitle && (
         <div className="bn max-w-[300px] text-center text-[11px] text-slate-500">{bnTitle}</div>
       )}
@@ -6338,7 +6338,7 @@ function ChannelVariantFrame({ children, label }: { children: React.ReactNode; l
           <PickButton frameKey={`channel:${label}`} />
         </div>
       </div>
-      <div ref={captureRef} className="w-full">{inner}</div>
+      <div ref={captureRef} data-export-frame={label} className="w-full">{inner}</div>
     </div>
   );
 }
