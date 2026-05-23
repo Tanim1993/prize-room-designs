@@ -5819,6 +5819,8 @@ function AdminPortalV2() {
     slate:   { bar: "bg-slate-300",   chip: "bg-slate-100",   text: "text-slate-700",   ring: "ring-slate-200" },
   };
 
+  const captureRef = React.useRef<HTMLDivElement>(null);
+  const label = "Admin Portal V2 · Create Featured Room";
   return (
     <section className="mb-16">
       <div className="mb-5 text-center">
@@ -5829,7 +5831,12 @@ function AdminPortalV2() {
         <p className="mt-1 text-[13px] text-slate-500">
           Room defines the zikr & rules. Sponsors plug in as <b>sessions</b> over time — each session brings its own brand & prize.
         </p>
+        <div className="mt-3 inline-flex items-center gap-1">
+          <CopyButtons targetRef={captureRef} />
+          <ExportButton targetRef={captureRef} label={label} />
+        </div>
       </div>
+      <div ref={captureRef}>
 
       <div className="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
         {/* Top toolbar */}
