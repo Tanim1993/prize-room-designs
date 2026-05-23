@@ -1661,25 +1661,28 @@ export default function SponsorCards() {
       <div className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur">
         <div className="mx-auto flex max-w-[1800px] items-center justify-between gap-4 px-6 py-3">
           <div className="text-sm font-semibold text-slate-900">Zikr Rooms — Sponsor Design</div>
-          <div className="inline-flex rounded-full bg-slate-100 p-1 text-[12px] font-semibold">
-            <button
-              onClick={() => setView("v1")}
-              className={`rounded-full px-4 py-1.5 transition ${view === "v1" ? "bg-white text-slate-900 shadow" : "text-slate-500"}`}
-            >
-              V1 · Exploration
-            </button>
-            <button
-              onClick={() => setView("v2")}
-              className={`rounded-full px-4 py-1.5 transition ${view === "v2" ? "bg-slate-900 text-white shadow" : "text-slate-500"}`}
-            >
-              V2 · Flow-wise ▸
-            </button>
-            <button
-              onClick={() => setView("v3")}
-              className={`rounded-full px-4 py-1.5 transition ${view === "v3" ? "bg-amber-500 text-white shadow" : "text-slate-500"}`}
-            >
-              ★ V3 · Final
-            </button>
+          <div className="flex items-center gap-3">
+            <ExportAllButton />
+            <div className="inline-flex rounded-full bg-slate-100 p-1 text-[12px] font-semibold">
+              <button
+                onClick={() => setView("v1")}
+                className={`rounded-full px-4 py-1.5 transition ${view === "v1" ? "bg-white text-slate-900 shadow" : "text-slate-500"}`}
+              >
+                V1 · Exploration
+              </button>
+              <button
+                onClick={() => setView("v2")}
+                className={`rounded-full px-4 py-1.5 transition ${view === "v2" ? "bg-slate-900 text-white shadow" : "text-slate-500"}`}
+              >
+                V2 · Flow-wise ▸
+              </button>
+              <button
+                onClick={() => setView("v3")}
+                className={`rounded-full px-4 py-1.5 transition ${view === "v3" ? "bg-amber-500 text-white shadow" : "text-slate-500"}`}
+              >
+                ★ V3 · Final
+              </button>
+            </div>
           </div>
         </div>
       </div>
