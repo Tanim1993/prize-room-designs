@@ -224,6 +224,159 @@ export function ExportButton({
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Export ALL — captures every [data-export-frame] node into a zip    */
+/* ------------------------------------------------------------------ */
+
+const EXPORT_ALL_FORMATS = ["PNG", "JPEG", "SVG", "PDF"] as const;
+type ExportAllFormat = (typeof EXPORT_ALL_FORMATS)[number];
+
+export function ExportAllButton() {
+  const [scaleIdx, setScaleIdx] = useState(1);
+  const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
+  const scale = EXPORT_SCALES[scaleIdx];
+
+  const runAll = async (format: ExportAllFormat) => {
+    const nodes = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-export-frame]"),
+    ).filter((n) => n.offsetParent !== null || n.getClientRects().length > 0);
+    if (nodes.length === 0) {
+      toast.error("No frames to export");
+      return;
+    }
+    setBusy(true);
+    setProgress({ done: 0, total: nodes.length });
+    try {
+      const JSZip = (await import("jszip")).default;
+      const zip = new JSZip();
+      const used = new Map<string, number>();
+      const opts = {
+        pixelRatio: scale,
+        cacheBust: true,
+        backgroundColor: format === "JPEG" ? "#ffffff" : undefined,
+      };
+
+      // PDF: combine into one document
+      let pdf: jsPDF | null = null;
+
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        const label = node.dataset.exportFrame || `frame-${i + 1}`;
+        const base = slugify(label);
+        const n = (used.get(base) ?? 0) + 1;
+        used.set(base, n);
+        const name = n > 1 ? `${base}-${n}` : base;
+        try {
+          if (format === "PNG") {
+            const url = await toPng(node, opts);
+            zip.file(`${name}.png`, url.split(",")[1], { base64: true });
+          } else if (format === "JPEG") {
+            const url = await toJpeg(node, { ...opts, quality: 0.95 });
+            zip.file(`${name}.jpg`, url.split(",")[1], { base64: true });
+          } else if (format === "SVG") {
+            const url = await toSvg(node, opts);
+            const svg = decodeURIComponent(url.replace(/^data:image\/svg\+xml;charset=utf-8,/, ""));
+            zip.file(`${name}.svg`, svg);
+          } else {
+            const url = await toPng(node, opts);
+            const img = new Image();
+            img.src = url;
+            await new Promise((r) => (img.onload = r));
+            const w = img.width;
+            const h = img.height;
+            if (!pdf) {
+              pdf = new jsPDF({
+                orientation: w >= h ? "landscape" : "portrait",
+                unit: "px",
+                format: [w, h],
+              });
+            } else {
+              pdf.addPage([w, h], w >= h ? "landscape" : "portrait");
+            }
+            pdf.addImage(url, "PNG", 0, 0, w, h);
+          }
+        } catch (e) {
+          console.error(`Export failed for ${label}`, e);
+        }
+        setProgress({ done: i + 1, total: nodes.length });
+      }
+
+      const stamp = new Date().toISOString().slice(0, 10);
+      if (format === "PDF" && pdf) {
+        pdf.save(`all-frames-${stamp}@${scale}x.pdf`);
+      } else {
+        const blob = await zip.generateAsync({ type: "blob" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `all-frames-${stamp}-${format.toLowerCase()}@${scale}x.zip`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+      toast.success(`Exported ${nodes.length} frames`, { description: format });
+    } catch (e) {
+      console.error(e);
+      toast.error("Export all failed");
+    } finally {
+      setBusy(false);
+      setProgress(null);
+    }
+  };
+
+  return (
+    <div className="inline-flex items-center gap-0.5 rounded-full bg-white shadow-sm ring-1 ring-slate-200">
+      <button
+        type="button"
+        onClick={() => setScaleIdx((i) => Math.max(0, i - 1))}
+        disabled={scaleIdx === 0 || busy}
+        className="flex h-7 w-6 items-center justify-center text-slate-500 hover:text-slate-900 disabled:opacity-30"
+        title="Decrease scale"
+      >
+        <Minus className="h-3 w-3" />
+      </button>
+      <span className="w-7 text-center text-[11px] font-bold tabular-nums text-slate-700">{scale}x</span>
+      <button
+        type="button"
+        onClick={() => setScaleIdx((i) => Math.min(EXPORT_SCALES.length - 1, i + 1))}
+        disabled={scaleIdx === EXPORT_SCALES.length - 1 || busy}
+        className="flex h-7 w-6 items-center justify-center text-slate-500 hover:text-slate-900 disabled:opacity-30"
+        title="Increase scale"
+      >
+        <Plus className="h-3 w-3" />
+      </button>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          disabled={busy}
+          className="inline-flex items-center gap-1 rounded-full bg-slate-900 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition hover:bg-slate-800 disabled:opacity-50"
+          title="Export all visible frames"
+        >
+          <Download className="h-3 w-3" />
+          {busy
+            ? progress
+              ? `${progress.done}/${progress.total}`
+              : "..."
+            : "Export all"}
+          <ChevronDown className="h-2.5 w-2.5 opacity-80" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="min-w-[160px] border-slate-800 bg-slate-900 text-slate-100">
+          {EXPORT_ALL_FORMATS.map((f) => (
+            <DropdownMenuItem
+              key={f}
+              onClick={() => runAll(f)}
+              className="text-xs focus:bg-slate-800 focus:text-white"
+            >
+              {f === "PDF" ? "PDF (combined)" : `${f} (zip)`}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
+
 type RegistryEntry = {
   node: React.ReactNode;
   frame: "phone" | "detail" | "channel";

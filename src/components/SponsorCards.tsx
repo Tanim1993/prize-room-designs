@@ -46,6 +46,7 @@ import {
   PickButton,
   CopyButtons,
   ExportButton,
+  ExportAllButton,
   useRegisterFrame,
 } from "./FinalSelection";
 
@@ -78,7 +79,7 @@ function PhoneFrame({ children, label }: { children: React.ReactNode; label: str
           <PickButton frameKey={`phone:${label}`} />
         </div>
       </div>
-      <div ref={captureRef}>{inner}</div>
+      <div ref={captureRef} data-export-frame={label}>{inner}</div>
     </div>
   );
 }
@@ -1660,25 +1661,28 @@ export default function SponsorCards() {
       <div className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur">
         <div className="mx-auto flex max-w-[1800px] items-center justify-between gap-4 px-6 py-3">
           <div className="text-sm font-semibold text-slate-900">Zikr Rooms — Sponsor Design</div>
-          <div className="inline-flex rounded-full bg-slate-100 p-1 text-[12px] font-semibold">
-            <button
-              onClick={() => setView("v1")}
-              className={`rounded-full px-4 py-1.5 transition ${view === "v1" ? "bg-white text-slate-900 shadow" : "text-slate-500"}`}
-            >
-              V1 · Exploration
-            </button>
-            <button
-              onClick={() => setView("v2")}
-              className={`rounded-full px-4 py-1.5 transition ${view === "v2" ? "bg-slate-900 text-white shadow" : "text-slate-500"}`}
-            >
-              V2 · Flow-wise ▸
-            </button>
-            <button
-              onClick={() => setView("v3")}
-              className={`rounded-full px-4 py-1.5 transition ${view === "v3" ? "bg-amber-500 text-white shadow" : "text-slate-500"}`}
-            >
-              ★ V3 · Final
-            </button>
+          <div className="flex items-center gap-3">
+            <ExportAllButton />
+            <div className="inline-flex rounded-full bg-slate-100 p-1 text-[12px] font-semibold">
+              <button
+                onClick={() => setView("v1")}
+                className={`rounded-full px-4 py-1.5 transition ${view === "v1" ? "bg-white text-slate-900 shadow" : "text-slate-500"}`}
+              >
+                V1 · Exploration
+              </button>
+              <button
+                onClick={() => setView("v2")}
+                className={`rounded-full px-4 py-1.5 transition ${view === "v2" ? "bg-slate-900 text-white shadow" : "text-slate-500"}`}
+              >
+                V2 · Flow-wise ▸
+              </button>
+              <button
+                onClick={() => setView("v3")}
+                className={`rounded-full px-4 py-1.5 transition ${view === "v3" ? "bg-amber-500 text-white shadow" : "text-slate-500"}`}
+              >
+                ★ V3 · Final
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1903,7 +1907,7 @@ function DetailFrame({ children, label }: { children: React.ReactNode; label: st
           <PickButton frameKey={`detail:${label}`} />
         </div>
       </div>
-      <div ref={captureRef}>{inner}</div>
+      <div ref={captureRef} data-export-frame={label}>{inner}</div>
     </div>
   );
 }
@@ -4726,7 +4730,7 @@ function StepFrame({
           <PickButton frameKey={`v2:${label}`} />
         </div>
       </div>
-      <div ref={captureRef}>{inner}</div>
+      <div ref={captureRef} data-export-frame={label}>{inner}</div>
       {bnTitle && (
         <div className="bn max-w-[300px] text-center text-[11px] text-slate-500">{bnTitle}</div>
       )}
@@ -5836,7 +5840,7 @@ function AdminPortalV2() {
           <ExportButton targetRef={captureRef} label={label} />
         </div>
       </div>
-      <div ref={captureRef}>
+      <div ref={captureRef} data-export-frame={label}>
 
       <div className="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
         {/* Top toolbar */}
@@ -6338,7 +6342,7 @@ function ChannelVariantFrame({ children, label }: { children: React.ReactNode; l
           <PickButton frameKey={`channel:${label}`} />
         </div>
       </div>
-      <div ref={captureRef} className="w-full">{inner}</div>
+      <div ref={captureRef} data-export-frame={label} className="w-full">{inner}</div>
     </div>
   );
 }
