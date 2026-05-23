@@ -4700,20 +4700,33 @@ function StepFrame({
   flow, step, title, bnTitle, children,
 }: { flow: number; step: number; title: string; bnTitle?: string; children: React.ReactNode }) {
   const a = FLOW_ACCENTS[flow];
+  const captureRef = React.useRef<HTMLDivElement>(null);
+  const label = `Flow ${flow} · Step ${step} · ${title}`;
+  const inner = (
+    <div className="w-[300px] overflow-hidden rounded-[26px] bg-white shadow-[0_18px_44px_-18px_rgba(15,23,42,0.30)] ring-1 ring-black/5">
+      <div style={{ background: NAVY }} className="flex items-center justify-between px-4 py-3 text-white">
+        <ChevronRight className="h-4 w-4 rotate-180 opacity-70" />
+        <span className="text-[12px] font-semibold tracking-tight">{title}</span>
+        <div className="h-4 w-4" />
+      </div>
+      <div className="min-h-[520px] space-y-3 bg-[#F4F6FA] px-3 pb-4 pt-3">{children}</div>
+    </div>
+  );
+  useRegisterFrame(`v2:${label}`, "phone", label, inner);
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ring-1 ${a.bg} ${a.text} ${a.ring}`}>
-        <span className="grid h-4 w-4 place-items-center rounded-full bg-white/70 text-[9px]">{step}</span>
-        Step {step}
-      </div>
-      <div className="w-[300px] overflow-hidden rounded-[26px] bg-white shadow-[0_18px_44px_-18px_rgba(15,23,42,0.30)] ring-1 ring-black/5">
-        <div style={{ background: NAVY }} className="flex items-center justify-between px-4 py-3 text-white">
-          <ChevronRight className="h-4 w-4 rotate-180 opacity-70" />
-          <span className="text-[12px] font-semibold tracking-tight">{title}</span>
-          <div className="h-4 w-4" />
+      <div className="flex w-[300px] items-center justify-between gap-2">
+        <div className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ring-1 ${a.bg} ${a.text} ${a.ring}`}>
+          <span className="grid h-4 w-4 place-items-center rounded-full bg-white/70 text-[9px]">{step}</span>
+          Step {step}
         </div>
-        <div className="min-h-[520px] space-y-3 bg-[#F4F6FA] px-3 pb-4 pt-3">{children}</div>
+        <div className="flex items-center gap-1">
+          <CopyButtons targetRef={captureRef} />
+          <ExportButton targetRef={captureRef} label={label} />
+          <PickButton frameKey={`v2:${label}`} />
+        </div>
       </div>
+      <div ref={captureRef}>{inner}</div>
       {bnTitle && (
         <div className="bn max-w-[300px] text-center text-[11px] text-slate-500">{bnTitle}</div>
       )}
