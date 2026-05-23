@@ -1899,6 +1899,7 @@ function DetailFrame({ children, label }: { children: React.ReactNode; label: st
         </div>
         <div className="flex items-center gap-1.5">
           <CopyButtons targetRef={captureRef} />
+          <ExportButton targetRef={captureRef} label={label} />
           <PickButton frameKey={`detail:${label}`} />
         </div>
       </div>
