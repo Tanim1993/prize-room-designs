@@ -5836,7 +5836,7 @@ function AdminPortalV2() {
           <ExportButton targetRef={captureRef} label={label} />
         </div>
       </div>
-      <div ref={captureRef}>
+      <div ref={captureRef} data-export-frame={label}>
 
       <div className="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
         {/* Top toolbar */}
