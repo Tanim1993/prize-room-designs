@@ -45,6 +45,7 @@ import {
   FinalSelectionSection,
   PickButton,
   CopyButtons,
+  ExportButton,
   useRegisterFrame,
 } from "./FinalSelection";
 
@@ -73,6 +74,7 @@ function PhoneFrame({ children, label }: { children: React.ReactNode; label: str
         </div>
         <div className="flex items-center gap-1.5">
           <CopyButtons targetRef={captureRef} />
+          <ExportButton targetRef={captureRef} label={label} />
           <PickButton frameKey={`phone:${label}`} />
         </div>
       </div>
@@ -1897,6 +1899,7 @@ function DetailFrame({ children, label }: { children: React.ReactNode; label: st
         </div>
         <div className="flex items-center gap-1.5">
           <CopyButtons targetRef={captureRef} />
+          <ExportButton targetRef={captureRef} label={label} />
           <PickButton frameKey={`detail:${label}`} />
         </div>
       </div>
@@ -6310,6 +6313,7 @@ function ChannelVariantFrame({ children, label }: { children: React.ReactNode; l
         </div>
         <div className="flex items-center gap-1.5">
           <CopyButtons targetRef={captureRef} />
+          <ExportButton targetRef={captureRef} label={label} />
           <PickButton frameKey={`channel:${label}`} />
         </div>
       </div>
