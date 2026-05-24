@@ -35,6 +35,16 @@ import {
   Eye,
   BarChart3,
   Lock,
+  Facebook,
+  Share2,
+  Link2,
+  QrCode,
+  Swords,
+  Send,
+  Copy,
+  UserPlus,
+  MessageCircle,
+  Flame,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
