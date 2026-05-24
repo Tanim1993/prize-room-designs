@@ -7626,3 +7626,872 @@ function H6CreateRoomV2() {
     </div>
   );
 }
+
+/* ================================================================== */
+/*  FLOW 7 · Connect with Facebook — 3 variant tracks                 */
+/* ================================================================== */
+
+const FB_BLUE = "#1877F2";
+
+const FB_FRIENDS_ON_APP = [
+  { name: "Aisha Rahman", avatar: "AR", streak: 14, count: 8420, mutual: 23 },
+  { name: "Omar Siddiq", avatar: "OS", streak: 9, count: 12300, mutual: 41 },
+  { name: "Khadija M.", avatar: "KM", streak: 32, count: 21500, mutual: 12 },
+  { name: "Yusuf Ali", avatar: "YA", streak: 4, count: 3100, mutual: 8 },
+  { name: "Mariam K.", avatar: "MK", streak: 18, count: 9650, mutual: 19 },
+];
+
+const FB_FRIENDS_OFF_APP = [
+  { name: "Hamza T.", avatar: "HT" },
+  { name: "Layla J.", avatar: "LJ" },
+  { name: "Bilal H.", avatar: "BH" },
+  { name: "Sumaya N.", avatar: "SN" },
+  { name: "Ibrahim Z.", avatar: "IZ" },
+  { name: "Asma R.", avatar: "AR" },
+  { name: "Tariq M.", avatar: "TM" },
+  { name: "Zaynab A.", avatar: "ZA" },
+];
+
+function FBIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return <Facebook className={className} style={{ color: FB_BLUE }} fill={FB_BLUE} stroke="white" />;
+}
+
+/* ---------- Variant A · Invite + Discover ---------- */
+
+function FBA1Connect() {
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <FlowChrome title="Friends" sub="Connect to discover" />
+      <div className="flex flex-1 flex-col items-center justify-center px-6 pb-10 pt-4 text-center">
+        <div className="relative mb-5">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full" style={{ background: FB_BLUE }}>
+            <Facebook className="h-10 w-10 text-white" fill="white" />
+          </div>
+          <div className="absolute -right-2 -bottom-1 flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 ring-4 ring-[#F4F7FB]">
+            <UserPlus className="h-4 w-4 text-white" />
+          </div>
+        </div>
+        <h3 className="text-[16px] font-extrabold text-slate-900">Zikr with friends</h3>
+        <p className="mt-1.5 text-[12px] leading-relaxed text-slate-500">
+          See which of your Facebook friends are already doing zikr — and invite the rest.
+        </p>
+        <button
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[13px] font-bold text-white shadow-lg"
+          style={{ background: FB_BLUE }}
+        >
+          <Facebook className="h-4 w-4" fill="white" />
+          Connect Facebook
+        </button>
+        <button className="mt-2 text-[11px] font-semibold text-slate-500 underline">Maybe later</button>
+        <div className="mt-5 flex items-start gap-2 rounded-lg bg-white p-2.5 text-left ring-1 ring-slate-200">
+          <ShieldCheck className="mt-0.5 h-3.5 w-3.5 text-emerald-600" />
+          <p className="text-[10px] leading-snug text-slate-600">
+            We only read your friend list to find matches. <b>Never post on your behalf.</b>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FBA2Friends() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div style={{ background: NAVY }} className="px-4 pb-3 pt-3 text-white">
+        <FlowChrome title="Friends on Zikr" sub="5 of your FB friends" tone="dark" />
+        <div className="mt-2 flex items-center justify-between">
+          <div className="text-[13px] font-bold">Already counting 🌙</div>
+          <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[9.5px] font-semibold">
+            <FBIcon className="h-3 w-3" /> Connected
+          </span>
+        </div>
+      </div>
+      <div className="flex-1 space-y-1.5 px-3 pt-3 pb-4">
+        {FB_FRIENDS_ON_APP.map((f) => (
+          <div key={f.name} className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+            <div className="flex items-center gap-2.5">
+              <div className="relative">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-[11px] font-bold text-emerald-800">
+                  {f.avatar}
+                </div>
+                <div className="absolute -right-0.5 -bottom-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-white ring-1 ring-slate-200">
+                  <Facebook className="h-2.5 w-2.5" style={{ color: FB_BLUE }} fill={FB_BLUE} />
+                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="truncate text-[12px] font-bold text-slate-800">{f.name}</div>
+                <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                  <span className="flex items-center gap-0.5"><Flame className="h-2.5 w-2.5 text-orange-500" />{f.streak}d</span>
+                  <span>·</span>
+                  <span className="tabular-nums">{f.count.toLocaleString()}</span>
+                </div>
+              </div>
+              <button className="rounded-lg bg-emerald-600 px-2.5 py-1.5 text-[10px] font-bold text-white">Add</button>
+              <button className="rounded-lg bg-slate-100 px-2 py-1.5 text-[10px] font-bold text-slate-700">Invite</button>
+            </div>
+          </div>
+        ))}
+        <button className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-slate-300 bg-white py-2.5 text-[11px] font-bold text-slate-600">
+          <Send className="h-3.5 w-3.5" /> Invite 8 more from Facebook
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FBA3Invite() {
+  const [selected] = useState(["Hamza T.", "Layla J.", "Bilal H."]);
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <FlowChrome title="Invite friends" sub="Not on Zikr yet" />
+      <div className="px-4 pt-2">
+        <div className="rounded-xl bg-white p-2 ring-1 ring-slate-100">
+          <div className="flex items-center gap-1.5 px-1">
+            <Search className="h-3.5 w-3.5 text-slate-400" />
+            <input
+              className="flex-1 bg-transparent text-[11px] outline-none placeholder:text-slate-400"
+              placeholder="Search Facebook friends…"
+              readOnly
+            />
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 px-3 pt-3 pb-4">
+        <div className="mb-2 flex items-center justify-between px-1">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">8 friends · select to invite</div>
+          <button className="text-[10px] font-bold text-emerald-600">Select all</button>
+        </div>
+        <div className="grid grid-cols-4 gap-2">
+          {FB_FRIENDS_OFF_APP.map((f) => {
+            const on = selected.includes(f.name);
+            return (
+              <div key={f.name} className="flex flex-col items-center gap-1">
+                <div className={`relative flex h-12 w-12 items-center justify-center rounded-full text-[11px] font-bold ${on ? "ring-2 ring-emerald-500 bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-600"}`}>
+                  {f.avatar}
+                  {on && (
+                    <div className="absolute -right-1 -bottom-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 ring-2 ring-[#F4F7FB]">
+                      <CheckCircle2 className="h-3 w-3 text-white" />
+                    </div>
+                  )}
+                </div>
+                <div className="truncate w-full text-center text-[9px] font-semibold text-slate-700">{f.name.split(" ")[0]}</div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+          <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Send via</div>
+          <div className="grid grid-cols-4 gap-2 text-center">
+            {[
+              { Icon: Facebook, label: "Facebook", color: FB_BLUE, fill: true },
+              { Icon: MessageCircle, label: "WhatsApp", color: "#25D366", fill: false },
+              { Icon: Send, label: "Messenger", color: "#0084FF", fill: false },
+              { Icon: Link2, label: "Copy link", color: "#64748B", fill: false },
+            ].map((c) => (
+              <button key={c.label} className="flex flex-col items-center gap-1 rounded-lg p-1.5 hover:bg-slate-50">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full" style={{ background: `${c.color}15` }}>
+                  <c.Icon className="h-4 w-4" style={{ color: c.color }} fill={c.fill ? c.color : "none"} stroke={c.fill ? "white" : c.color} />
+                </div>
+                <span className="text-[9px] font-semibold text-slate-700">{c.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button className="mt-3 w-full rounded-xl py-3 text-[12px] font-bold text-white" style={{ background: NAVY }}>
+          Send {selected.length} invites
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FBA4Leaderboard() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div style={{ background: NAVY }} className="px-4 pb-4 pt-3 text-white">
+        <FlowChrome title="Leaderboard" sub="Subhanallah Room" tone="dark" />
+        <div className="mt-3 flex gap-1 rounded-xl bg-white/10 p-1">
+          <button className="flex-1 rounded-lg py-1.5 text-[10px] font-semibold opacity-70">Global</button>
+          <button className="flex-1 rounded-lg py-1.5 text-[10px] font-semibold opacity-70">Room</button>
+          <button className="flex-1 rounded-lg bg-white py-1.5 text-[10px] font-bold text-slate-900 shadow flex items-center justify-center gap-1">
+            <FBIcon className="h-3 w-3" /> Friends
+          </button>
+        </div>
+      </div>
+      <div className="px-3 pt-3"><TimeRangeChips active="This week" /></div>
+      <div className="flex-1 px-3 pt-3 pb-4">
+        <div className="grid grid-cols-3 gap-2 text-center">
+          {[
+            { p: FB_FRIENDS_ON_APP[2], rank: 1, h: "h-20", clr: "bg-amber-400 text-amber-950" },
+            { p: FB_FRIENDS_ON_APP[1], rank: 2, h: "h-16", clr: "bg-slate-300 text-slate-800" },
+            { p: FB_FRIENDS_ON_APP[0], rank: 3, h: "h-14", clr: "bg-orange-400 text-orange-950" },
+          ].sort((a,b)=>a.rank-b.rank).map(({p, rank, h, clr}) => (
+            <div key={p.name} className="flex flex-col items-center justify-end">
+              <div className="relative mb-1">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-[11px] font-bold text-emerald-800 ring-2 ring-white">{p.avatar}</div>
+                <div className="absolute -right-1 -bottom-1 flex h-4 w-4 items-center justify-center rounded-full bg-white">
+                  <Facebook className="h-3 w-3" style={{ color: FB_BLUE }} fill={FB_BLUE} />
+                </div>
+              </div>
+              <div className="truncate w-full text-[10px] font-bold text-slate-800">{p.name.split(" ")[0]}</div>
+              <div className="text-[9px] text-slate-500 tabular-nums">{p.count.toLocaleString()}</div>
+              <div className={`mt-1 w-full ${h} rounded-t-lg ${clr} flex items-start justify-center pt-1 text-[10px] font-extrabold`}>{rank}</div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 space-y-1.5">
+          {FB_FRIENDS_ON_APP.slice(3).map((p, i) => (
+            <div key={p.name} className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2">
+              <div className="w-4 text-center text-[11px] font-bold text-slate-400">{i+4}</div>
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-800">{p.avatar}</div>
+              <div className="flex-1 truncate text-[11.5px] font-semibold text-slate-800">{p.name}</div>
+              <div className="text-[11px] font-bold text-slate-900 tabular-nums">{p.count.toLocaleString()}</div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 flex items-center gap-2 rounded-xl px-3 py-2 text-white" style={{ background: NAVY }}>
+          <div className="w-4 text-center text-[11px] font-bold">6</div>
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[10px] font-bold" style={{ color: NAVY }}>YOU</div>
+          <div className="flex-1 text-[11.5px] font-semibold">You · ahead of 0 friends</div>
+          <TrendingUp className="h-3.5 w-3.5" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FBA5Room() {
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <FlowChrome title="Subhanallah Room" sub="Forever · 2,418 members" />
+      <div className="px-4 pt-3">
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 p-4 text-white">
+          <div className="flex items-start justify-between">
+            <div>
+              <div className="text-[10px] uppercase tracking-wider opacity-80">Your count</div>
+              <div className="mt-1 text-[26px] font-extrabold tabular-nums">16,840</div>
+            </div>
+            <div className="rounded-lg bg-white/15 p-2">
+              <Trophy className="h-4 w-4" />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-3 rounded-xl bg-white p-3 ring-1 ring-slate-200">
+          <div className="flex items-center gap-2">
+            <div className="flex -space-x-2">
+              {FB_FRIENDS_ON_APP.slice(0,3).map((f) => (
+                <div key={f.name} className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-[9px] font-bold text-emerald-800 ring-2 ring-white">{f.avatar}</div>
+              ))}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1 text-[11.5px] font-bold text-slate-800">
+                <Facebook className="h-3 w-3" style={{ color: FB_BLUE }} fill={FB_BLUE} />
+                3 FB friends are here
+              </div>
+              <div className="text-[10px] text-slate-500">Aisha, Omar, Khadija</div>
+            </div>
+            <ChevronRight className="h-4 w-4 text-slate-400" />
+          </div>
+        </div>
+
+        <div className="mt-3 rounded-xl bg-white p-3 ring-1 ring-slate-200">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Friend activity</div>
+          <div className="mt-2 space-y-1.5">
+            <div className="flex items-center gap-2 text-[11px]">
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-[9px] font-bold text-emerald-800">KM</div>
+              <span className="flex-1 text-slate-700"><b>Khadija</b> just hit 21,500 🎉</span>
+              <span className="text-[9px] text-slate-400">2m</span>
+            </div>
+            <div className="flex items-center gap-2 text-[11px]">
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-[9px] font-bold text-emerald-800">OS</div>
+              <span className="flex-1 text-slate-700"><b>Omar</b> started a session</span>
+              <span className="text-[9px] text-slate-400">14m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FBA6Success() {
+  return (
+    <div className="flex h-full flex-col bg-gradient-to-b from-emerald-50 to-white">
+      <FlowChrome title="Invites sent" />
+      <div className="flex flex-1 flex-col items-center px-6 pt-6 pb-10 text-center">
+        <div className="relative">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500 shadow-lg shadow-emerald-200">
+            <CheckCircle2 className="h-10 w-10 text-white" />
+          </div>
+          <Sparkles className="absolute -right-1 -top-1 h-5 w-5 text-amber-400" fill="currentColor" />
+        </div>
+        <h3 className="mt-4 text-[17px] font-extrabold text-slate-900">Jazak Allah khair!</h3>
+        <p className="mt-1 text-[12px] text-slate-500">Your invites are on their way.</p>
+
+        <div className="mt-5 grid w-full grid-cols-2 gap-2">
+          <div className="rounded-xl bg-white p-3 text-left ring-1 ring-slate-200">
+            <div className="text-[10px] font-semibold uppercase text-slate-500">Sent</div>
+            <div className="mt-0.5 text-[20px] font-extrabold text-slate-900">5</div>
+          </div>
+          <div className="rounded-xl bg-emerald-50 p-3 text-left ring-1 ring-emerald-200">
+            <div className="text-[10px] font-semibold uppercase text-emerald-700">Joined</div>
+            <div className="mt-0.5 text-[20px] font-extrabold text-emerald-700">2</div>
+          </div>
+        </div>
+
+        <div className="mt-3 w-full rounded-xl bg-white p-3 ring-1 ring-slate-200">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Joined this week</div>
+          <div className="mt-2 space-y-1.5">
+            {[FB_FRIENDS_OFF_APP[0], FB_FRIENDS_OFF_APP[1]].map((f) => (
+              <div key={f.name} className="flex items-center gap-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-800">{f.avatar}</div>
+                <span className="flex-1 text-left text-[11.5px] font-semibold text-slate-800">{f.name}</span>
+                <button className="rounded-lg bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-700">Wave 👋</button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[12px] font-bold text-white" style={{ background: FB_BLUE }}>
+          <Share2 className="h-4 w-4" /> Share with more friends
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Variant B · Invite Only ---------- */
+
+function FBB1Share() {
+  const channels = [
+    { Icon: Facebook, label: "Share to Facebook", color: FB_BLUE, fill: true },
+    { Icon: MessageCircle, label: "WhatsApp", color: "#25D366", fill: false },
+    { Icon: Send, label: "Messenger", color: "#0084FF", fill: false },
+    { Icon: Link2, label: "Copy link", color: "#64748B", fill: false },
+    { Icon: QrCode, label: "Show QR code", color: "#0F172A", fill: false },
+  ];
+  return (
+    <div className="flex h-full flex-col bg-slate-900/40 backdrop-blur">
+      <div className="flex-1 bg-gradient-to-br from-emerald-600/30 to-teal-700/30 p-4">
+        <FlowChrome title="Subhanallah Room" sub="Forever · 2,418 members" tone="dark" />
+      </div>
+      <div className="rounded-t-3xl bg-white px-4 pb-6 pt-3 shadow-2xl">
+        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-slate-300" />
+        <div className="mb-4 text-center">
+          <div className="text-[13px] font-extrabold text-slate-900">Invite friends to this room</div>
+          <div className="text-[10px] text-slate-500">They'll join you in counting</div>
+        </div>
+        <div className="space-y-1.5">
+          {channels.map((c) => (
+            <button key={c.label} className="flex w-full items-center gap-3 rounded-xl bg-slate-50 p-3 text-left hover:bg-slate-100">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full" style={{ background: `${c.color}15` }}>
+                <c.Icon className="h-4 w-4" style={{ color: c.color }} fill={c.fill ? c.color : "none"} stroke={c.fill ? "white" : c.color} />
+              </div>
+              <span className="flex-1 text-[12px] font-bold text-slate-800">{c.label}</span>
+              <ChevronRight className="h-4 w-4 text-slate-400" />
+            </button>
+          ))}
+        </div>
+        <div className="mt-3 flex items-center gap-2 rounded-lg bg-slate-50 p-2.5">
+          <Link2 className="h-3.5 w-3.5 text-slate-500" />
+          <code className="flex-1 truncate text-[10px] text-slate-600">zikr.app/r/subhanallah?ref=u_842</code>
+          <button className="rounded bg-slate-900 px-2 py-1 text-[9px] font-bold text-white">Copy</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FBB2Card() {
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <FlowChrome title="Preview" sub="What friends will see" />
+      <div className="flex-1 px-4 pt-4 pb-4">
+        {/* The shareable OG-style card */}
+        <div className="overflow-hidden rounded-2xl shadow-xl ring-1 ring-slate-200">
+          <div className="relative bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 p-5 text-white">
+            <div className="absolute right-3 top-3 rounded-full bg-amber-400 px-2 py-0.5 text-[9px] font-bold text-amber-950">
+              ৳15,000 prize
+            </div>
+            <div className="text-[10px] font-semibold uppercase tracking-widest opacity-80">Subhanallah</div>
+            <div className="mt-1 text-[20px] font-extrabold leading-tight">Join me in counting<br/>1 million ✨</div>
+            <div className="mt-4 flex items-center gap-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-[12px] font-bold ring-2 ring-white/30">AR</div>
+              <div>
+                <div className="text-[11px] font-bold">Aisha invited you</div>
+                <div className="text-[9px] opacity-80">Season 4 · ends in 2 days</div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <div className="h-6 w-6 rounded bg-emerald-600" />
+                <span className="text-[11px] font-extrabold text-slate-900">Zikr Rooms</span>
+              </div>
+              <span className="text-[9px] text-slate-500">zikr.app</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-xl bg-white p-3 ring-1 ring-slate-200">
+          <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Customize message</div>
+          <div className="rounded-lg bg-slate-50 p-2.5 text-[11px] text-slate-700">
+            "Assalamu alaikum! Come do zikr with me, akhi 🌙"
+          </div>
+        </div>
+
+        <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[12px] font-bold text-white" style={{ background: FB_BLUE }}>
+          <Facebook className="h-4 w-4" fill="white" /> Post to Facebook
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FBB3Landing() {
+  return (
+    <div className="flex h-full flex-col bg-gradient-to-b from-emerald-700 to-teal-800 text-white">
+      <FlowChrome title="" tone="dark" />
+      <div className="flex flex-1 flex-col items-center px-6 pt-4 pb-10 text-center">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 backdrop-blur ring-1 ring-white/20">
+          <BookOpen className="h-8 w-8" />
+        </div>
+        <div className="mt-3 text-[11px] font-semibold opacity-80">You've been invited</div>
+        <h3 className="mt-1 text-[20px] font-extrabold leading-tight">Join Aisha in<br/>Subhanallah Room</h3>
+
+        <div className="mt-4 flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 ring-1 ring-white/20">
+          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-[10px] font-bold text-emerald-700">AR</div>
+          <span className="text-[11px] font-semibold">Invited by Aisha R.</span>
+        </div>
+
+        <div className="mt-5 w-full rounded-2xl bg-white p-4 text-slate-800">
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div>
+              <div className="text-[16px] font-extrabold tabular-nums">2.4k</div>
+              <div className="text-[9px] text-slate-500">members</div>
+            </div>
+            <div>
+              <div className="text-[16px] font-extrabold tabular-nums">12M</div>
+              <div className="text-[9px] text-slate-500">total zikr</div>
+            </div>
+            <div>
+              <div className="text-[16px] font-extrabold tabular-nums">2d</div>
+              <div className="text-[9px] text-slate-500">left in season</div>
+            </div>
+          </div>
+        </div>
+
+        <button className="mt-5 w-full rounded-xl bg-white py-3 text-[13px] font-extrabold text-emerald-700 shadow-lg">
+          Download Zikr Rooms
+        </button>
+        <button className="mt-2 text-[11px] font-semibold underline opacity-80">Already have the app? Open</button>
+
+        <div className="mt-4 flex items-center gap-2 rounded-lg bg-white/10 p-2 backdrop-blur">
+          <QrCode className="h-8 w-8" />
+          <div className="text-left">
+            <div className="text-[10px] font-bold">Scan with another phone</div>
+            <div className="text-[9px] opacity-80">Direct deep link to this room</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FBB4Dashboard() {
+  const invites = [
+    { code: "u_842-a1", channel: "Facebook", clicks: 14, joined: 3, date: "Today" },
+    { code: "u_842-w2", channel: "WhatsApp", clicks: 8, joined: 5, date: "Yesterday" },
+    { code: "u_842-m3", channel: "Messenger", clicks: 22, joined: 6, date: "3d ago" },
+    { code: "u_842-q4", channel: "QR code", clicks: 4, joined: 1, date: "1w ago" },
+  ];
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <FlowChrome title="Your invites" sub="Track who joined" />
+      <div className="px-4 pt-3">
+        <div className="grid grid-cols-3 gap-2">
+          <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-200">
+            <div className="text-[9px] font-semibold uppercase text-slate-500">Clicks</div>
+            <div className="text-[18px] font-extrabold text-slate-900 tabular-nums">48</div>
+          </div>
+          <div className="rounded-xl bg-emerald-50 p-2.5 ring-1 ring-emerald-200">
+            <div className="text-[9px] font-semibold uppercase text-emerald-700">Joined</div>
+            <div className="text-[18px] font-extrabold text-emerald-700 tabular-nums">15</div>
+          </div>
+          <div className="rounded-xl p-2.5 ring-1 ring-amber-200" style={{ background: "#FEF3C7" }}>
+            <div className="text-[9px] font-semibold uppercase text-amber-700">Reward</div>
+            <div className="text-[18px] font-extrabold text-amber-700 tabular-nums">+150</div>
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 px-3 pt-3 pb-4">
+        <div className="mb-2 px-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">Recent invites</div>
+        <div className="space-y-1.5">
+          {invites.map((iv) => (
+            <div key={iv.code} className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: iv.channel === "Facebook" ? `${FB_BLUE}15` : "#F1F5F9" }}>
+                  {iv.channel === "Facebook" ? <Facebook className="h-4 w-4" style={{ color: FB_BLUE }} fill={FB_BLUE} /> : iv.channel === "WhatsApp" ? <MessageCircle className="h-4 w-4 text-emerald-600" /> : iv.channel === "Messenger" ? <Send className="h-4 w-4 text-sky-500" /> : <QrCode className="h-4 w-4 text-slate-600" />}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[11.5px] font-bold text-slate-800">{iv.channel}</div>
+                  <div className="text-[9px] text-slate-500">{iv.code} · {iv.date}</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-[11px] font-bold text-slate-900 tabular-nums">{iv.clicks} · <span className="text-emerald-600">{iv.joined}↑</span></div>
+                  <div className="text-[9px] text-slate-400">clicks · joined</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl py-3 text-[12px] font-bold text-white" style={{ background: NAVY }}>
+          <Plus className="h-4 w-4" /> Create new invite link
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Variant C · Full Social Competition ---------- */
+
+function FBC1Connect() {
+  return (
+    <div className="flex h-full flex-col bg-gradient-to-b from-slate-50 to-amber-50">
+      <FlowChrome title="Compete with friends" />
+      <div className="flex flex-1 flex-col items-center justify-center px-6 pb-10 pt-4 text-center">
+        <div className="relative mb-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-400 -rotate-6 shadow-lg shadow-amber-200">
+            <Swords className="h-8 w-8 text-amber-950" />
+          </div>
+          <div className="absolute -right-3 -bottom-2 flex h-9 w-9 items-center justify-center rounded-full ring-4 ring-amber-50" style={{ background: FB_BLUE }}>
+            <Facebook className="h-4 w-4 text-white" fill="white" />
+          </div>
+        </div>
+        <h3 className="text-[17px] font-extrabold text-slate-900">Race your friends in zikr</h3>
+        <p className="mt-1.5 text-[12px] leading-relaxed text-slate-500">
+          Connect Facebook to auto-follow friends, compare counts, and start 1v1 challenges.
+        </p>
+
+        <div className="mt-4 w-full space-y-1.5">
+          {[
+            { Icon: Trophy, t: "Friends leaderboard", d: "Beat your circle" },
+            { Icon: Swords, t: "1v1 challenges", d: "Race to a target" },
+            { Icon: Flame, t: "Streak battles", d: "Don't break the chain" },
+          ].map((f) => (
+            <div key={f.t} className="flex items-center gap-2 rounded-xl bg-white p-2.5 ring-1 ring-slate-200">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 text-amber-700"><f.Icon className="h-4 w-4" /></div>
+              <div className="flex-1 text-left">
+                <div className="text-[11.5px] font-bold text-slate-800">{f.t}</div>
+                <div className="text-[9.5px] text-slate-500">{f.d}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[13px] font-bold text-white shadow-lg" style={{ background: FB_BLUE }}>
+          <Facebook className="h-4 w-4" fill="white" /> Connect & Auto-follow
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FBC2AutoFollow() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div style={{ background: NAVY }} className="px-4 pb-3 pt-3 text-white">
+        <FlowChrome title="Auto-followed" sub="5 friends · adjust below" tone="dark" />
+        <div className="mt-2 flex items-center justify-between rounded-lg bg-white/10 p-2 backdrop-blur">
+          <div className="text-[10.5px]">
+            <span className="font-bold">All friends added.</span> Toggle off any you'd rather not compete with.
+          </div>
+          <button className="text-[10px] font-bold text-amber-300">Undo all</button>
+        </div>
+      </div>
+      <div className="flex-1 space-y-1.5 px-3 pt-3 pb-4">
+        {FB_FRIENDS_ON_APP.map((f, i) => {
+          const following = i !== 3;
+          return (
+            <div key={f.name} className="rounded-xl bg-white p-2.5 ring-1 ring-slate-100">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-[11px] font-bold text-emerald-800">{f.avatar}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="truncate text-[12px] font-bold text-slate-800">{f.name}</div>
+                  <div className="flex items-center gap-1.5 text-[10px] text-slate-500">
+                    <Facebook className="h-2.5 w-2.5" style={{ color: FB_BLUE }} fill={FB_BLUE} />
+                    {f.mutual} mutual · <Flame className="h-2.5 w-2.5 text-orange-500" />{f.streak}d
+                  </div>
+                </div>
+                <button className={`relative h-6 w-11 rounded-full transition ${following ? "bg-emerald-500" : "bg-slate-300"}`}>
+                  <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${following ? "left-[22px]" : "left-0.5"}`} />
+                </button>
+              </div>
+            </div>
+          );
+        })}
+        <button className="mt-2 w-full rounded-xl py-3 text-[12px] font-bold text-white" style={{ background: NAVY }}>
+          Continue
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FBC3Leaderboard() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="bg-gradient-to-br from-amber-500 to-orange-600 px-4 pb-4 pt-3 text-white">
+        <FlowChrome title="Friends Leaderboard" sub="This week" tone="dark" />
+        <div className="mt-2 flex items-center justify-between">
+          <div>
+            <div className="text-[20px] font-extrabold">You're #2 🔥</div>
+            <div className="text-[10px] opacity-90">Ahead of 3 friends · 2,840 behind Khadija</div>
+          </div>
+          <div className="rounded-full bg-white/20 p-2 ring-1 ring-white/30">
+            <Trophy className="h-5 w-5" />
+          </div>
+        </div>
+        <div className="mt-3 flex gap-1">
+          {["Today", "Week", "Month", "All-time"].map((t, i) => (
+            <button key={t} className={`flex-1 rounded-lg py-1 text-[10px] font-bold ${i===1 ? "bg-white text-orange-700" : "bg-white/10"}`}>{t}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex-1 px-3 pt-3 pb-4">
+        <div className="rounded-xl bg-amber-50 p-2.5 ring-1 ring-amber-200">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-400 text-[10px] font-extrabold text-amber-950">👑</div>
+            <div className="flex-1 text-[11px]">
+              <div className="font-bold text-amber-900">Weekly winner so far</div>
+              <div className="text-[9.5px] text-amber-700">Khadija · 21,500 zikr this week</div>
+            </div>
+            <Crown className="h-4 w-4 text-amber-600" />
+          </div>
+        </div>
+
+        <div className="mt-3 space-y-1.5">
+          {FB_FRIENDS_ON_APP.map((p, i) => {
+            const you = i === 1;
+            return (
+              <div key={p.name} className={`rounded-xl p-2.5 ${you ? "bg-amber-100 ring-2 ring-amber-400" : "bg-slate-50 ring-1 ring-slate-100"}`}>
+                <div className="flex items-center gap-2">
+                  <div className={`w-4 text-center text-[11px] font-bold ${i===0?"text-amber-600":"text-slate-400"}`}>{i+1}</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-800">{you ? "YOU" : p.avatar}</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="truncate text-[11.5px] font-bold text-slate-800">{you ? "You" : p.name}</div>
+                    <div className="flex items-center gap-1 text-[9.5px] text-slate-500">
+                      <Flame className="h-2.5 w-2.5 text-orange-500" />{p.streak}d streak
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[11.5px] font-bold text-slate-900 tabular-nums">{p.count.toLocaleString()}</div>
+                    {!you && (
+                      <button className="mt-0.5 inline-flex items-center gap-0.5 rounded-md bg-amber-500 px-1.5 py-0.5 text-[9px] font-bold text-white">
+                        <Swords className="h-2.5 w-2.5" /> Challenge
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FBC4Setup() {
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <FlowChrome title="1v1 Challenge" sub="Setup" />
+      <div className="px-4 pt-3">
+        <div className="rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-4 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col items-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-[14px] font-extrabold text-emerald-700 ring-4 ring-white/30">YOU</div>
+              <div className="mt-1.5 text-[11px] font-bold">You</div>
+              <div className="text-[9px] opacity-80">14d streak</div>
+            </div>
+            <div className="text-center">
+              <div className="rounded-full bg-white/20 p-2 ring-1 ring-white/30">
+                <Swords className="h-5 w-5" />
+              </div>
+              <div className="mt-1 text-[10px] font-bold opacity-90">VS</div>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-[14px] font-bold text-emerald-800 ring-4 ring-white/30">OS</div>
+              <div className="mt-1.5 text-[11px] font-bold">Omar</div>
+              <div className="text-[9px] opacity-80">9d streak</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 space-y-3 px-3 pt-3 pb-4">
+        <div className="rounded-xl bg-white p-3 ring-1 ring-slate-200">
+          <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Zikr type</div>
+          <div className="grid grid-cols-3 gap-1.5">
+            {["Subhanallah", "Alhamdulillah", "Allahu Akbar"].map((z, i) => (
+              <button key={z} className={`rounded-lg px-2 py-2 text-[10px] font-bold ${i===0 ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-600"}`}>{z}</button>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-white p-3 ring-1 ring-slate-200">
+          <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Target count</div>
+          <div className="grid grid-cols-4 gap-1.5">
+            {["100", "500", "1,000", "5,000"].map((t, i) => (
+              <button key={t} className={`rounded-lg py-2 text-[11px] font-bold tabular-nums ${i===2 ? "bg-amber-500 text-white" : "bg-slate-100 text-slate-600"}`}>{t}</button>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-white p-3 ring-1 ring-slate-200">
+          <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">Duration</div>
+          <div className="grid grid-cols-3 gap-1.5">
+            {["1 hour", "1 day", "3 days"].map((t, i) => (
+              <button key={t} className={`rounded-lg py-2 text-[11px] font-bold ${i===1 ? "bg-emerald-600 text-white" : "bg-slate-100 text-slate-600"}`}>{t}</button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 rounded-xl bg-amber-50 p-2.5 ring-1 ring-amber-200">
+          <Award className="h-4 w-4 text-amber-600" />
+          <div className="flex-1 text-[10.5px] text-amber-900"><b>Winner stakes:</b> Champion badge + +50 XP</div>
+          <button className="text-[10px] font-bold text-amber-700">Edit</button>
+        </div>
+
+        <button className="w-full rounded-xl py-3 text-[12px] font-extrabold text-white shadow-lg" style={{ background: FB_BLUE }}>
+          Send challenge to Omar
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FBC5Live() {
+  return (
+    <div className="flex h-full flex-col bg-slate-900 text-white">
+      <div className="bg-gradient-to-br from-amber-500 to-orange-600 px-4 pb-4 pt-3">
+        <FlowChrome title="Live Challenge" sub="Subhanallah · 1,000" tone="dark" />
+        <div className="mt-2 flex items-center justify-center gap-2">
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-500 px-1.5 py-0.5 text-[9px] font-bold">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-white animate-pulse" /> LIVE
+          </span>
+          <span className="text-[10px] opacity-90">Ends in</span>
+          <span className="text-[14px] font-extrabold tabular-nums">14:32:08</span>
+        </div>
+      </div>
+
+      <div className="flex-1 px-4 pt-4 pb-4 space-y-3">
+        {/* YOU */}
+        <div className="rounded-2xl bg-slate-800 p-3 ring-1 ring-emerald-500/30">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-[10px] font-extrabold text-white">YOU</div>
+            <div className="flex-1 text-[11.5px] font-bold">You</div>
+            <div className="text-right">
+              <div className="text-[16px] font-extrabold tabular-nums text-emerald-400">742</div>
+              <div className="text-[9px] text-slate-400">/ 1,000</div>
+            </div>
+          </div>
+          <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-700">
+            <div className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600" style={{ width: "74%" }} />
+          </div>
+        </div>
+
+        {/* VS divider */}
+        <div className="flex items-center justify-center gap-2">
+          <div className="h-px flex-1 bg-slate-700" />
+          <div className="rounded-full bg-amber-500 px-2 py-0.5 text-[9px] font-extrabold text-amber-950">VS</div>
+          <div className="h-px flex-1 bg-slate-700" />
+        </div>
+
+        {/* OMAR */}
+        <div className="rounded-2xl bg-slate-800 p-3 ring-1 ring-orange-500/30">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-800">OS</div>
+            <div className="flex-1 text-[11.5px] font-bold">Omar</div>
+            <div className="text-right">
+              <div className="text-[16px] font-extrabold tabular-nums text-orange-400">688</div>
+              <div className="text-[9px] text-slate-400">/ 1,000</div>
+            </div>
+          </div>
+          <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-700">
+            <div className="h-full rounded-full bg-gradient-to-r from-orange-400 to-orange-600" style={{ width: "68%" }} />
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-slate-800 p-2.5 ring-1 ring-slate-700">
+          <div className="mb-1.5 text-[9px] font-bold uppercase tracking-wider text-slate-400">Send a taunt</div>
+          <div className="flex gap-1.5">
+            {["🔥", "💪", "🤲", "🌙", "⚡"].map((e) => (
+              <button key={e} className="flex-1 rounded-lg bg-slate-700 py-1.5 text-[14px]">{e}</button>
+            ))}
+          </div>
+        </div>
+
+        <button className="w-full rounded-xl bg-emerald-500 py-3 text-[13px] font-extrabold text-white shadow-lg">
+          Continue counting →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FBC6Result() {
+  return (
+    <div className="flex h-full flex-col bg-gradient-to-b from-amber-50 to-white">
+      <FlowChrome title="Challenge complete" />
+      <div className="flex flex-1 flex-col items-center px-5 pt-4 pb-6 text-center">
+        <div className="relative">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-amber-600 shadow-lg shadow-amber-200">
+            <Trophy className="h-10 w-10 text-amber-950" fill="currentColor" />
+          </div>
+          <Sparkles className="absolute -right-2 -top-1 h-5 w-5 text-amber-400" fill="currentColor" />
+          <Sparkles className="absolute -left-2 -bottom-1 h-4 w-4 text-amber-300" fill="currentColor" />
+        </div>
+        <div className="mt-3 rounded-full bg-amber-500 px-3 py-1 text-[10px] font-extrabold text-white">VICTORY</div>
+        <h3 className="mt-2 text-[18px] font-extrabold text-slate-900">You beat Omar!</h3>
+        <p className="text-[11px] text-slate-500">1,000 zikr · finished 47 min faster</p>
+
+        <div className="mt-4 w-full rounded-2xl bg-white p-3 ring-1 ring-slate-200">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="text-center">
+              <div className="flex h-10 w-10 mx-auto items-center justify-center rounded-full bg-emerald-500 text-[11px] font-extrabold text-white">YOU</div>
+              <div className="mt-1.5 text-[14px] font-extrabold text-emerald-600 tabular-nums">1,000</div>
+              <div className="text-[9px] text-slate-500">2h 13m</div>
+            </div>
+            <div className="text-center opacity-60">
+              <div className="flex h-10 w-10 mx-auto items-center justify-center rounded-full bg-emerald-100 text-[11px] font-bold text-emerald-800">OS</div>
+              <div className="mt-1.5 text-[14px] font-extrabold text-slate-700 tabular-nums">847</div>
+              <div className="text-[9px] text-slate-500">3h 00m</div>
+            </div>
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-amber-50 py-2 ring-1 ring-amber-200">
+            <Award className="h-4 w-4 text-amber-600" />
+            <span className="text-[11px] font-bold text-amber-900">+ Champion badge · +50 XP</span>
+          </div>
+        </div>
+
+        <div className="mt-3 grid w-full grid-cols-2 gap-2">
+          <button className="rounded-xl bg-slate-100 py-2.5 text-[11px] font-bold text-slate-800">
+            <Swords className="inline h-3.5 w-3.5 mr-1" /> Rematch
+          </button>
+          <button className="rounded-xl py-2.5 text-[11px] font-bold text-white" style={{ background: FB_BLUE }}>
+            <Facebook className="inline h-3.5 w-3.5 mr-1" fill="white" /> Share win
+          </button>
+        </div>
+        <button className="mt-2 w-full rounded-xl py-2.5 text-[11px] font-bold text-white" style={{ background: NAVY }}>
+          Challenge another friend
+        </button>
+      </div>
+    </div>
+  );
+}
