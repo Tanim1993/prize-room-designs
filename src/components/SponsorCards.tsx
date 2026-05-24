@@ -1884,6 +1884,59 @@ export default function SponsorCards() {
         <div className="flex flex-wrap justify-center gap-8">
           <DetailFrame label="R1 · Sponsor Brand Report"><SponsorReport /></DetailFrame>
         </div>
+
+        {/* ============== Flow 7 · Connect with Facebook ============== */}
+        <header id="sec-flow7a" className="mt-20 mb-2 scroll-mt-24 text-center">
+          <h1 className="text-2xl font-bold text-slate-900">
+            Flow 7 · Connect with Facebook <span className="bn text-slate-500">— ফেসবুক কানেক্ট</span>
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Three parallel design tracks for the same FB feature. Compare side-by-side and pick a direction. Pure FE mockup — no real FB SDK.
+          </p>
+        </header>
+
+        <header className="mt-10 mb-6 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#1877F2]/10 px-3 py-1 text-[11px] font-bold text-[#1877F2]">
+            <Facebook className="h-3.5 w-3.5" /> Variant A · Invite + Discover
+          </div>
+          <p className="mt-2 text-[12px] text-slate-500">Recommended default. Light social graph + viral invites.</p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="7A.1 · Connect prompt"><FBA1Connect /></DetailFrame>
+          <DetailFrame label="7A.2 · Friends on Zikr"><FBA2Friends /></DetailFrame>
+          <DetailFrame label="7A.3 · Invite non-app friends"><FBA3Invite /></DetailFrame>
+          <DetailFrame label="7A.4 · Friends leaderboard tab"><FBA4Leaderboard /></DetailFrame>
+          <DetailFrame label="7A.5 · Room with friends inside"><FBA5Room /></DetailFrame>
+          <DetailFrame label="7A.6 · Post-invite success"><FBA6Success /></DetailFrame>
+        </div>
+
+        <header className="mt-12 mb-6 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-600/10 px-3 py-1 text-[11px] font-bold text-emerald-700">
+            <Share2 className="h-3.5 w-3.5" /> Variant B · Invite Only
+          </div>
+          <p className="mt-2 text-[12px] text-slate-500">Lightest. No login, no discovery — pure viral loop.</p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="7B.1 · Share sheet entry"><FBB1Share /></DetailFrame>
+          <DetailFrame label="7B.2 · Shareable invite card"><FBB2Card /></DetailFrame>
+          <DetailFrame label="7B.3 · QR / link landing"><FBB3Landing /></DetailFrame>
+          <DetailFrame label="7B.4 · Your invites dashboard"><FBB4Dashboard /></DetailFrame>
+        </div>
+
+        <header className="mt-12 mb-6 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/15 px-3 py-1 text-[11px] font-bold text-amber-700">
+            <Swords className="h-3.5 w-3.5" /> Variant C · Full Social Competition
+          </div>
+          <p className="mt-2 text-[12px] text-slate-500">Heaviest. Auto-follow + head-to-head challenges.</p>
+        </header>
+        <div className="flex flex-wrap justify-center gap-8">
+          <DetailFrame label="7C.1 · Connect prompt (compete)"><FBC1Connect /></DetailFrame>
+          <DetailFrame label="7C.2 · Friends + auto-follow"><FBC2AutoFollow /></DetailFrame>
+          <DetailFrame label="7C.3 · Friends leaderboard (rich)"><FBC3Leaderboard /></DetailFrame>
+          <DetailFrame label="7C.4 · 1v1 Challenge setup"><FBC4Setup /></DetailFrame>
+          <DetailFrame label="7C.5 · Live challenge tracker"><FBC5Live /></DetailFrame>
+          <DetailFrame label="7C.6 · Challenge result"><FBC6Result /></DetailFrame>
+        </div>
         </div>
       </div>
       </div>
