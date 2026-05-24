@@ -1,65 +1,61 @@
-## Flow 0 — Channel → Room → Season (V2 hierarchy)
+## Flow 7 · Connect with Facebook — UI design variants
 
-Add a new flow row to the existing "Leaderboard Flow — User Journey" area in `src/components/SponsorCards.tsx`. Pure FE mockups, no DB, no routes. Reuses `PhoneFrame`, `FlowChrome`, `TimeRangeChips`, `SessionTabs`, `NAVY`, lucide icons, Bengali `bn` class — same visual rules as F1–F6.
+Add a new flow row to `src/components/SponsorCards.tsx` (same pattern as F1–F6). **Pure FE mockups** — no real FB SDK, no DB, no routes. Reuses `PhoneFrame`, `FlowChrome`, step chips, `NAVY`, Bengali `bn` class.
 
-### Conceptual model the screens teach
+Three parallel variant tracks (one per connection model you asked about), so you can compare them side-by-side and pick which direction to ship.
 
-```
-Channel  =  one Zikr  (permanent, ~10 total)
-   │
-   ├── Global Public Room   (auto-created, everyone)
-   ├── User-created Room    ("Family Circle")
-   └── Community Room       ("Bangladesh Youth")
-            │
-            └── Season  (optional, time-bound, sponsored)
-```
+---
 
-### 6 new phone screens (left → right)
+### Variant A · Invite + Discover (recommended default)
 
-**H1 — Home · Channel grid**
-Grid of zikr channels: সুবহানাল্লাহি, আলহামদুলিল্লাহ, দরুদ, ইস্তেগফার, লা ইলাহা… Each tile shows lifetime global count + tiny "🔴 12 live rooms" chip. Tap one → H2.
+`7A.1` → `7A.6` — six phone screens
 
-**H2 — Channel detail · Subhanallah**
-- Hero: channel name + global lifetime count + "Powered by past sponsors" strip
-- Tabs: `Rooms` | `Global leaderboard`
-- Rooms list:
-  - 🌍 "Worldwide · Public" (auto, default-joined) — member count, "🔴 LIVE season" badge
-  - 👨‍👩‍👧 "Family Circle" (private) — 6 members
-  - 🇧🇩 "Bangladesh Youth" (community) — 1.2k members, "Season starts in 3d"
-- "+ Create room" CTA at bottom
+- **A.1 Connect prompt** — Empty state with big FB button. Privacy line: "We only read your friend list — never post."
+- **A.2 Friends on Zikr** — List of FB friends already in the app: avatar + name + tiny streak chip. Row actions: `Add` · `Invite to room`.
+- **A.3 Invite non-app friends** — Grid of FB friends NOT on Zikr yet. Multi-select + "Send invites" via FB share sheet / WhatsApp / copy link.
+- **A.4 Friends Leaderboard tab** — New tab next to Global/Room LB. Podium of YOUR friends only, time chips (Today/Week/Lifetime), YOU row pinned.
+- **A.5 Room with friends inside** — Existing room card pattern + "3 of your FB friends are here" avatar-stack chip near top.
+- **A.6 Post-invite success** — "5 invites sent · 2 friends joined this week" celebration card with re-share CTA.
 
-**H3 — Channel global leaderboard**
-Shows lifetime ranking across ALL rooms in this channel. `TimeRangeChips` (All-time default). YOU card with combined channel total. Note line: *"Counts from every room you're in across this zikr."*
+---
 
-**H4 — Room detail · Worldwide (no active season)**
-- Header: 🌍 Worldwide · Subhanallah
-- Dormant-state card: "No active season · Organic mode"
-- "Next sponsored season starts in 6d 4h" teaser
-- Two stat tiles: *Your room count* / *Your channel count (lifetime)*
-- Buttons: `Start zikr` · `Room leaderboard`
+### Variant B · Invite Only (lightest)
 
-**H5 — Room detail · Family Circle (active season)**
-- Header: 👨‍👩‍👧 Family Circle · Subhanallah · 6 members
-- Season banner: sponsor logo + "100k Sprint · ৳15,000 prize · ends 3d 14h"
-- `SessionTabs` (Session | Lifetime) — Session active
-- Top 3 of the 6 members + YOU row
-- Footnote: *"This room's count also adds to your Subhanallah channel total."*
+`7B.1` → `7B.4` — four phone screens
 
-**H6 — Create room sheet**
-Bottom-sheet style inside phone: name input, privacy toggle (Private / Community / Public), zikr channel locked-pill ("Subhanallah · cannot change"), "Auto-create season later?" checkbox, "Create room" CTA. Helper note: *"V1: a room belongs to one zikr. Multi-zikr rooms coming later."*
+- **B.1 Share sheet entry** — Tap FB icon → bottom sheet with: FB share, WhatsApp, Messenger, Copy link, QR code.
+- **B.2 Shareable invite card** — Beautiful preview of what gets shared (room name, prize, your avatar, "join me on Zikr"). Live OG-image style.
+- **B.3 QR / link landing mock** — What the receiver sees: app install CTA + "Joined via [your name]" attribution.
+- **B.4 Your invites dashboard** — List of invite links sent, click counts, who signed up. Simple, no friend graph needed.
 
-### Where it goes in the file
+No login, no permissions, no discovery — pure viral loop.
 
-Insert a new row **above** the existing "Leaderboard Flow — User Journey" F1–F6 row, with section header:
-`Flow 0 · Channel → Room hierarchy — চ্যানেল → রুম কাঠামো`
+---
 
-Use the same `FlowChrome` wrapper and step-number chips (`0.1` … `0.6`) so it visually links to the F1–F6 flow that follows.
+### Variant C · Full Social Competition (heaviest)
 
-### Components added (all inside SponsorCards.tsx)
+`7C.1` → `7C.6` — six phone screens
 
-- `H1ChannelGrid`, `H2ChannelDetail`, `H3ChannelLB`, `H4RoomDormant`, `H5RoomLive`, `H6CreateRoom` — ~50–80 lines each
-- Small shared mock arrays: `CHANNELS`, `ROOMS_OF_SUBHANALLAH`
-- Reuse existing `TimeRangeChips`, `SessionTabs`, `FlowChrome`, `PhoneFrame`
+- **C.1 Connect prompt** — Same FB connect, but copy emphasizes "compete with friends".
+- **C.2 Friends on Zikr + auto-follow** — All FB-app friends shown, auto-followed by default. Toggle unfollow per row.
+- **C.3 Friends Leaderboard (full)** — Same as A.4 but richer: head-to-head stats, "you're ahead of 4 friends today", weekly winner badge.
+- **C.4 1v1 Challenge setup** — Versus card: your avatar vs friend, pick zikr type, target count (100/500/1000), duration (1h/1d/3d), optional badge stake.
+- **C.5 Live challenge tracker** — Two progress bars racing, live counts, time left, quick-reaction emojis ("🔥 Mashallah!").
+- **C.6 Challenge result + share** — Winner badge, full stats breakdown, `Rematch` · `Share to FB` · `Challenge another friend` CTAs.
+
+---
+
+### Cross-variant design rules
+
+- FB blue (#1877F2) used **only** as a single accent dot/icon — navy/gold stays dominant so it still feels like Zikr Rooms.
+- Every frame wired with `useRegisterFrame`, `CopyButtons`, `ExportButton`, and `data-export-frame` so "Export all" picks them up automatically.
+- Each variant gets its own `FlowChrome` section header: `Flow 7A · Connect FB — Invite + Discover`, `Flow 7B · Invite Only`, `Flow 7C · Full Social Competition`.
+- New section inserted **above** existing Flow rows in `SponsorCards.tsx`.
+
+---
 
 ### Out of scope
-- DB, real navigation, real sponsor booking flow, multi-zikr rooms (explicitly noted as V2-later in H6 helper text), admin season-creation screens (already covered in earlier Flow 4 plan).
+
+- Real Facebook Login / OAuth wiring, DB schema, push notifications, anti-cheat, backend aggregation. Pure design pass to pick a direction.
+
+Ready to build all three variant tracks (16 phone screens total) into `SponsorCards.tsx`?
