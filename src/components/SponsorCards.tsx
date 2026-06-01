@@ -1941,6 +1941,26 @@ export default function SponsorCards() {
           <DetailFrame label="7C.5 · Live challenge tracker"><FBC5Live /></DetailFrame>
           <DetailFrame label="7C.6 · Challenge result"><FBC6Result /></DetailFrame>
         </div>
+
+        {/* ============== Flow 8 · Communities tab (Pages & Groups) ============== */}
+        <div className="mt-10 mb-3">
+          <h2 className="text-[20px] font-extrabold text-slate-900">
+            Flow 8 · Communities tab <span className="bn text-slate-500">— কমিউনিটি ট্যাব</span>
+          </h2>
+          <p className="mt-1 max-w-3xl text-[12.5px] text-slate-600">
+            A new 4th tab next to <b>Featured · Public · My Rooms</b>. Works like Facebook Pages / Groups:
+            non-profits, mosques, madrasas, da'wah orgs and creators get a public profile (cover, bio, website,
+            member &amp; room count). Tapping a community opens an FB-style profile header with all of their rooms below.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <DetailFrame label="8.1 · Tab bar — Communities grid"><CommTab /></DetailFrame>
+          <DetailFrame label="8.2 · Community profile + rooms"><CommProfile /></DetailFrame>
+          <DetailFrame label="8.3 · Discover &amp; filter"><CommDiscover /></DetailFrame>
+          <DetailFrame label="8.4 · Group-style (join + feed)"><CommGroup /></DetailFrame>
+          <DetailFrame label="8.5 · Verified org · all rooms"><CommVerified /></DetailFrame>
+        </div>
+
         </div>
       </div>
       </div>
