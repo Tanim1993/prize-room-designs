@@ -1959,6 +1959,9 @@ export default function SponsorCards() {
           <DetailFrame label="8.3 · Discover &amp; filter"><CommDiscover /></DetailFrame>
           <DetailFrame label="8.4 · Group-style (join + feed)"><CommGroup /></DetailFrame>
           <DetailFrame label="8.5 · Verified org · all rooms"><CommVerified /></DetailFrame>
+          <DetailFrame label="8.6 · Apply · eligibility gate"><CommApplyGate /></DetailFrame>
+          <DetailFrame label="8.7 · Apply · main form"><CommApplyForm /></DetailFrame>
+          <DetailFrame label="8.8 · Apply · review &amp; submitted"><CommApplyDone /></DetailFrame>
         </div>
 
         </div>
