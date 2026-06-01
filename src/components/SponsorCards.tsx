@@ -8921,3 +8921,279 @@ function CommVerified() {
     </div>
   );
 }
+
+/* ================================================================== */
+/*  Flow 8.6 – 8.8 · APPLY TO CREATE A COMMUNITY (non-profit only)    */
+/* ================================================================== */
+
+function CommApplyGate() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      {/* header */}
+      <div className="flex items-center gap-2 border-b border-slate-200 bg-white px-3 py-2.5">
+        <ChevronRight className="h-4 w-4 rotate-180 text-slate-600" />
+        <div className="text-[12.5px] font-bold text-slate-900">Apply for a Community page</div>
+      </div>
+
+      {/* hero */}
+      <div className="bg-gradient-to-br from-emerald-50 via-white to-emerald-50 px-3 pt-3 pb-4">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-md">
+          <Building2 className="h-6 w-6" />
+        </div>
+        <div className="mt-2 text-center text-[14px] font-extrabold text-slate-900">
+          For non-profit organisations only
+        </div>
+        <p className="mt-1 text-center text-[10.5px] leading-snug text-slate-600">
+          Communities on Zikr are for mosques, madrasas, da'wah groups, charities &amp; volunteer collectives.
+          Please read the rules before applying.
+        </p>
+      </div>
+
+      {/* eligibility list */}
+      <div className="flex-1 space-y-2 overflow-y-auto px-3 py-3">
+        <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">You qualify if</div>
+        {[
+          "You are a registered non-profit, mosque, madrasa or da'wah organisation",
+          "Verified scholar, imam or community leader running free programs",
+          "Volunteer collective with no commercial revenue from members",
+        ].map((t) => (
+          <div key={t} className="flex items-start gap-2 rounded-xl bg-emerald-50 p-2 ring-1 ring-emerald-200">
+            <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+            <div className="text-[11px] leading-snug text-slate-700">{t}</div>
+          </div>
+        ))}
+
+        <div className="pt-2 text-[10px] font-bold uppercase tracking-wider text-rose-700">Not allowed</div>
+        {[
+          "Businesses, shops, paid courses, MLM, agencies",
+          "Any prize / cash competition or paid leaderboard (fraud risk)",
+          "Selling products, asking donations to personal accounts",
+          "Political campaigns, sectarian attacks, hate speech",
+        ].map((t) => (
+          <div key={t} className="flex items-start gap-2 rounded-xl bg-rose-50 p-2 ring-1 ring-rose-200">
+            <Flag className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-600" />
+            <div className="text-[11px] leading-snug text-slate-700">{t}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* footer */}
+      <div className="border-t border-slate-200 bg-white p-2.5">
+        <label className="mb-2 flex items-start gap-2 text-[10.5px] leading-snug text-slate-700">
+          <span className="mt-0.5 grid h-3.5 w-3.5 shrink-0 place-items-center rounded border-2 border-emerald-600 bg-emerald-600">
+            <CheckCircle2 className="h-2.5 w-2.5 text-white" />
+          </span>
+          I have read and agree to the Community rules &amp; non-profit policy.
+        </label>
+        <button className="w-full rounded-xl bg-emerald-600 py-2 text-[12px] font-bold text-white shadow-sm">
+          Continue to application
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function CommApplyForm() {
+  const Field = ({
+    label, value, placeholder, required, hint, icon,
+  }: { label: string; value?: string; placeholder?: string; required?: boolean; hint?: string; icon?: React.ReactNode }) => (
+    <div>
+      <div className="mb-1 flex items-center gap-1 text-[10px] font-semibold text-slate-700">
+        {label}{required && <span className="text-rose-500">*</span>}
+      </div>
+      <div className="flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-2 py-1.5">
+        {icon}
+        <div className={`flex-1 truncate text-[11px] ${value ? "text-slate-900" : "text-slate-400"}`}>
+          {value || placeholder}
+        </div>
+      </div>
+      {hint && <div className="mt-0.5 text-[9.5px] text-slate-500">{hint}</div>}
+    </div>
+  );
+
+  return (
+    <div className="flex h-full flex-col bg-slate-50">
+      {/* header with progress */}
+      <div className="border-b border-slate-200 bg-white px-3 py-2.5">
+        <div className="flex items-center gap-2">
+          <ChevronRight className="h-4 w-4 rotate-180 text-slate-600" />
+          <div className="text-[12.5px] font-bold text-slate-900">Community application</div>
+          <div className="ml-auto text-[10px] font-semibold text-slate-500">Step 2 of 3</div>
+        </div>
+        <div className="mt-2 flex gap-1">
+          <div className="h-1 flex-1 rounded-full bg-emerald-600" />
+          <div className="h-1 flex-1 rounded-full bg-emerald-600" />
+          <div className="h-1 flex-1 rounded-full bg-slate-200" />
+        </div>
+      </div>
+
+      <div className="flex-1 space-y-3 overflow-y-auto px-3 py-3">
+        {/* Section 1 — Org info */}
+        <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-200">
+          <div className="mb-2 flex items-center gap-1.5 text-[10.5px] font-bold text-slate-900">
+            <Building2 className="h-3.5 w-3.5 text-emerald-600" /> Organisation
+          </div>
+          <div className="space-y-2">
+            <Field required label="Organisation name" value="Bayyinah Da'wah Circle" />
+            <Field required label="Type" value="Da'wah organisation" hint="Mosque · Madrasa · Charity · Da'wah · Volunteer" />
+            <Field label="Year founded" placeholder="e.g. 2019" />
+            <Field required label="Country / City" value="Dhaka, Bangladesh" icon={<MapPin className="h-3 w-3 text-slate-400" />} />
+            <Field label="Registration / NGO number" placeholder="If registered, paste here" hint="Optional but speeds up verification" />
+          </div>
+        </div>
+
+        {/* Section 2 — Contact */}
+        <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-200">
+          <div className="mb-2 flex items-center gap-1.5 text-[10.5px] font-bold text-slate-900">
+            <User className="h-3.5 w-3.5 text-emerald-600" /> Primary contact
+          </div>
+          <div className="space-y-2">
+            <Field required label="Full name" value="Br. Tahmid Rahman" />
+            <Field required label="Role in organisation" placeholder="Founder, Imam, Coordinator…" />
+            <Field required label="Email" value="contact@bayyinah.org" icon={<Send className="h-3 w-3 text-slate-400" />} />
+            <Field required label="Phone (WhatsApp preferred)" placeholder="+880 …" icon={<MessageCircle className="h-3 w-3 text-slate-400" />} />
+            <Field label="Website" value="bayyinah.org" icon={<Globe className="h-3 w-3 text-slate-400" />} />
+            <Field label="Facebook / Instagram page" placeholder="@handle or URL" icon={<Facebook className="h-3 w-3 text-slate-400" />} />
+          </div>
+        </div>
+
+        {/* Section 3 — About */}
+        <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-200">
+          <div className="mb-2 flex items-center gap-1.5 text-[10.5px] font-bold text-slate-900">
+            <BookOpen className="h-3.5 w-3.5 text-emerald-600" /> About your community
+          </div>
+          <div className="space-y-2">
+            <div>
+              <div className="mb-1 text-[10px] font-semibold text-slate-700">Short bio <span className="text-rose-500">*</span></div>
+              <div className="min-h-[44px] rounded-lg border border-slate-300 bg-white p-2 text-[11px] leading-snug text-slate-800">
+                Weekly Qur'an &amp; tafsir circle for youth, free of cost. Run by volunteer students of knowledge.
+              </div>
+              <div className="mt-0.5 text-right text-[9.5px] text-slate-500">112 / 240</div>
+            </div>
+            <Field required label="What will your rooms be used for?" placeholder="Daily tasbih, Khatm-e-Qur'an, study circles…" />
+            <Field label="Expected member count" placeholder="100 · 1K · 10K+" />
+            <div>
+              <div className="mb-1 text-[10px] font-semibold text-slate-700">Upload logo &amp; cover</div>
+              <div className="flex gap-1.5">
+                <div className="flex h-14 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 text-slate-500">
+                  <Upload className="h-3.5 w-3.5" />
+                  <span className="text-[9px] font-semibold">Logo</span>
+                </div>
+                <div className="flex h-14 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 text-slate-500">
+                  <Upload className="h-3.5 w-3.5" />
+                  <span className="text-[9px] font-semibold">Cover</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 4 — Declarations */}
+        <div className="rounded-xl bg-amber-50 p-2.5 ring-1 ring-amber-200">
+          <div className="mb-2 flex items-center gap-1.5 text-[10.5px] font-bold text-amber-900">
+            <ShieldCheck className="h-3.5 w-3.5" /> Declarations
+          </div>
+          {[
+            "We are a non-profit; we do not sell products or paid memberships through Zikr.",
+            "We will not organise any prize money, cash giveaway or paid competition.",
+            "We will not collect donations through Zikr rooms or DMs.",
+            "We accept that misuse leads to permanent removal of the community.",
+          ].map((t) => (
+            <label key={t} className="mb-1.5 flex items-start gap-2 text-[10.5px] leading-snug text-amber-950">
+              <span className="mt-0.5 grid h-3.5 w-3.5 shrink-0 place-items-center rounded border-2 border-amber-700 bg-amber-700">
+                <CheckCircle2 className="h-2.5 w-2.5 text-white" />
+              </span>
+              {t}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex gap-2 border-t border-slate-200 bg-white p-2.5">
+        <button className="flex-1 rounded-xl bg-slate-100 py-2 text-[11.5px] font-bold text-slate-700">Save draft</button>
+        <button className="flex-1 rounded-xl bg-emerald-600 py-2 text-[11.5px] font-bold text-white shadow-sm">Review →</button>
+      </div>
+    </div>
+  );
+}
+
+function CommApplyDone() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="border-b border-slate-200 bg-white px-3 py-2.5">
+        <div className="flex items-center gap-2">
+          <ChevronRight className="h-4 w-4 rotate-180 text-slate-600" />
+          <div className="text-[12.5px] font-bold text-slate-900">Review &amp; submit</div>
+          <div className="ml-auto text-[10px] font-semibold text-slate-500">Step 3 of 3</div>
+        </div>
+        <div className="mt-2 flex gap-1">
+          <div className="h-1 flex-1 rounded-full bg-emerald-600" />
+          <div className="h-1 flex-1 rounded-full bg-emerald-600" />
+          <div className="h-1 flex-1 rounded-full bg-emerald-600" />
+        </div>
+      </div>
+
+      <div className="flex-1 space-y-2.5 overflow-y-auto px-3 py-3">
+        {/* preview card */}
+        <div className="overflow-hidden rounded-xl ring-1 ring-slate-200">
+          <div className="h-14 bg-gradient-to-br from-emerald-500 to-teal-600" />
+          <div className="-mt-6 px-2.5 pb-2.5">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-[22px] shadow ring-4 ring-white">📖</div>
+            <div className="mt-1.5 flex items-center gap-1">
+              <div className="text-[12.5px] font-extrabold text-slate-900">Bayyinah Da'wah Circle</div>
+              <BadgeCheck className="h-3.5 w-3.5 text-slate-300" />
+              <span className="ml-auto rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-bold text-amber-800">PENDING</span>
+            </div>
+            <div className="text-[10px] text-slate-500">Da'wah organisation · Dhaka, BD</div>
+          </div>
+        </div>
+
+        {/* summary rows */}
+        {[
+          ["Type", "Da'wah organisation"],
+          ["Contact", "Br. Tahmid Rahman · Founder"],
+          ["Email", "contact@bayyinah.org"],
+          ["Phone", "+880 1XXX-XXXXXX"],
+          ["Website", "bayyinah.org"],
+          ["Declarations", "All 4 accepted"],
+        ].map(([k, v]) => (
+          <div key={k} className="flex items-center justify-between rounded-lg bg-slate-50 px-2.5 py-1.5 ring-1 ring-slate-200">
+            <div className="text-[10px] font-semibold text-slate-500">{k}</div>
+            <div className="text-[11px] font-bold text-slate-900">{v}</div>
+          </div>
+        ))}
+
+        {/* success state */}
+        <div className="mt-2 rounded-xl bg-emerald-50 p-3 text-center ring-1 ring-emerald-200">
+          <div className="mx-auto mb-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600">
+            <CheckCircle2 className="h-6 w-6 text-white" />
+          </div>
+          <div className="text-[12.5px] font-extrabold text-emerald-900">Application submitted!</div>
+          <p className="mt-1 text-[10.5px] leading-snug text-emerald-800">
+            Our review team will verify your non-profit status within <b>3–5 working days</b>.
+            We may email you for additional documents.
+          </p>
+          <div className="mt-2 flex items-center justify-center gap-1.5 text-[10px] font-semibold text-emerald-700">
+            <Clock className="h-3 w-3" /> Expected reply by Fri, 12 Jun
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-slate-50 p-2.5 ring-1 ring-slate-200">
+          <div className="mb-1 flex items-center gap-1.5 text-[10.5px] font-bold text-slate-900">
+            <Bell className="h-3 w-3 text-emerald-600" /> What happens next
+          </div>
+          <ol className="space-y-1 pl-4 text-[10.5px] leading-snug text-slate-700 list-decimal">
+            <li>We verify your website, social pages &amp; org status.</li>
+            <li>You receive a verified badge on approval.</li>
+            <li>You can then create unlimited rooms under this community.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div className="flex gap-2 border-t border-slate-200 bg-white p-2.5">
+        <button className="flex-1 rounded-xl bg-slate-100 py-2 text-[11.5px] font-bold text-slate-700">Edit application</button>
+        <button className="flex-1 rounded-xl bg-emerald-600 py-2 text-[11.5px] font-bold text-white shadow-sm">Back to home</button>
+      </div>
+    </div>
+  );
+}
