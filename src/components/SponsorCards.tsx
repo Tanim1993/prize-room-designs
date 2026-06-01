@@ -45,6 +45,10 @@ import {
   UserPlus,
   MessageCircle,
   Flame,
+  BadgeCheck,
+  Building2,
+  Globe,
+  Filter,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
