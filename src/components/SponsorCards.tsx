@@ -45,6 +45,10 @@ import {
   UserPlus,
   MessageCircle,
   Flame,
+  BadgeCheck,
+  Building2,
+  Globe,
+  Filter,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
@@ -1937,6 +1941,26 @@ export default function SponsorCards() {
           <DetailFrame label="7C.5 · Live challenge tracker"><FBC5Live /></DetailFrame>
           <DetailFrame label="7C.6 · Challenge result"><FBC6Result /></DetailFrame>
         </div>
+
+        {/* ============== Flow 8 · Communities tab (Pages & Groups) ============== */}
+        <div className="mt-10 mb-3">
+          <h2 className="text-[20px] font-extrabold text-slate-900">
+            Flow 8 · Communities tab <span className="bn text-slate-500">— কমিউনিটি ট্যাব</span>
+          </h2>
+          <p className="mt-1 max-w-3xl text-[12.5px] text-slate-600">
+            A new 4th tab next to <b>Featured · Public · My Rooms</b>. Works like Facebook Pages / Groups:
+            non-profits, mosques, madrasas, da'wah orgs and creators get a public profile (cover, bio, website,
+            member &amp; room count). Tapping a community opens an FB-style profile header with all of their rooms below.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <DetailFrame label="8.1 · Tab bar — Communities grid"><CommTab /></DetailFrame>
+          <DetailFrame label="8.2 · Community profile + rooms"><CommProfile /></DetailFrame>
+          <DetailFrame label="8.3 · Discover &amp; filter"><CommDiscover /></DetailFrame>
+          <DetailFrame label="8.4 · Group-style (join + feed)"><CommGroup /></DetailFrame>
+          <DetailFrame label="8.5 · Verified org · all rooms"><CommVerified /></DetailFrame>
+        </div>
+
         </div>
       </div>
       </div>
@@ -8491,6 +8515,405 @@ function FBC6Result() {
         <button className="mt-2 w-full rounded-xl py-2.5 text-[11px] font-bold text-white" style={{ background: NAVY }}>
           Challenge another friend
         </button>
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  Flow 8 · COMMUNITIES TAB (Pages & Groups for non-profit orgs)     */
+/* ================================================================== */
+
+const COMM_BLUE = "#1F6FEB";
+
+type Community = {
+  name: string;
+  handle: string;
+  category: string;
+  bio: string;
+  website: string;
+  cover: string; // gradient classes
+  emoji: string;
+  members: string;
+  rooms: number;
+  verified?: boolean;
+};
+
+const COMMUNITIES: Community[] = [
+  {
+    name: "Bayyinah Institute",
+    handle: "@bayyinah",
+    category: "Da'wah · Education",
+    bio: "Reviving the legacy of the Qur'an in our hearts.",
+    website: "bayyinah.com",
+    cover: "from-emerald-600 to-teal-700",
+    emoji: "📖",
+    members: "248K",
+    rooms: 14,
+    verified: true,
+  },
+  {
+    name: "Masjid An-Nur",
+    handle: "@an-nur",
+    category: "Mosque · Local",
+    bio: "Daily salah, Jumu'ah, weekly halaqah. Dhaka.",
+    website: "an-nur.org.bd",
+    cover: "from-amber-500 to-orange-600",
+    emoji: "🕌",
+    members: "12.4K",
+    rooms: 6,
+  },
+  {
+    name: "Yaqeen Institute",
+    handle: "@yaqeen",
+    category: "Research · Org",
+    bio: "Research that inspires conviction.",
+    website: "yaqeeninstitute.org",
+    cover: "from-indigo-600 to-violet-700",
+    emoji: "🌙",
+    members: "412K",
+    rooms: 22,
+    verified: true,
+  },
+  {
+    name: "Madrasa Darul Ulum",
+    handle: "@darululum",
+    category: "Madrasa",
+    bio: "Hifz · Aalim · Fazil. Sylhet.",
+    website: "darululum.edu.bd",
+    cover: "from-rose-500 to-pink-600",
+    emoji: "📚",
+    members: "8.1K",
+    rooms: 9,
+  },
+  {
+    name: "Penny Appeal",
+    handle: "@pennyappeal",
+    category: "Charity",
+    bio: "Small change, big difference. Sadaqah jariyah.",
+    website: "pennyappeal.org",
+    cover: "from-sky-600 to-cyan-700",
+    emoji: "🤲",
+    members: "96K",
+    rooms: 11,
+    verified: true,
+  },
+  {
+    name: "Hifz Heroes",
+    handle: "@hifzheroes",
+    category: "Community Group",
+    bio: "Parents &amp; kids on the hifz journey, together.",
+    website: "hifzheroes.com",
+    cover: "from-fuchsia-600 to-purple-700",
+    emoji: "⭐",
+    members: "3.2K",
+    rooms: 4,
+  },
+];
+
+function CommTabBar({ active = "Communities" }: { active?: string }) {
+  const tabs = [
+    { label: "Featured", icon: Sparkles },
+    { label: "Public", icon: Globe2 },
+    { label: "My Rooms", icon: Home },
+    { label: "Communities", icon: Building2 },
+  ];
+  return (
+    <div className="flex items-center justify-around border-t border-slate-200 bg-white px-2 py-1.5">
+      {tabs.map((t) => {
+        const on = t.label === active;
+        const Icon = t.icon;
+        return (
+          <div key={t.label} className="flex flex-col items-center gap-0.5 px-1.5 py-1">
+            <Icon className={`h-4 w-4 ${on ? "text-[#1F6FEB]" : "text-slate-400"}`} />
+            <div className={`text-[9px] font-semibold ${on ? "text-[#1F6FEB]" : "text-slate-400"}`}>{t.label}</div>
+            {on && <div className="mt-0.5 h-0.5 w-5 rounded-full bg-[#1F6FEB]" />}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function CommCard({ c }: { c: Community }) {
+  return (
+    <button className="flex flex-col overflow-hidden rounded-2xl bg-white text-left shadow-sm ring-1 ring-slate-100">
+      <div className={`relative h-16 bg-gradient-to-br ${c.cover}`}>
+        <div className="absolute inset-0 opacity-25" style={{ backgroundImage: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), transparent 60%)" }} />
+        <div className="absolute -bottom-4 left-2 flex h-9 w-9 items-center justify-center rounded-xl bg-white text-[18px] shadow ring-2 ring-white">
+          {c.emoji}
+        </div>
+      </div>
+      <div className="px-2.5 pb-2.5 pt-5">
+        <div className="flex items-center gap-1">
+          <div className="truncate text-[12px] font-extrabold text-slate-900">{c.name}</div>
+          {c.verified && <BadgeCheck className="h-3 w-3 flex-none text-[#1F6FEB]" />}
+        </div>
+        <div className="truncate text-[9.5px] text-slate-500">{c.category}</div>
+        <div className="mt-1.5 flex items-center gap-2 text-[9.5px] text-slate-600">
+          <span className="inline-flex items-center gap-0.5"><Users className="h-2.5 w-2.5" /> {c.members}</span>
+          <span className="inline-flex items-center gap-0.5"><FolderOpen className="h-2.5 w-2.5" /> {c.rooms} rooms</span>
+        </div>
+        <div className="mt-1 truncate text-[9px] text-slate-400">{c.website}</div>
+      </div>
+    </button>
+  );
+}
+
+function CommTab() {
+  return (
+    <div className="flex h-full flex-col bg-[#F4F7FB]">
+      <div className="flex items-center justify-between px-4 pt-3">
+        <div>
+          <div className="text-[16px] font-extrabold text-slate-900">Communities</div>
+          <div className="text-[10px] text-slate-500">Pages, mosques, orgs &amp; groups on Zikr</div>
+        </div>
+        <Search className="h-4 w-4 text-slate-400" />
+      </div>
+      <div className="flex gap-1.5 overflow-x-auto px-4 pt-2 pb-1 text-[10px]">
+        {["All", "Da'wah", "Mosque", "Charity", "Madrasa", "Groups"].map((t, i) => (
+          <div key={t} className={`whitespace-nowrap rounded-full px-2.5 py-1 font-semibold ${i === 0 ? "bg-[#1F6FEB] text-white" : "bg-white text-slate-600 ring-1 ring-slate-200"}`}>{t}</div>
+        ))}
+      </div>
+      <div className="grid flex-1 grid-cols-2 gap-2 overflow-y-auto px-3 pt-2 pb-2">
+        {COMMUNITIES.map((c) => <CommCard key={c.handle} c={c} />)}
+      </div>
+      <CommTabBar />
+    </div>
+  );
+}
+
+function CommProfile() {
+  const c = COMMUNITIES[0];
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className={`relative h-20 bg-gradient-to-br ${c.cover}`}>
+        <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(circle at 70% 20%, rgba(255,255,255,0.8), transparent 60%)" }} />
+        <button className="absolute right-2 top-2 rounded-full bg-black/30 p-1 text-white"><Share2 className="h-3 w-3" /></button>
+      </div>
+      <div className="px-3 -mt-6">
+        <div className="flex items-end gap-2">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-[28px] shadow ring-4 ring-white">{c.emoji}</div>
+          <button className="ml-auto mb-1 rounded-full bg-[#1F6FEB] px-3 py-1 text-[11px] font-bold text-white shadow">Follow</button>
+        </div>
+        <div className="mt-2 flex items-center gap-1">
+          <div className="text-[14px] font-extrabold text-slate-900">{c.name}</div>
+          {c.verified && <BadgeCheck className="h-3.5 w-3.5 text-[#1F6FEB]" />}
+        </div>
+        <div className="text-[10px] text-slate-500">{c.handle} · {c.category}</div>
+        <p className="mt-1.5 text-[11px] leading-snug text-slate-700">{c.bio}</p>
+        <div className="mt-1.5 flex items-center gap-2 text-[10px] text-slate-600">
+          <Link2 className="h-3 w-3 text-[#1F6FEB]" />
+          <span className="text-[#1F6FEB] underline">{c.website}</span>
+        </div>
+        <div className="mt-2 flex items-center gap-3 rounded-xl bg-slate-50 p-2 ring-1 ring-slate-100">
+          <div className="flex-1 text-center">
+            <div className="text-[12px] font-extrabold tabular-nums text-slate-900">{c.members}</div>
+            <div className="text-[9px] text-slate-500">members</div>
+          </div>
+          <div className="h-7 w-px bg-slate-200" />
+          <div className="flex-1 text-center">
+            <div className="text-[12px] font-extrabold tabular-nums text-slate-900">{c.rooms}</div>
+            <div className="text-[9px] text-slate-500">rooms</div>
+          </div>
+          <div className="h-7 w-px bg-slate-200" />
+          <div className="flex-1 text-center">
+            <div className="text-[12px] font-extrabold tabular-nums text-emerald-600">3</div>
+            <div className="text-[9px] text-slate-500">live now</div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-2 flex border-b border-slate-100 px-3 text-[11px] font-semibold">
+        <div className="border-b-2 border-[#1F6FEB] px-2 py-1.5 text-[#1F6FEB]">Rooms</div>
+        <div className="px-2 py-1.5 text-slate-400">About</div>
+        <div className="px-2 py-1.5 text-slate-400">Leaderboard</div>
+      </div>
+      <div className="flex-1 space-y-1.5 overflow-y-auto px-3 pt-2 pb-2">
+        {[
+          { name: "Daily Qur'an Halaqah", sub: "Open · Surah Al-Mulk", members: "1.2K", icon: "📖", live: true },
+          { name: "Ramadan Khatm 2026", sub: "Season · 30 juz", members: "8.4K", icon: "🌙", live: true },
+          { name: "Tafsir with Ustadh", sub: "Weekly · Fri 9pm", members: "642", icon: "🎙️" },
+          { name: "Kids Hifz Club", sub: "Family · age 7-14", members: "318", icon: "⭐" },
+        ].map((r) => (
+          <div key={r.name} className="flex items-center gap-2 rounded-xl bg-slate-50 p-2 ring-1 ring-slate-100">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-[15px] ring-1 ring-slate-200">{r.icon}</div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <div className="truncate text-[12px] font-bold text-slate-800">{r.name}</div>
+                {r.live && <span className="inline-flex items-center gap-0.5 rounded-full bg-rose-100 px-1.5 py-0.5 text-[8.5px] font-bold text-rose-700"><span className="h-1 w-1 rounded-full bg-rose-500" />LIVE</span>}
+              </div>
+              <div className="text-[9.5px] text-slate-500">{r.sub} · {r.members} members</div>
+            </div>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CommDiscover() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="bg-gradient-to-br from-[#1F6FEB] to-indigo-700 px-4 pb-3 pt-3 text-white">
+        <FlowChrome title="Discover" sub="Communities on Zikr" tone="dark" />
+        <div className="mt-2 flex items-center gap-1.5 rounded-xl bg-white/15 px-2.5 py-1.5 ring-1 ring-white/20">
+          <Search className="h-3.5 w-3.5 opacity-80" />
+          <div className="text-[11px] opacity-80">Search pages, mosques, orgs…</div>
+          <Filter className="ml-auto h-3.5 w-3.5 opacity-80" />
+        </div>
+      </div>
+      <div className="px-3 pt-2">
+        <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Trending this week</div>
+        <div className="mt-1.5 flex gap-2 overflow-x-auto pb-1">
+          {COMMUNITIES.slice(0, 3).map((c) => (
+            <div key={c.handle} className="w-[120px] flex-none overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-100">
+              <div className={`h-10 bg-gradient-to-br ${c.cover}`} />
+              <div className="px-2 pb-2 pt-1">
+                <div className="flex items-center gap-1">
+                  <div className="truncate text-[11px] font-extrabold text-slate-900">{c.name}</div>
+                  {c.verified && <BadgeCheck className="h-2.5 w-2.5 flex-none text-[#1F6FEB]" />}
+                </div>
+                <div className="text-[8.5px] text-slate-500">{c.members} · {c.rooms} rooms</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex-1 space-y-1.5 overflow-y-auto px-3 pt-2 pb-2">
+        <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Suggested for you</div>
+        {COMMUNITIES.slice(2).map((c) => (
+          <div key={c.handle} className="flex items-center gap-2 rounded-xl bg-slate-50 p-2 ring-1 ring-slate-100">
+            <div className={`flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br ${c.cover} text-[16px] text-white shadow`}>{c.emoji}</div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1">
+                <div className="truncate text-[11.5px] font-bold text-slate-800">{c.name}</div>
+                {c.verified && <BadgeCheck className="h-3 w-3 text-[#1F6FEB]" />}
+              </div>
+              <div className="truncate text-[9.5px] text-slate-500">{c.category} · {c.members} · {c.rooms} rooms</div>
+            </div>
+            <button className="rounded-full bg-[#1F6FEB] px-2.5 py-1 text-[10px] font-bold text-white">Follow</button>
+          </div>
+        ))}
+      </div>
+      <CommTabBar />
+    </div>
+  );
+}
+
+function CommGroup() {
+  const c = COMMUNITIES[5];
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className={`relative h-24 bg-gradient-to-br ${c.cover}`}>
+        <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(circle at 30% 70%, rgba(255,255,255,0.7), transparent 60%)" }} />
+        <div className="absolute left-3 bottom-2 text-white">
+          <div className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-semibold ring-1 ring-white/30">
+            <Users className="h-2.5 w-2.5" /> Private Group
+          </div>
+        </div>
+      </div>
+      <div className="px-3 pt-2.5">
+        <div className="text-[14px] font-extrabold text-slate-900">{c.name}</div>
+        <div className="text-[10px] text-slate-500">{c.category} · {c.members} members · {c.rooms} active rooms</div>
+        <p className="mt-1.5 text-[11px] leading-snug text-slate-700">{c.bio}</p>
+        <div className="mt-2 flex gap-1.5">
+          <button className="flex-1 rounded-full bg-[#1F6FEB] py-1.5 text-[11px] font-bold text-white">+ Join group</button>
+          <button className="rounded-full bg-slate-100 px-3 py-1.5 text-[11px] font-bold text-slate-700"><Share2 className="h-3 w-3" /></button>
+        </div>
+      </div>
+      <div className="mt-2 flex border-b border-slate-100 px-3 text-[11px] font-semibold">
+        <div className="border-b-2 border-[#1F6FEB] px-2 py-1.5 text-[#1F6FEB]">Rooms</div>
+        <div className="px-2 py-1.5 text-slate-400">Feed</div>
+        <div className="px-2 py-1.5 text-slate-400">Members</div>
+      </div>
+      <div className="flex-1 space-y-1.5 overflow-y-auto px-3 pt-2 pb-2">
+        <div className="flex items-center gap-2 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 p-2 ring-1 ring-amber-200">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-[15px] ring-1 ring-amber-200">🏆</div>
+          <div className="min-w-0 flex-1">
+            <div className="text-[11.5px] font-bold text-slate-800">Weekly Hifz Sprint</div>
+            <div className="text-[9.5px] text-slate-600">Group challenge · ends Sun · 412 members</div>
+          </div>
+          <span className="rounded-full bg-amber-500 px-1.5 py-0.5 text-[8.5px] font-bold text-white">LIVE</span>
+        </div>
+        {[
+          { name: "Kids' Surah Race", sub: "Open · age 7-14", members: "162", icon: "⭐" },
+          { name: "Parents Halaqah", sub: "Discussion · Wed 10pm", members: "94", icon: "👨‍👩‍👧" },
+          { name: "Tajweed Tutors", sub: "1-on-1 sessions", members: "38", icon: "🎙️" },
+        ].map((r) => (
+          <div key={r.name} className="flex items-center gap-2 rounded-xl bg-slate-50 p-2 ring-1 ring-slate-100">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-[15px] ring-1 ring-slate-200">{r.icon}</div>
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-[11.5px] font-bold text-slate-800">{r.name}</div>
+              <div className="text-[9.5px] text-slate-500">{r.sub} · {r.members}</div>
+            </div>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CommVerified() {
+  const c = COMMUNITIES[2];
+  return (
+    <div className="flex h-full flex-col bg-[#0B1220] text-white">
+      <div className={`relative h-24 bg-gradient-to-br ${c.cover}`}>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220] via-transparent to-transparent" />
+        <button className="absolute right-2 top-2 rounded-full bg-black/40 p-1"><Share2 className="h-3 w-3" /></button>
+      </div>
+      <div className="-mt-8 px-3">
+        <div className="flex items-end gap-2">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-[30px] shadow-lg ring-4 ring-[#0B1220]">{c.emoji}</div>
+          <div className="ml-auto mb-1 flex gap-1.5">
+            <button className="rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-bold ring-1 ring-white/20">Message</button>
+            <button className="rounded-full bg-[#1F6FEB] px-3 py-1 text-[11px] font-bold">+ Follow</button>
+          </div>
+        </div>
+        <div className="mt-2 flex items-center gap-1">
+          <div className="text-[15px] font-extrabold">{c.name}</div>
+          <BadgeCheck className="h-4 w-4 text-[#1F6FEB]" />
+          <span className="ml-1 rounded-full bg-amber-400/20 px-1.5 py-0.5 text-[8.5px] font-bold text-amber-300 ring-1 ring-amber-300/30">OFFICIAL</span>
+        </div>
+        <div className="text-[10px] text-slate-400">{c.handle} · {c.category}</div>
+        <p className="mt-1.5 text-[11px] leading-snug text-slate-200">{c.bio}</p>
+        <div className="mt-1.5 flex items-center gap-1.5 text-[10px] text-slate-400">
+          <Globe className="h-3 w-3 text-[#1F6FEB]" /> <span className="text-[#5FA3FF]">{c.website}</span>
+        </div>
+      </div>
+      <div className="mt-2 grid grid-cols-3 gap-1.5 px-3">
+        {[
+          { v: c.members, l: "members" },
+          { v: String(c.rooms), l: "rooms" },
+          { v: "1.8M", l: "lifetime zikr" },
+        ].map((s) => (
+          <div key={s.l} className="rounded-xl bg-white/5 p-1.5 text-center ring-1 ring-white/10">
+            <div className="text-[12px] font-extrabold tabular-nums">{s.v}</div>
+            <div className="text-[8.5px] text-slate-400">{s.l}</div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400">All rooms</div>
+      <div className="flex-1 space-y-1.5 overflow-y-auto px-3 pt-1.5 pb-2">
+        {[
+          { name: "Convictions Podcast Room", sub: "Weekly · Live discussion", members: "32K", icon: "🎙️", live: true },
+          { name: "Ramadan Reflections", sub: "Season · 30 days", members: "58K", icon: "🌙" },
+          { name: "Youth Da'wah Circle", sub: "Open · age 16-25", members: "8.4K", icon: "⭐" },
+          { name: "Salah on Time", sub: "Daily streak challenge", members: "22K", icon: "🕋", live: true },
+        ].map((r) => (
+          <div key={r.name} className="flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-[15px]">{r.icon}</div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <div className="truncate text-[11.5px] font-bold">{r.name}</div>
+                {r.live && <span className="inline-flex items-center gap-0.5 rounded-full bg-rose-500/20 px-1.5 py-0.5 text-[8.5px] font-bold text-rose-300"><span className="h-1 w-1 rounded-full bg-rose-400" />LIVE</span>}
+              </div>
+              <div className="text-[9.5px] text-slate-400">{r.sub} · {r.members}</div>
+            </div>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-500" />
+          </div>
+        ))}
       </div>
     </div>
   );
