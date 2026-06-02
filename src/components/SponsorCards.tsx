@@ -6823,6 +6823,8 @@ const SECTION_LINKS: { id: string; label: string }[] = [
   { id: "sec-lb-flow", label: "Leaderboard Flow" },
   { id: "sec-sponsor-channel", label: "Sponsor Channel" },
   { id: "sec-analytics", label: "Sponsor Analytics" },
+  { id: "sec-flow7a", label: "Flow 7 · Connect with Facebook" },
+  { id: "sec-flow8", label: "Flow 8 · Communities tab" },
 ];
 
 function SectionNav() {
