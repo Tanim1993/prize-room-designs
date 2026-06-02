@@ -1943,7 +1943,7 @@ export default function SponsorCards() {
         </div>
 
         {/* ============== Flow 8 · Communities tab (Pages & Groups) ============== */}
-        <div className="mt-10 mb-3">
+        <header id="sec-flow8" className="mt-20 mb-8 scroll-mt-24 text-center">
           <h2 className="text-[20px] font-extrabold text-slate-900">
             Flow 8 · Communities tab <span className="bn text-slate-500">— কমিউনিটি ট্যাব</span>
           </h2>
@@ -1952,7 +1952,7 @@ export default function SponsorCards() {
             non-profits, mosques, madrasas, da'wah orgs and creators get a public profile (cover, bio, website,
             member &amp; room count). Tapping a community opens an FB-style profile header with all of their rooms below.
           </p>
-        </div>
+        </header>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           <DetailFrame label="8.1 · Tab bar — Communities grid"><CommTab /></DetailFrame>
           <DetailFrame label="8.2 · Community profile + rooms"><CommProfile /></DetailFrame>
