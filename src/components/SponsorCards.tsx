@@ -6137,29 +6137,9 @@ function AdminPortalV2() {
                   <button className="rounded p-1 text-slate-400 hover:bg-slate-100">✕</button>
                 </div>
 
-                {/* Type */}
-                <div className="mb-4 grid grid-cols-2 gap-2">
-                  <label className="cursor-pointer rounded-xl border-2 border-emerald-500 bg-emerald-50 p-3">
-                    <div className="flex items-center gap-2">
-                      <input type="radio" name="stype2" defaultChecked />
-                      <Sparkles className="h-4 w-4 text-amber-600" />
-                      <span className="text-[12px] font-bold text-slate-900">Sponsor session</span>
-                    </div>
-                    <div className="mt-1 pl-6 text-[10.5px] text-slate-500">A brand pays — banner + prize show in the room.</div>
-                  </label>
-                  <label className="cursor-pointer rounded-xl border-2 border-slate-200 bg-slate-50 p-3 hover:border-slate-300">
-                    <div className="flex items-center gap-2">
-                      <input type="radio" name="stype2" />
-                      <Clock className="h-4 w-4 text-slate-500" />
-                      <span className="text-[12px] font-bold text-slate-900">Organic session</span>
-                    </div>
-                    <div className="mt-1 pl-6 text-[10.5px] text-slate-500">No brand — clean room, lifetime counter only.</div>
-                  </label>
-                </div>
-
                 {/* Brand */}
                 <div className="mb-3">
-                  <AdminFieldLabel label="Sponsor brand" required hint="Pick existing or add new" />
+                  <AdminFieldLabel label="Brand" required hint="Pick existing or add new" />
                   <div className="grid grid-cols-4 gap-2">
                     {[["Wizlife","W"],["Ifad","I"],["ACI Pure","A"],["Pran","P"]].map(([n,a], i) => (
                       <button key={n} className={`rounded-lg border-2 ${i === 0 ? "border-emerald-500 bg-emerald-50" : "border-slate-200 bg-white"} p-2 text-left`}>
@@ -6174,7 +6154,7 @@ function AdminPortalV2() {
                 {/* Brand assets per session */}
                 <div className="mb-3 grid grid-cols-3 gap-3">
                   <div>
-                    <AdminFieldLabel label="Sponsor logo" required />
+                    <AdminFieldLabel label="Brand logo" required />
                     <div className="grid h-[78px] place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-[11px] text-slate-500">
                       <div className="text-center"><Upload className="mx-auto h-4 w-4" />Upload PNG</div>
                     </div>
@@ -6187,7 +6167,7 @@ function AdminPortalV2() {
                   </div>
                   <div className="space-y-2">
                     <div><AdminFieldLabel label="CTA URL" /><input className={adminInput} placeholder="https://wizlife.com" /></div>
-                    <div><AdminFieldLabel label="CTA Text" /><input className={adminInput} placeholder="Visit Sponsor" /></div>
+                    <div><AdminFieldLabel label="CTA Text" /><input className={adminInput} placeholder="Visit Brand" /></div>
                   </div>
                 </div>
 
