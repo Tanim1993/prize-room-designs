@@ -6029,225 +6029,156 @@ function AdminPortalV2() {
               </div>
             </AdminFormSection>
 
-            {/* 4 — Sponsor Sessions (the main rebuild) */}
-            <AdminFormSection icon={<Calendar className="h-4 w-4" />} title="Sponsor Sessions" desc="Each session = one sponsor (or organic) running for a date range. Brand, prize and banner all live inside the session.">
-              {/* Sequence ribbon — proportional to days, NOT calendar months */}
-              <div className="rounded-xl bg-white p-3 ring-1 ring-slate-200">
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Session sequence · 92 days planned</div>
-                  <div className="flex items-center gap-3 text-[10px] text-slate-500">
-                    <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm bg-amber-400" />Sponsor</span>
-                    <span className="inline-flex items-center gap-1"><span className="h-2 w-3 rounded-sm bg-slate-300" />Organic</span>
-                  </div>
+            {/* 4 — Branding & Banners (always-on) */}
+            <AdminFormSection icon={<Sparkles className="h-4 w-4" />} title="Branding & Banners" desc="Brand attribution shown on the room card. Works with or without a running session.">
+              {/* Brand */}
+              <div className="mb-4">
+                <AdminFieldLabel label="Brand" hint="Pick or add — optional if no brand" />
+                <div className="grid grid-cols-4 gap-2">
+                  {[["Wizlife","W"],["Ifad","I"],["ACI Pure","A"],["Pran","P"]].map(([n,a], i) => (
+                    <button key={n} className={`rounded-lg border-2 ${i === 0 ? "border-emerald-500 bg-emerald-50" : "border-slate-200 bg-white"} p-2 text-left`}>
+                      <div className="grid h-7 w-7 place-items-center rounded-md bg-slate-100 text-[11px] font-bold text-slate-700">{a}</div>
+                      <div className="mt-1 text-[11px] font-semibold text-slate-800">{n}</div>
+                    </button>
+                  ))}
                 </div>
-                <div className="flex h-7 w-full overflow-hidden rounded-md ring-1 ring-slate-200">
-                  {sessions.map(s => {
-                    const totalDays = sessions.reduce((acc, x) => acc + x.days, 0);
-                    const w = (s.days / totalDays) * 100;
+                <button className="mt-2 text-[11px] font-bold text-emerald-700">+ Add new brand</button>
+              </div>
+
+              {/* Brand Label — flexible chips + custom */}
+              <div className="mb-4 rounded-xl bg-slate-50 p-3 ring-1 ring-slate-200">
+                <div className="mb-1 flex items-baseline justify-between">
+                  <label className="text-[12px] font-bold text-slate-700">Brand Label<span className="ml-0.5 text-rose-500">*</span></label>
+                  <span className="text-[10px] text-slate-400">Shown above brand name on the room card</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {labelPresets.map(p => {
+                    const active = !customLabel.trim() && brandLabel === p;
                     return (
-                      <div key={s.id} className={`flex items-center justify-center text-[10px] font-bold text-white ${toneMap[s.tone].bar}`} style={{ width: `${w}%` }} title={`${s.brand || "Organic"} · ${s.days}d`}>
-                        {w > 8 && (s.brand || "Organic")}
-                      </div>
+                      <button key={p} type="button" onClick={() => { setBrandLabel(p); setCustomLabel(""); }}
+                        className={`rounded-full px-3 py-1 text-[11px] font-semibold ring-1 transition ${active ? "bg-emerald-600 text-white ring-emerald-600" : "bg-white text-slate-700 ring-slate-200 hover:ring-emerald-300"}`}>
+                        {p}
+                      </button>
                     );
                   })}
+                  <button type="button" onClick={() => setCustomLabel(customLabel || "Brought to you by")}
+                    className={`rounded-full px-3 py-1 text-[11px] font-semibold ring-1 ${customLabel.trim() ? "bg-emerald-600 text-white ring-emerald-600" : "bg-white text-emerald-700 ring-emerald-300"}`}>
+                    Custom…
+                  </button>
                 </div>
-                <div className="mt-1.5 flex w-full text-[9.5px] text-slate-400">
-                  {sessions.map(s => {
-                    const totalDays = sessions.reduce((acc, x) => acc + x.days, 0);
-                    return <div key={s.id} className="text-center" style={{ width: `${(s.days / totalDays) * 100}%` }}>{s.days}d</div>;
-                  })}
+                {customLabel !== "" && (
+                  <input value={customLabel} onChange={e => setCustomLabel(e.target.value)} placeholder="Type your own label"
+                    className={`${adminInput} mt-2`} />
+                )}
+                <div className="mt-2 flex items-center gap-2 text-[11px] text-slate-500">
+                  <span>Preview:</span>
+                  <span className="rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white" style={{ background: NAVY }}>{activeLabel}</span>
                 </div>
               </div>
 
-              {/* Sessions list — disciplined card grid */}
-              <div className="mt-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">All sessions ({sessions.length})</div>
-                  <div className="flex items-center gap-2">
-                    <select className="rounded-md border border-slate-200 bg-white px-2 py-1 text-[11px] text-slate-600"><option>All status</option><option>Live</option><option>Scheduled</option><option>Draft</option></select>
-                    <button className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-emerald-700"><Plus className="h-3 w-3" />Add session</button>
+              {/* Brand logo + Banner 400×70 + CTA */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <AdminFieldLabel label="Brand logo" required />
+                  <div className="grid h-[78px] place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-[11px] text-slate-500">
+                    <div className="text-center"><Upload className="mx-auto h-4 w-4" />Upload PNG (square)</div>
                   </div>
                 </div>
-
-                {sessions.map((s, i) => {
-                  const t = toneMap[s.tone];
-                  const statusColor =
-                    s.status === "Live"      ? "bg-emerald-500 text-white" :
-                    s.status === "Scheduled" ? "bg-sky-100 text-sky-800" :
-                                               "bg-slate-100 text-slate-600";
-                  return (
-                    <div key={s.id} className="group relative grid grid-cols-12 items-center gap-3 rounded-xl bg-white p-3 ring-1 ring-slate-200 hover:ring-emerald-300">
-                      {/* Left rail color */}
-                      <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-r ${t.bar}`} />
-                      {/* Position */}
-                      <div className="col-span-1 pl-2 text-[11px] font-bold text-slate-400">#{i + 1}</div>
-                      {/* Brand */}
-                      <div className="col-span-3 flex items-center gap-2">
-                        <div className={`grid h-8 w-8 place-items-center rounded-lg ${t.chip} ${t.text} text-[11px] font-bold`}>
-                          {s.kind === "organic" ? <Clock className="h-4 w-4" /> : (s.brand?.[0] ?? "?")}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="truncate text-[12.5px] font-bold text-slate-900">{s.kind === "organic" ? "Organic period" : s.brand}</div>
-                          <div className="text-[10px] uppercase tracking-wider text-slate-400">{s.kind === "organic" ? "no sponsor" : "Sponsor"}</div>
-                        </div>
-                      </div>
-                      {/* Dates */}
-                      <div className="col-span-3">
-                        <div className="text-[12px] font-semibold text-slate-800">{s.start} → {s.end}</div>
-                        <div className="text-[10px] text-slate-500">{s.days} days</div>
-                      </div>
-                      {/* Prize */}
-                      <div className="col-span-2 text-[12px] font-bold text-slate-900">
-                        {s.kind === "organic" ? <span className="text-slate-400">No prize</span> : <><Gift className="mr-0.5 inline h-3 w-3 text-amber-600" />{s.prize}</>}
-                      </div>
-                      {/* Status */}
-                      <div className="col-span-2">
-                        <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${statusColor}`}>{s.status}</span>
-                      </div>
-                      {/* Actions */}
-                      <div className="col-span-1 flex justify-end gap-1 opacity-0 transition group-hover:opacity-100">
-                        <button className="rounded p-1 text-slate-400 hover:bg-slate-100"><Eye className="h-3.5 w-3.5" /></button>
-                        <button className="rounded p-1 text-slate-400 hover:bg-slate-100">✎</button>
-                      </div>
-                    </div>
-                  );
-                })}
+                <div className="space-y-2">
+                  <div><AdminFieldLabel label="CTA URL" /><input className={adminInput} placeholder="https://wizlife.com" /></div>
+                  <div><AdminFieldLabel label="CTA Text" /><input className={adminInput} placeholder="Visit Brand" /></div>
+                </div>
               </div>
 
-              {/* === Add Session — expanded inline form === */}
-              <div className="mt-5 rounded-2xl border-2 border-emerald-400 bg-white p-4 shadow-[0_10px_30px_-12px_rgba(16,185,129,0.4)]">
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-100 text-emerald-700"><Plus className="h-4 w-4" /></div>
-                    <div>
-                      <div className="text-[13px] font-bold text-slate-900">Add new session</div>
-                      <div className="text-[11px] text-slate-500">Picks slot in the sequence above. Multiple brands per month is allowed.</div>
-                    </div>
-                  </div>
-                  <button className="rounded p-1 text-slate-400 hover:bg-slate-100">✕</button>
-                </div>
-
-                {/* Brand */}
-                <div className="mb-3">
-                  <AdminFieldLabel label="Brand" required hint="Pick existing or add new" />
-                  <div className="grid grid-cols-4 gap-2">
-                    {[["Wizlife","W"],["Ifad","I"],["ACI Pure","A"],["Pran","P"]].map(([n,a], i) => (
-                      <button key={n} className={`rounded-lg border-2 ${i === 0 ? "border-emerald-500 bg-emerald-50" : "border-slate-200 bg-white"} p-2 text-left`}>
-                        <div className="grid h-7 w-7 place-items-center rounded-md bg-slate-100 text-[11px] font-bold text-slate-700">{a}</div>
-                        <div className="mt-1 text-[11px] font-semibold text-slate-800">{n}</div>
-                      </button>
-                    ))}
-                  </div>
-                  <button className="mt-2 text-[11px] font-bold text-emerald-700">+ Add new brand</button>
-                </div>
-
-                {/* Brand assets per session */}
-                <div className="mb-3 grid grid-cols-3 gap-3">
-                  <div>
-                    <AdminFieldLabel label="Brand logo" required />
-                    <div className="grid h-[78px] place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-[11px] text-slate-500">
-                      <div className="text-center"><Upload className="mx-auto h-4 w-4" />Upload PNG</div>
-                    </div>
-                  </div>
-                  <div>
-                    <AdminFieldLabel label="Banner (16:9)" />
-                    <div className="grid h-[78px] place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-[11px] text-slate-500">
-                      <div className="text-center"><Upload className="mx-auto h-4 w-4" />Upload</div>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div><AdminFieldLabel label="CTA URL" /><input className={adminInput} placeholder="https://wizlife.com" /></div>
-                    <div><AdminFieldLabel label="CTA Text" /><input className={adminInput} placeholder="Visit Brand" /></div>
-                  </div>
-                </div>
-
-                {/* Dates */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div><AdminFieldLabel label="Start" required /><input type="date" className={adminInput} defaultValue="2026-06-15" /></div>
-                  <div><AdminFieldLabel label="End" required /><input type="date" className={adminInput} defaultValue="2026-07-05" /></div>
-                  <div><AdminFieldLabel label="Duration" /><div className="rounded-lg bg-slate-50 px-3 py-2 text-[13px] font-bold text-slate-700 ring-1 ring-slate-200">21 days</div></div>
-                </div>
-                <div className="mt-2 flex items-center gap-2 rounded-lg bg-emerald-50 p-2 text-[11px] text-emerald-800 ring-1 ring-emerald-200">
-                  <CheckCircle2 className="h-3.5 w-3.5" /> No overlap with existing sessions
-                </div>
-
-                {/* Prize for THIS session */}
-                <div className="mt-4 rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200">
-                  <div className="mb-2 flex items-center justify-between">
-                    <div className="flex items-center gap-2"><Gift className="h-4 w-4 text-amber-700" /><span className="text-[12px] font-bold text-amber-900">Prize for this session</span></div>
-                    <span className="text-[10px] text-amber-700">Each session has its own prize</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    <div><AdminFieldLabel label="Prize Pool" required /><input className={adminInput} defaultValue="৳60,000" /></div>
-                    <div><AdminFieldLabel label="Prize Type" /><select className={adminInput}><option>Cash</option><option>Voucher</option><option>Product</option><option>Mixed</option></select></div>
-                    <div><AdminFieldLabel label="Distribution" /><select className={adminInput}><option>Top N rank</option><option>Lottery</option><option>Threshold</option></select></div>
-                  </div>
-                  <div className="mt-3 text-[10px] font-bold uppercase text-amber-800">Prize tiers</div>
-                  <div className="mt-1.5 space-y-1.5">
-                    {[["1st","৳30,000"],["2nd","৳15,000"],["3rd","৳8,000"],["4th–10th","৳7,000 split"]].map(([l,v]) => (
-                      <div key={l} className="grid grid-cols-12 items-center gap-2 rounded bg-white px-2 py-1.5 ring-1 ring-amber-100">
-                        <input className="col-span-2 rounded border border-slate-200 px-2 py-1 text-center text-[12px] font-bold" defaultValue={l} />
-                        <input className="col-span-7 rounded border border-slate-200 px-2 py-1 text-[12px]" defaultValue={v} />
-                        <select className="col-span-2 rounded border border-slate-200 px-1 py-1 text-[11px]"><option>Cash</option><option>Voucher</option></select>
-                        <button className="col-span-1 text-slate-400 hover:text-rose-500">✕</button>
-                      </div>
-                    ))}
-                  </div>
-                  <button className="mt-2 text-[11px] font-bold text-amber-700">+ Add tier</button>
-                  <div className="mt-3 grid grid-cols-2 gap-3">
-                    <div><AdminFieldLabel label="Payout date" /><input type="date" className={adminInput} /></div>
-                    <div><AdminFieldLabel label="Payout method" /><select className={adminInput}><option>bKash</option><option>Nagad</option><option>Bank transfer</option><option>Manual</option></select></div>
-                  </div>
-                </div>
-
-                {/* Promo */}
-                <div className="mt-3 grid grid-cols-2 gap-3">
-                  <div>
-                    <AdminFieldLabel label="Sponsor message" hint="Max 80 chars" />
-                    <textarea rows={2} className={adminInput} defaultValue="Ifad Group থেকে ঈদ উপলক্ষে বিশেষ পুরস্কার।" />
-                  </div>
-                  <div>
-                    <AdminFieldLabel label="Launch promo" />
-                    <div className="space-y-1 text-[11.5px] text-slate-700">
-                      <label className="flex items-center gap-2"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" />Push notification at start</label>
-                      <label className="flex items-center gap-2"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" />Pin to home banner</label>
-                      <label className="flex items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-emerald-600" />Allow social sharing</label>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Footer */}
-                <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
-                  <div className="text-[11px] text-slate-500">
-                    Estimated reach: <span className="font-bold text-slate-700">~12,400</span> · est. participants <span className="font-bold text-slate-700">~3,100</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <button className="rounded-full border border-slate-200 px-4 py-2 text-[12px] font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
-                    <button className="rounded-full px-4 py-2 text-[12px] font-bold text-white" style={{ background: NAVY }}>Save as Draft</button>
-                    <button className="rounded-full bg-emerald-600 px-4 py-2 text-[12px] font-bold text-white hover:bg-emerald-700">Schedule session</button>
+              {/* Banner */}
+              <div className="mt-4">
+                <AdminFieldLabel label="Room Banner" hint="400 × 70 px · PNG / JPG" />
+                <div className="grid place-items-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 p-3 text-[11px] text-slate-500" style={{ minHeight: 90 }}>
+                  <div className="flex flex-col items-center gap-1">
+                    <div className="grid place-items-center rounded bg-white text-[10px] text-slate-400 ring-1 ring-slate-200" style={{ width: 200, height: 35 }}>200 × 35 preview</div>
+                    <div><Upload className="mx-auto h-4 w-4" />Drop banner here · exactly 400 × 70</div>
                   </div>
                 </div>
               </div>
 
-              {/* When no sponsor is active */}
-              <div className="mt-4 rounded-xl bg-slate-50 p-3 ring-1 ring-slate-200">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-slate-600">Default when no sponsor is active</div>
-                <div className="mt-1.5 grid grid-cols-3 gap-2 text-[11px]">
-                  <label className="flex cursor-pointer items-start gap-1.5 rounded-lg bg-white p-2 ring-1 ring-emerald-300">
-                    <input type="radio" name="default-mode" defaultChecked className="mt-0.5" />
-                    <div><div className="font-bold text-slate-800">Run organic</div><div className="text-[10px] text-slate-500">No prize, lifetime counter only</div></div>
-                  </label>
-                  <label className="flex cursor-pointer items-start gap-1.5 rounded-lg bg-white p-2 ring-1 ring-slate-200">
-                    <input type="radio" name="default-mode" className="mt-0.5" />
-                    <div><div className="font-bold text-slate-800">House prize</div><div className="text-[10px] text-slate-500">App pays a small prize</div></div>
-                  </label>
-                  <label className="flex cursor-pointer items-start gap-1.5 rounded-lg bg-white p-2 ring-1 ring-slate-200">
-                    <input type="radio" name="default-mode" className="mt-0.5" />
-                    <div><div className="font-bold text-slate-800">Hide banner</div><div className="text-[10px] text-slate-500">Show clean room only</div></div>
-                  </label>
+              {/* Slides (carousel) */}
+              <div className="mt-4">
+                <div className="mb-1 flex items-baseline justify-between">
+                  <label className="text-[12px] font-bold text-slate-700">Banner Slides</label>
+                  <span className="text-[10px] text-slate-400">Up to 5 · auto-rotate every 4s</span>
                 </div>
+                <div className="grid grid-cols-5 gap-2">
+                  {[1,2,3].map(i => (
+                    <div key={i} className="relative grid place-items-center rounded-md bg-slate-100 text-[10px] font-semibold text-slate-500 ring-1 ring-slate-200" style={{ height: 44 }}>
+                      Slide {i}
+                      <button className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-white text-[9px] text-slate-500 ring-1 ring-slate-200">✕</button>
+                    </div>
+                  ))}
+                  {[4,5].map(i => (
+                    <button key={i} className="grid place-items-center rounded-md border-2 border-dashed border-slate-200 text-[10px] text-slate-400" style={{ height: 44 }}>+ Slide {i}</button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-3">
+                <AdminFieldLabel label="Brand message" hint="Max 80 chars · optional" />
+                <textarea rows={2} className={adminInput} placeholder="Short tagline shown on the banner area." />
               </div>
             </AdminFormSection>
+
+            {/* 5 — Session (optional, single) */}
+            <AdminFormSection icon={<Calendar className="h-4 w-4" />} title="Session" desc="Optional time-bound run with its own dates and prize. Skip this if the room runs forever without a competition.">
+              <label className="mb-3 flex items-center gap-2 rounded-lg bg-slate-50 p-2.5 text-[12px] font-semibold text-slate-700 ring-1 ring-slate-200">
+                <input type="checkbox" checked={sessionOn} onChange={e => setSessionOn(e.target.checked)} className="h-4 w-4 accent-emerald-600" />
+                Enable a session for this room
+                <span className="ml-auto text-[10px] font-normal text-slate-400">Off = always-on room, branding only</span>
+              </label>
+
+              {sessionOn && (
+                <>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div><AdminFieldLabel label="Start" required /><input type="date" className={adminInput} defaultValue="2026-06-15" /></div>
+                    <div><AdminFieldLabel label="End" required /><input type="date" className={adminInput} defaultValue="2026-07-05" /></div>
+                    <div><AdminFieldLabel label="Duration" /><div className="rounded-lg bg-slate-50 px-3 py-2 text-[13px] font-bold text-slate-700 ring-1 ring-slate-200">21 days</div></div>
+                  </div>
+
+                  <div className="mt-4 rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200">
+                    <div className="mb-2 flex items-center gap-2"><Gift className="h-4 w-4 text-amber-700" /><span className="text-[12px] font-bold text-amber-900">Prize</span></div>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div><AdminFieldLabel label="Prize Pool" required /><input className={adminInput} defaultValue="৳60,000" /></div>
+                      <div><AdminFieldLabel label="Prize Type" /><select className={adminInput}><option>Cash</option><option>Voucher</option><option>Product</option><option>Mixed</option></select></div>
+                      <div><AdminFieldLabel label="Distribution" /><select className={adminInput}><option>Top N rank</option><option>Lottery</option><option>Threshold</option></select></div>
+                    </div>
+                    <div className="mt-3 text-[10px] font-bold uppercase text-amber-800">Prize tiers</div>
+                    <div className="mt-1.5 space-y-1.5">
+                      {[["1st","৳30,000"],["2nd","৳15,000"],["3rd","৳8,000"],["4th–10th","৳7,000 split"]].map(([l,v]) => (
+                        <div key={l} className="grid grid-cols-12 items-center gap-2 rounded bg-white px-2 py-1.5 ring-1 ring-amber-100">
+                          <input className="col-span-2 rounded border border-slate-200 px-2 py-1 text-center text-[12px] font-bold" defaultValue={l} />
+                          <input className="col-span-7 rounded border border-slate-200 px-2 py-1 text-[12px]" defaultValue={v} />
+                          <select className="col-span-2 rounded border border-slate-200 px-1 py-1 text-[11px]"><option>Cash</option><option>Voucher</option></select>
+                          <button className="col-span-1 text-slate-400 hover:text-rose-500">✕</button>
+                        </div>
+                      ))}
+                    </div>
+                    <button className="mt-2 text-[11px] font-bold text-amber-700">+ Add tier</button>
+                    <div className="mt-3 grid grid-cols-2 gap-3">
+                      <div><AdminFieldLabel label="Payout date" /><input type="date" className={adminInput} /></div>
+                      <div><AdminFieldLabel label="Payout method" /><select className={adminInput}><option>bKash</option><option>Nagad</option><option>Bank transfer</option><option>Manual</option></select></div>
+                    </div>
+                  </div>
+
+                  <div className="mt-3">
+                    <AdminFieldLabel label="Launch promo" />
+                    <div className="grid grid-cols-3 gap-2 text-[11.5px] text-slate-700">
+                      <label className="flex items-center gap-2 rounded-md bg-slate-50 px-2 py-1.5 ring-1 ring-slate-200"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" />Push at start</label>
+                      <label className="flex items-center gap-2 rounded-md bg-slate-50 px-2 py-1.5 ring-1 ring-slate-200"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" />Pin to home</label>
+                      <label className="flex items-center gap-2 rounded-md bg-slate-50 px-2 py-1.5 ring-1 ring-slate-200"><input type="checkbox" className="h-4 w-4 accent-emerald-600" />Allow share</label>
+                    </div>
+                  </div>
+                </>
+              )}
+            </AdminFormSection>
+
 
             {/* 5 — Review & Publish */}
             <AdminFormSection icon={<CheckCircle2 className="h-4 w-4" />} title="Review & Publish" desc="Final checks before the room goes live.">
