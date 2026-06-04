@@ -6211,18 +6211,19 @@ function AdminPortalV2() {
               <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 shadow-[0_4px_14px_-10px_rgba(15,23,42,0.15)]">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Live Preview</div>
-                  <span className="text-[10px] text-slate-400">Currently: Wizlife</span>
+                  <span className="text-[10px] text-slate-400">{sessionOn ? "Session: 21d" : "Always-on"}</span>
                 </div>
                 <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-100">
                   <div style={{ background: NAVY }} className="flex items-center justify-between px-3 py-2 text-white">
                     <div className="flex items-center gap-1.5">
                       <div className="grid h-6 w-6 place-items-center rounded-full bg-white/15 text-[10px] font-bold">W</div>
                       <div>
-                        <div className="text-[8px] font-bold uppercase tracking-wider opacity-80">Sponsored by</div>
+                        <div className="text-[8px] font-bold uppercase tracking-wider opacity-80">{activeLabel}</div>
                         <div className="text-[11px] font-bold leading-tight">Wizlife</div>
                       </div>
                     </div>
-                    <span className="rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-bold text-slate-900">৳40,000</span>
+                    {sessionOn && <span className="rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-bold text-slate-900">৳60,000</span>}
+
                   </div>
                   <div className="p-3">
                     <h4 className="text-[13px] font-bold text-slate-900">Daily Zikr Challenge</h4>
