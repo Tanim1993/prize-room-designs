@@ -6243,9 +6243,10 @@ function AdminPortalV2() {
                   <li className="text-emerald-700">✓ Room basics complete</li>
                   <li className="text-emerald-700">✓ Zikr & goal set</li>
                   <li className="text-emerald-700">✓ Eligibility configured</li>
-                  <li className="text-emerald-700">✓ 5 sessions scheduled</li>
-                  <li className="text-amber-700">⚠ 1 session in Draft</li>
+                  <li className="text-emerald-700">✓ Branding & banner ready</li>
+                  <li className={sessionOn ? "text-emerald-700" : "text-slate-500"}>{sessionOn ? "✓ Session configured" : "○ No session (always-on)"}</li>
                 </ul>
+
               </div>
 
               <div className="rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-100 text-[11px] text-emerald-800">
