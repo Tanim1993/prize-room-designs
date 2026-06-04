@@ -5896,22 +5896,12 @@ function AdminFormSection({ icon, title, desc, children }: { icon: React.ReactNo
 }
 
 function AdminPortalV2() {
-  // Sessions sit on a sequence (not a calendar) — multiple brands per month is fine.
-  const sessions = [
-    { id: 1, kind: "sponsor", brand: "Wizlife",   start: "May 5",  end: "May 25", days: 21, prize: "৳40,000", status: "Live",      tone: "amber" },
-    { id: 2, kind: "sponsor", brand: "Pran",      start: "May 26", end: "Jun 5",  days: 11, prize: "৳18,000", status: "Scheduled", tone: "sky" },
-    { id: 3, kind: "organic", brand: "",          start: "Jun 6",  end: "Jun 14", days: 9,  prize: "—",       status: "Scheduled", tone: "slate" },
-    { id: 4, kind: "sponsor", brand: "Ifad",      start: "Jun 15", end: "Jul 5",  days: 21, prize: "৳60,000", status: "Scheduled", tone: "rose" },
-    { id: 5, kind: "sponsor", brand: "ACI Pure",  start: "Jul 6",  end: "Aug 4",  days: 30, prize: "৳50,000", status: "Draft",     tone: "emerald" },
-  ] as const;
+  const [brandLabel, setBrandLabel] = React.useState("Presented by");
+  const [customLabel, setCustomLabel] = React.useState("");
+  const [sessionOn, setSessionOn] = React.useState(true);
+  const labelPresets = ["Sponsored by", "Presented by", "Powered by", "In partnership with", "Brought to you by", "Supported by"];
+  const activeLabel = (customLabel.trim() || brandLabel).toUpperCase();
 
-  const toneMap: Record<string, { bar: string; chip: string; text: string; ring: string }> = {
-    amber:   { bar: "bg-amber-400",   chip: "bg-amber-100",   text: "text-amber-800",   ring: "ring-amber-200" },
-    rose:    { bar: "bg-rose-400",    chip: "bg-rose-100",    text: "text-rose-800",    ring: "ring-rose-200" },
-    emerald: { bar: "bg-emerald-400", chip: "bg-emerald-100", text: "text-emerald-800", ring: "ring-emerald-200" },
-    sky:     { bar: "bg-sky-400",     chip: "bg-sky-100",     text: "text-sky-800",     ring: "ring-sky-200" },
-    slate:   { bar: "bg-slate-300",   chip: "bg-slate-100",   text: "text-slate-700",   ring: "ring-slate-200" },
-  };
 
   const captureRef = React.useRef<HTMLDivElement>(null);
   const label = "Admin Portal V2 · Create Featured Room";
