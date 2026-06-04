@@ -6251,7 +6251,7 @@ function AdminPortalV2() {
 
               <div className="rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-100 text-[11px] text-emerald-800">
                 <div className="font-bold">Estimated reach</div>
-                <div>~12,400 active users · across 5 sessions</div>
+                <div>~12,400 active users · always-on room{sessionOn ? " + 1 session" : ""}</div>
               </div>
             </div>
           </aside>
