@@ -5913,7 +5913,7 @@ function AdminPortalV2() {
         </div>
         <h2 className="mt-3 text-2xl font-bold text-slate-900">Admin · Create Featured Room</h2>
         <p className="mt-1 text-[13px] text-slate-500">
-          Room defines the zikr & rules. Sponsors plug in as <b>sessions</b> over time — each session brings its own brand & prize.
+          Room defines the zikr & rules. Branding & banners are always-on. A <b>Session</b> is optional — add one when you want a time-bound run with prizes.
         </p>
         <div className="mt-3 inline-flex items-center gap-1">
           <CopyButtons targetRef={captureRef} />
@@ -5927,7 +5927,7 @@ function AdminPortalV2() {
         <div className="mb-5 flex items-center justify-between rounded-2xl bg-white px-5 py-4 ring-1 ring-slate-100">
           <div>
             <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Admin · New Featured Room</div>
-            <h3 className="mt-0.5 text-xl font-bold text-slate-900">Create a Sponsored Zikr Room</h3>
+            <h3 className="mt-0.5 text-xl font-bold text-slate-900">Create a Featured Zikr Room</h3>
           </div>
           <div className="flex items-center gap-2">
             <button className="rounded-full border border-slate-200 bg-white px-4 py-2 text-[12px] font-semibold text-slate-700 hover:bg-slate-50">Save Draft</button>
@@ -5945,13 +5945,15 @@ function AdminPortalV2() {
                 <AdminStep n={1} label="Room Basics" state="done" />
                 <AdminStep n={2} label="Zikr & Goal" state="done" />
                 <AdminStep n={3} label="Eligibility & Rules" state="done" />
-                <AdminStep n={4} label="Sponsor Sessions" state="active" />
-                <AdminStep n={5} label="Review & Publish" state="todo" />
+                <AdminStep n={4} label="Branding & Banners" state="active" />
+                <AdminStep n={5} label="Session (optional)" state="todo" />
+                <AdminStep n={6} label="Review & Publish" state="todo" />
               </div>
               <div className="mt-4 rounded-lg bg-indigo-50 p-3 text-[11px] text-indigo-800 ring-1 ring-indigo-100">
                 <div className="font-bold">📌 Note</div>
-                Room is <b>brand-agnostic</b>. Brand identity (logo / prize / banner) lives inside each <b>Session</b>.
+                Branding works on its own ("Presented by", "Powered by"…). Add a <b>Session</b> only when you want a competition with prizes.
               </div>
+
             </div>
           </aside>
 
