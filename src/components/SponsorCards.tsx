@@ -6191,10 +6191,11 @@ function AdminPortalV2() {
                   <div className="text-[11px] text-slate-500">Subhanallah · 100/day · Bangladesh</div>
                 </div>
                 <div className="rounded-lg bg-slate-50 p-3 ring-1 ring-slate-200">
-                  <div className="text-[10px] font-bold uppercase text-slate-500">Sessions</div>
-                  <div className="mt-1 font-bold text-slate-900">5 scheduled · 92 days planned</div>
-                  <div className="text-[11px] text-slate-500">4 sponsor · 1 organic · ৳1,68,000 total prize</div>
+                  <div className="text-[10px] font-bold uppercase text-slate-500">Branding & Session</div>
+                  <div className="mt-1 font-bold text-slate-900">Wizlife · {sessionOn ? "1 session" : "Branding only"}</div>
+                  <div className="text-[11px] text-slate-500">{activeLabel} · {sessionOn ? "21 days · ৳60,000 prize" : "Always-on, no prize"}</div>
                 </div>
+
               </div>
               <div className="mt-3 space-y-1.5 text-[12px]">
                 <label className="flex items-center gap-2"><input type="checkbox" defaultChecked className="h-4 w-4 accent-emerald-600" />Notify all forever members on launch</label>
