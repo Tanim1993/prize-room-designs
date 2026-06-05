@@ -6731,6 +6731,7 @@ const SECTION_LINKS: { id: string; label: string }[] = [
   { id: "sec-analytics", label: "Sponsor Analytics" },
   { id: "sec-flow7a", label: "Flow 7 · Connect with Facebook" },
   { id: "sec-flow8", label: "Flow 8 · Communities tab" },
+  { id: "sec-flow9", label: "Flow 9 · Featured Room (User)" },
 ];
 
 function SectionNav() {
