@@ -9129,3 +9129,503 @@ function CommApplyDone() {
     </div>
   );
 }
+
+/* ================================================================== */
+/*  Flow 9 · Featured Room — User Journey (mobile frames)             */
+/* ================================================================== */
+
+function FRPhoneShell({ children, title }: { children: React.ReactNode; title?: string }) {
+  return (
+    <div className="flex h-[640px] flex-col bg-[#F4F6FA]">
+      <div className="flex items-center justify-between px-4 pt-3 pb-1 text-[10px] font-semibold text-slate-600">
+        <span>9:41</span>
+        <span>●●●</span>
+      </div>
+      {title && (
+        <div className="flex items-center gap-2 px-4 pb-2">
+          <ChevronRight className="h-4 w-4 rotate-180 text-slate-700" />
+          <span className="text-[13px] font-bold text-slate-900">{title}</span>
+        </div>
+      )}
+      <div className="flex-1 overflow-hidden">{children}</div>
+    </div>
+  );
+}
+
+function FRTabBar({ active = "home" }: { active?: string }) {
+  const tabs = [
+    { id: "home", label: "Home", icon: Home },
+    { id: "featured", label: "Featured", icon: Star },
+    { id: "comm", label: "Communities", icon: Users },
+    { id: "me", label: "Me", icon: User },
+  ];
+  return (
+    <div className="flex items-center justify-around border-t border-slate-200 bg-white px-2 py-2">
+      {tabs.map((t) => {
+        const Icon = t.icon;
+        const isActive = t.id === active;
+        return (
+          <div key={t.id} className={`flex flex-col items-center gap-0.5 ${isActive ? "text-emerald-600" : "text-slate-400"}`}>
+            <Icon className="h-4 w-4" />
+            <span className="text-[9px] font-semibold">{t.label}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* 9.1 — Auto-joined welcome */
+function FR1AutoJoined() {
+  return (
+    <FRPhoneShell>
+      <div className="flex h-full flex-col">
+        <div className="bg-gradient-to-br from-emerald-500 to-teal-700 px-5 pt-6 pb-8 text-white">
+          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-white/20 ring-2 ring-white/40">
+            <Sparkles className="h-7 w-7" />
+          </div>
+          <h3 className="text-center text-[18px] font-extrabold leading-tight">Welcome, Rahim! 🌙</h3>
+          <p className="mt-1.5 text-center text-[12px] text-emerald-50">
+            You're auto-joined into <b>3 Featured Rooms</b>. Start your Zikr anytime — no setup needed.
+          </p>
+        </div>
+
+        <div className="-mt-4 mx-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-200">
+          <div className="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-500">Your Featured Rooms</div>
+          {[
+            { name: "সুবহানাল্লাহি ওয়া বিহামদিহী", brand: "Wizlife", emoji: "🌿" },
+            { name: "আস্তাগফিরুল্লাহা ওয়া আতুবু…", brand: "Ifad", emoji: "🤲" },
+            { name: "দরুদে ইব্রাহীম", brand: "ACI Pure", emoji: "💚" },
+          ].map((r, i) => (
+            <div key={i} className="flex items-center gap-2.5 border-b border-slate-100 py-2 last:border-0">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-base">{r.emoji}</div>
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-[12px] font-bold text-slate-900">{r.name}</div>
+                <div className="text-[10px] text-slate-500">Presented by {r.brand}</div>
+              </div>
+              <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+            </div>
+          ))}
+        </div>
+
+        <div className="mx-3 mt-3 rounded-xl bg-amber-50 p-2.5 ring-1 ring-amber-200">
+          <div className="flex items-start gap-2">
+            <Gift className="mt-0.5 h-3.5 w-3.5 text-amber-600" />
+            <p className="text-[10.5px] leading-snug text-amber-900">
+              <b>Prize sessions</b> are competitions held inside these rooms. You'll be notified when one starts.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-auto px-3 pb-3">
+          <button className="w-full rounded-xl bg-emerald-600 py-2.5 text-[12.5px] font-bold text-white shadow">
+            Start your first Zikr <ArrowRight className="ml-1 inline h-3.5 w-3.5" />
+          </button>
+        </div>
+        <FRTabBar />
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 9.2 — Featured rooms list */
+function FR2List() {
+  const rooms = [
+    { name: "সুবহানাল্লাহি ওয়া বিহামদিহী", brand: "Wizlife", emoji: "🌿", session: true, prize: "৳40,000", days: "5d left", members: "16K" },
+    { name: "আস্তাগফিরুল্লাহা ওয়া আতুবু…", brand: "Ifad", emoji: "🤲", session: false, members: "12K" },
+    { name: "দরুদে ইব্রাহীম", brand: "ACI Pure", emoji: "💚", session: true, prize: "৳15,000", days: "12d left", members: "8K" },
+    { name: "লা ইলাহা ইল্লাল্লাহ", brand: "Pran", emoji: "✨", session: false, members: "22K" },
+  ];
+  return (
+    <FRPhoneShell title="Featured">
+      <div className="flex h-full flex-col">
+        <div className="space-y-2.5 overflow-y-auto px-3 pb-3">
+          {rooms.map((r, i) => (
+            <div key={i} className="rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-200">
+              <div className="flex items-start gap-2.5">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-lg">{r.emoji}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[9px] font-bold uppercase tracking-wide text-slate-500">Presented by {r.brand}</span>
+                  </div>
+                  <div className="mt-0.5 truncate text-[12.5px] font-extrabold text-slate-900">{r.name}</div>
+                  <div className="mt-1 flex items-center gap-2 text-[10px] text-slate-500">
+                    <Users className="h-3 w-3" /> {r.members}
+                    <span>·</span>
+                    <InfinityIcon className="h-3 w-3" /> Lifetime
+                  </div>
+                </div>
+              </div>
+              {r.session ? (
+                <div className="mt-2.5 flex items-center justify-between rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 px-2.5 py-1.5 text-white">
+                  <div className="flex items-center gap-1.5">
+                    <Trophy className="h-3.5 w-3.5" />
+                    <span className="text-[11px] font-bold">{r.prize} Prize · {r.days}</span>
+                  </div>
+                  <span className="rounded-full bg-white/25 px-1.5 py-0.5 text-[9px] font-bold">LIVE</span>
+                </div>
+              ) : (
+                <div className="mt-2.5 flex items-center gap-1.5 rounded-xl bg-slate-50 px-2.5 py-1.5 text-[10.5px] text-slate-600">
+                  <InfinityIcon className="h-3 w-3" /> Always-on room · no active competition
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <FRTabBar active="featured" />
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 9.3 — Room always-on (no session) */
+function FR3Always() {
+  return (
+    <FRPhoneShell title="Wizlife Room">
+      <div className="flex h-full flex-col">
+        <div className="mx-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-200">
+          <div className="text-[9px] font-bold uppercase tracking-wide text-emerald-700">Presented by Wizlife</div>
+          <div className="mt-1 text-[14px] font-extrabold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</div>
+          <div className="mt-1 flex items-center gap-2 text-[10px] text-slate-500">
+            <InfinityIcon className="h-3 w-3" /> Lifetime room
+            <span>·</span>
+            <Users className="h-3 w-3" /> 16,240 members
+          </div>
+          {/* Banner 400x70 */}
+          <div className="mt-2.5 flex h-12 items-center justify-center rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-[11px] font-bold text-white">
+            Wizlife · Pure & Halal · Banner 400×70
+          </div>
+        </div>
+
+        <div className="mx-3 mt-3 rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-200">
+          <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Your count today</div>
+          <div className="mt-1 text-[28px] font-black text-emerald-600">142</div>
+          <div className="text-[10px] text-slate-500">Goal 100/day · streak 12 🔥</div>
+          <button className="mt-2 w-full rounded-xl bg-emerald-600 py-2.5 text-[13px] font-bold text-white shadow">
+            Tap to Zikr +1
+          </button>
+        </div>
+
+        <div className="mx-3 mt-3 rounded-2xl bg-slate-50 p-2.5 ring-1 ring-slate-200">
+          <div className="flex items-center gap-2 text-[10.5px] text-slate-600">
+            <InfinityIcon className="h-3.5 w-3.5 text-slate-500" />
+            <span>No active competition right now. Your counts go to the <b>Lifetime leaderboard</b>.</span>
+          </div>
+        </div>
+
+        <div className="mx-3 mt-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-200">
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-700">Lifetime leaderboard</span>
+            <span className="text-[10px] text-emerald-600 font-semibold">See all</span>
+          </div>
+          {["Ayesha", "Karim", "You — Rahim"].map((n, i) => (
+            <div key={i} className={`flex items-center justify-between border-b border-slate-100 py-1.5 last:border-0 ${i === 2 ? "text-emerald-700 font-bold" : "text-slate-700"}`}>
+              <span className="text-[11px]">{i + 1}. {n}</span>
+              <span className="text-[11px] tabular-nums">{[28400, 21100, 18920][i].toLocaleString()}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex-1" />
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 9.4 — Session live: join CTA */
+function FR4SessionLive() {
+  return (
+    <FRPhoneShell title="Wizlife Room">
+      <div className="flex h-full flex-col">
+        {/* Session banner */}
+        <div className="mx-3 overflow-hidden rounded-2xl bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 p-3 text-white shadow-lg">
+          <div className="flex items-center gap-1.5">
+            <span className="rounded-full bg-white/25 px-1.5 py-0.5 text-[9px] font-black">LIVE NOW</span>
+            <span className="text-[10px] font-semibold opacity-90">7-day competition</span>
+          </div>
+          <div className="mt-1.5 flex items-baseline gap-1.5">
+            <Trophy className="h-4 w-4" />
+            <span className="text-[18px] font-black">৳40,000</span>
+            <span className="text-[11px] opacity-90">prize pool</span>
+          </div>
+          <div className="mt-0.5 flex items-center gap-2 text-[10px] opacity-90">
+            <Clock className="h-3 w-3" /> Ends in 5d 14h · Top 10 win
+          </div>
+          <button className="mt-2.5 w-full rounded-xl bg-white py-2 text-[12.5px] font-extrabold text-orange-600 shadow">
+            🏆 Join Competition
+          </button>
+        </div>
+
+        <div className="mx-3 mt-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-200">
+          <div className="text-[9px] font-bold uppercase tracking-wide text-emerald-700">Presented by Wizlife</div>
+          <div className="mt-1 text-[13px] font-extrabold text-slate-900">সুবহানাল্লাহি ওয়া বিহামদিহী</div>
+          <div className="mt-2 flex h-10 items-center justify-center rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-[10.5px] font-bold text-white">
+            Wizlife · Banner 400×70
+          </div>
+        </div>
+
+        <div className="mx-3 mt-3 rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-200">
+          <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Today</div>
+          <div className="mt-0.5 text-[24px] font-black text-emerald-600">142</div>
+          <button className="mt-1.5 w-full rounded-xl bg-emerald-600 py-2 text-[12px] font-bold text-white">
+            Tap to Zikr +1
+          </button>
+          <div className="mt-1.5 text-[9.5px] text-slate-500">
+            Not in competition yet — counts only go to <b>Lifetime</b>
+          </div>
+        </div>
+
+        <div className="mx-3 mt-3 rounded-xl bg-amber-50 p-2.5 ring-1 ring-amber-200">
+          <div className="flex items-start gap-1.5 text-[10.5px] text-amber-900">
+            <Bell className="mt-0.5 h-3 w-3 shrink-0 text-amber-700" />
+            <span>Join now to make every Zikr count toward the <b>৳40,000 prize board</b>.</span>
+          </div>
+        </div>
+        <div className="flex-1" />
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 9.5 — Eligibility checklist */
+function FR5Eligibility() {
+  const items = [
+    { label: "Verify email", sub: "rahim@gmail.com", done: true, icon: CheckCircle2 },
+    { label: "Verify phone", sub: "+880 1•••• 4521", done: false, icon: Send },
+    { label: "Confirm age (13+)", sub: "Add date of birth", done: false, icon: Calendar },
+    { label: "Accept competition rules", sub: "T&C · prize policy", done: false, icon: ShieldCheck },
+  ];
+  return (
+    <FRPhoneShell title="Join Competition">
+      <div className="flex h-full flex-col">
+        <div className="mx-3 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 p-3 text-white">
+          <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide opacity-90">
+            <Trophy className="h-3 w-3" /> ৳40,000 prize · Wizlife Room
+          </div>
+          <div className="mt-1 text-[14px] font-extrabold">Complete a few items to enter</div>
+          <div className="text-[10.5px] opacity-90">Required for prize eligibility &amp; fair play.</div>
+        </div>
+
+        <div className="mx-3 mt-3 space-y-2">
+          {items.map((it, i) => {
+            const Icon = it.icon;
+            return (
+              <div key={i} className={`flex items-center gap-2.5 rounded-xl bg-white p-2.5 ring-1 ${it.done ? "ring-emerald-200" : "ring-slate-200"}`}>
+                <div className={`flex h-8 w-8 items-center justify-center rounded-full ${it.done ? "bg-emerald-100 text-emerald-600" : "bg-slate-100 text-slate-500"}`}>
+                  {it.done ? <CheckCircle2 className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[12px] font-bold text-slate-900">{it.label}</div>
+                  <div className="text-[10px] text-slate-500">{it.sub}</div>
+                </div>
+                {it.done ? (
+                  <span className="text-[10px] font-bold text-emerald-600">Done</span>
+                ) : (
+                  <button className="rounded-lg bg-slate-900 px-2.5 py-1 text-[10.5px] font-bold text-white">
+                    {it.label.startsWith("Accept") ? "View" : "Verify"}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mx-3 mt-3 rounded-xl bg-slate-50 p-2.5 ring-1 ring-slate-200">
+          <p className="text-[10px] leading-snug text-slate-600">
+            <b>You stay a room member either way.</b> Skip now and keep counting toward Lifetime — finish anytime to join the prize board.
+          </p>
+        </div>
+
+        <div className="mt-auto flex gap-2 border-t border-slate-200 bg-white p-2.5">
+          <button className="flex-1 rounded-xl bg-slate-100 py-2.5 text-[11.5px] font-bold text-slate-700">Skip for now</button>
+          <button className="flex-1 rounded-xl bg-emerald-600 py-2.5 text-[11.5px] font-bold text-white shadow opacity-60">
+            Continue (3 left)
+          </button>
+        </div>
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 9.6 — Enrolled */
+function FR6Enrolled() {
+  return (
+    <FRPhoneShell>
+      <div className="flex h-full flex-col items-center justify-center bg-gradient-to-br from-emerald-500 via-teal-600 to-emerald-700 px-6 text-center text-white">
+        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/20 ring-4 ring-white/30">
+          <Trophy className="h-10 w-10" />
+        </div>
+        <h3 className="mt-4 text-[22px] font-black">You're in! 🎉</h3>
+        <p className="mt-1 max-w-[260px] text-[12px] text-emerald-50">
+          You're now competing for <b>৳40,000</b> in the Wizlife Room competition.
+        </p>
+
+        <div className="mt-5 w-full max-w-[280px] rounded-2xl bg-white/15 p-3 ring-1 ring-white/30 backdrop-blur">
+          <div className="flex items-center justify-between text-[11px]">
+            <span className="opacity-90">Competition ends</span>
+            <span className="font-bold">5d 14h</span>
+          </div>
+          <div className="mt-1.5 flex items-center justify-between text-[11px]">
+            <span className="opacity-90">Your rank now</span>
+            <span className="font-bold">— · start counting</span>
+          </div>
+          <div className="mt-1.5 flex items-center justify-between text-[11px]">
+            <span className="opacity-90">Top 10 win prize</span>
+            <span className="font-bold">৳40,000 pool</span>
+          </div>
+        </div>
+
+        <button className="mt-5 w-full max-w-[280px] rounded-xl bg-white py-2.5 text-[13px] font-extrabold text-emerald-700 shadow-lg">
+          Start Zikr now <ArrowRight className="ml-1 inline h-3.5 w-3.5" />
+        </button>
+        <button className="mt-2 text-[11px] font-semibold text-white/80 underline">View competition rules</button>
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 9.7 — Dual leaderboard */
+function FR7Leaderboard() {
+  const [tab, setTab] = React.useState<"prize" | "life">("prize");
+  const prize = [
+    { rank: 1, name: "Ayesha S.", count: 4820, prize: "৳15,000" },
+    { rank: 2, name: "Karim H.", count: 4210, prize: "৳8,000" },
+    { rank: 3, name: "Nadia R.", count: 3990, prize: "৳5,000" },
+    { rank: 4, name: "Imran K.", count: 3450, prize: "৳3,000" },
+    { rank: 7, name: "You — Rahim", count: 2180, prize: "৳1,500", me: true },
+  ];
+  const life = [
+    { rank: 1, name: "Ayesha S.", count: 142840 },
+    { rank: 2, name: "Karim H.", count: 98210 },
+    { rank: 3, name: "Nadia R.", count: 84500 },
+    { rank: 12, name: "You — Rahim", count: 28400, me: true },
+  ];
+  return (
+    <FRPhoneShell title="Leaderboard">
+      <div className="flex h-full flex-col">
+        <div className="mx-3 flex rounded-xl bg-slate-100 p-1">
+          <button
+            onClick={() => setTab("prize")}
+            className={`flex-1 rounded-lg py-1.5 text-[11px] font-bold ${tab === "prize" ? "bg-white text-orange-600 shadow" : "text-slate-500"}`}
+          >
+            🏆 Prize · 5d left
+          </button>
+          <button
+            onClick={() => setTab("life")}
+            className={`flex-1 rounded-lg py-1.5 text-[11px] font-bold ${tab === "life" ? "bg-white text-emerald-600 shadow" : "text-slate-500"}`}
+          >
+            ∞ Lifetime
+          </button>
+        </div>
+
+        {tab === "prize" ? (
+          <div className="mx-3 mt-3 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 p-2.5 ring-1 ring-amber-200">
+            <div className="mb-1 flex items-center justify-between text-[10px] font-bold text-orange-800">
+              <span>৳40,000 prize pool · Top 10 win</span>
+              <span>Ends 5d 14h</span>
+            </div>
+            <div className="rounded-xl bg-white">
+              {prize.map((r, i) => (
+                <div key={i} className={`flex items-center gap-2 border-b border-slate-100 px-2.5 py-2 last:border-0 ${r.me ? "bg-emerald-50" : ""}`}>
+                  <div className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-black ${r.rank <= 3 ? "bg-amber-400 text-white" : "bg-slate-100 text-slate-600"}`}>
+                    {r.rank}
+                  </div>
+                  <div className="flex-1 text-[11.5px] font-semibold text-slate-800">{r.name}</div>
+                  <div className="text-[11px] tabular-nums text-slate-700">{r.count.toLocaleString()}</div>
+                  <div className="ml-1.5 rounded-md bg-amber-100 px-1.5 py-0.5 text-[9.5px] font-bold text-amber-800">{r.prize}</div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-1.5 text-center text-[9.5px] text-orange-700">Only eligible (verified) members appear here</div>
+          </div>
+        ) : (
+          <div className="mx-3 mt-3 rounded-2xl bg-emerald-50 p-2.5 ring-1 ring-emerald-200">
+            <div className="mb-1 flex items-center justify-between text-[10px] font-bold text-emerald-800">
+              <span>All-time · everyone counts</span>
+              <span>∞ Forever</span>
+            </div>
+            <div className="rounded-xl bg-white">
+              {life.map((r, i) => (
+                <div key={i} className={`flex items-center gap-2 border-b border-slate-100 px-2.5 py-2 last:border-0 ${r.me ? "bg-emerald-50" : ""}`}>
+                  <div className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-black ${r.rank <= 3 ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-600"}`}>
+                    {r.rank}
+                  </div>
+                  <div className="flex-1 text-[11.5px] font-semibold text-slate-800">{r.name}</div>
+                  <div className="text-[11px] tabular-nums text-slate-700">{r.count.toLocaleString()}</div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-1.5 text-center text-[9.5px] text-emerald-700">No verification needed · open to all members</div>
+          </div>
+        )}
+
+        <div className="mx-3 mt-auto mb-3 rounded-xl bg-slate-900 p-2.5 text-white">
+          <div className="flex items-center gap-2">
+            <Flame className="h-4 w-4 text-orange-400" />
+            <div className="flex-1">
+              <div className="text-[11px] font-bold">You · today 142 zikr</div>
+              <div className="text-[10px] text-slate-300">+2 ranks needed to enter top 5</div>
+            </div>
+            <button className="rounded-lg bg-emerald-500 px-2.5 py-1 text-[10.5px] font-bold">Zikr</button>
+          </div>
+        </div>
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 9.8 — Session ended · winners */
+function FR8Ended() {
+  return (
+    <FRPhoneShell title="Competition Ended">
+      <div className="flex h-full flex-col">
+        <div className="mx-3 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-700 p-3 text-white">
+          <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide opacity-90">
+            <Trophy className="h-3 w-3 text-amber-400" /> Wizlife Room · 7-day competition
+          </div>
+          <div className="mt-1 text-[15px] font-extrabold">Mashallah — it's a wrap!</div>
+          <div className="text-[10.5px] opacity-90">৳40,000 prize pool · distributed to top 10</div>
+        </div>
+
+        <div className="mx-3 mt-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-200">
+          <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">Winners</div>
+          {[
+            { r: 1, n: "Ayesha S.", p: "৳15,000", c: "🥇" },
+            { r: 2, n: "Karim H.", p: "৳8,000", c: "🥈" },
+            { r: 3, n: "Nadia R.", p: "৳5,000", c: "🥉" },
+          ].map((w, i) => (
+            <div key={i} className="flex items-center gap-2 border-b border-slate-100 py-1.5 last:border-0">
+              <span className="text-base">{w.c}</span>
+              <div className="flex-1 text-[12px] font-semibold text-slate-800">{w.n}</div>
+              <div className="rounded-md bg-amber-100 px-2 py-0.5 text-[10.5px] font-bold text-amber-800">{w.p}</div>
+            </div>
+          ))}
+          <div className="mt-1 text-[10px] text-slate-500">+ 7 more winners · bKash payout within 48h</div>
+        </div>
+
+        <div className="mx-3 mt-3 rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-200">
+          <div className="flex items-center gap-2">
+            <BadgeCheck className="h-5 w-5 text-emerald-600" />
+            <div className="flex-1">
+              <div className="text-[11.5px] font-bold text-emerald-900">Your result: Rank #7</div>
+              <div className="text-[10px] text-emerald-700">2,180 zikr · ৳1,500 prize earned</div>
+            </div>
+          </div>
+          <button className="mt-2 w-full rounded-xl bg-emerald-600 py-2 text-[11.5px] font-bold text-white shadow">
+            Claim prize <ArrowRight className="ml-1 inline h-3.5 w-3.5" />
+          </button>
+        </div>
+
+        <div className="mx-3 mt-3 rounded-xl bg-slate-50 p-2.5 ring-1 ring-slate-200">
+          <div className="flex items-start gap-1.5">
+            <InfinityIcon className="mt-0.5 h-3.5 w-3.5 text-slate-500" />
+            <p className="text-[10.5px] leading-snug text-slate-700">
+              The room continues <b>forever</b>. Your 2,180 zikr are added to your <b>Lifetime</b> total.
+              Watch for the next session announcement!
+            </p>
+          </div>
+        </div>
+        <div className="flex-1" />
+      </div>
+    </FRPhoneShell>
+  );
+}
