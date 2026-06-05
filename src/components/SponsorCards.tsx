@@ -1964,6 +1964,29 @@ export default function SponsorCards() {
           <DetailFrame label="8.8 · Apply · review &amp; submitted"><CommApplyDone /></DetailFrame>
         </div>
 
+        {/* ============== Flow 9 · Featured Room — User Journey ============== */}
+        <header id="sec-flow9" className="mt-20 mb-8 scroll-mt-24 text-center">
+          <h2 className="text-[20px] font-extrabold text-slate-900">
+            Flow 9 · Featured Room — User Journey <span className="bn text-slate-500">— ফিচারড রুম ফ্লো</span>
+          </h2>
+          <p className="mt-1 max-w-3xl text-[12.5px] text-slate-600 mx-auto">
+            Two-layer model: <b>Membership</b> (auto-joined at signup, lifetime, no friction) vs
+            <b> Session Participation</b> (eligibility gate only when a prize competition is live). Users keep
+            their lifetime stats forever; competition is an overlay on top.
+          </p>
+        </header>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <DetailFrame label="9.1 · Auto-joined after signup"><FR1AutoJoined /></DetailFrame>
+          <DetailFrame label="9.2 · Featured rooms list"><FR2List /></DetailFrame>
+          <DetailFrame label="9.3 · Room · always-on (no session)"><FR3Always /></DetailFrame>
+          <DetailFrame label="9.4 · Session live · Join CTA"><FR4SessionLive /></DetailFrame>
+          <DetailFrame label="9.5 · Eligibility checklist"><FR5Eligibility /></DetailFrame>
+          <DetailFrame label="9.6 · Enrolled · You're in"><FR6Enrolled /></DetailFrame>
+          <DetailFrame label="9.7 · Dual leaderboard (Prize / Lifetime)"><FR7Leaderboard /></DetailFrame>
+          <DetailFrame label="9.8 · Session ended · winners"><FR8Ended /></DetailFrame>
+        </div>
+
+
         </div>
       </div>
       </div>
