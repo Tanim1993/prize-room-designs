@@ -9651,3 +9651,499 @@ function FR8Ended() {
     </FRPhoneShell>
   );
 }
+
+/* ================================================================== */
+/*  Flow 10 · User Profile (navy pattern, mobile frames)              */
+/* ================================================================== */
+
+function UPStat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="flex flex-col items-center">
+      <div className="text-[15px] font-extrabold text-white">{value}</div>
+      <div className="text-[9.5px] text-white/65">{label}</div>
+    </div>
+  );
+}
+
+function UPCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`rounded-2xl bg-white p-3 shadow-[0_2px_8px_-4px_rgba(15,23,42,0.1)] ring-1 ring-slate-200 ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+/* 10.1 — My Profile · overview */
+function UP1Overview() {
+  return (
+    <FRPhoneShell>
+      <div className="flex h-full flex-col overflow-y-auto">
+        <div style={{ background: NAVY }} className="px-4 pb-10 pt-3 text-white">
+          <div className="flex items-center justify-between">
+            <span className="text-[13px] font-bold">My Profile</span>
+            <div className="flex items-center gap-3">
+              <Share2 className="h-4 w-4 opacity-80" />
+              <Settings className="h-4 w-4 opacity-80" />
+            </div>
+          </div>
+          <div className="mt-4 flex items-center gap-3">
+            <div className="relative">
+              <div className="grid h-16 w-16 place-items-center rounded-full bg-white/15 text-[22px] font-extrabold ring-2 ring-amber-300/70">R</div>
+              <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-amber-400 text-[10px]">🔥</span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <span className="truncate text-[16px] font-extrabold">Rahim Uddin</span>
+                <BadgeCheck className="h-4 w-4 text-amber-300" />
+              </div>
+              <div className="text-[11px] text-white/70">@rahim_dhaka · Dhaka, BD</div>
+              <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-amber-400/20 px-2 py-0.5 text-[9.5px] font-bold text-amber-200 ring-1 ring-amber-300/40">
+                <Flame className="h-3 w-3" /> 42-day streak
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 grid grid-cols-4 rounded-2xl bg-white/10 py-2.5 ring-1 ring-white/15">
+            <UPStat value="1,248" label="Followers" />
+            <UPStat value="312" label="Following" />
+            <UPStat value="9" label="Rooms" />
+            <UPStat value="186K" label="Lifetime Zikr" />
+          </div>
+        </div>
+
+        <div className="-mt-5 space-y-2.5 px-3 pb-3">
+          <UPCard>
+            <div className="flex items-center justify-between">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Today</div>
+              <span className="text-[10px] font-bold text-emerald-600">540 / 1,000</span>
+            </div>
+            <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-slate-100">
+              <div className="h-full w-[54%] rounded-full" style={{ background: NAVY }} />
+            </div>
+            <div className="mt-1.5 flex items-center gap-3 text-[10px] text-slate-500">
+              <span className="inline-flex items-center gap-1"><Clock className="h-3 w-3" /> 23 min today</span>
+              <span className="inline-flex items-center gap-1"><TrendingUp className="h-3 w-3" /> Rank #128 this week</span>
+            </div>
+          </UPCard>
+
+          <UPCard>
+            <div className="mb-2 flex items-center justify-between">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Highlights</div>
+              <span className="text-[10px] font-semibold" style={{ color: NAVY }}>View all</span>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center">
+              {[
+                { icon: Trophy, label: "Top 10", sub: "2 sessions", tint: "bg-amber-50 text-amber-600" },
+                { icon: Flame, label: "42 days", sub: "Best streak", tint: "bg-orange-50 text-orange-600" },
+                { icon: Award, label: "12 badges", sub: "Earned", tint: "bg-indigo-50 text-indigo-600" },
+              ].map((h, i) => (
+                <div key={i} className="rounded-xl bg-slate-50 p-2 ring-1 ring-slate-100">
+                  <div className={`mx-auto grid h-7 w-7 place-items-center rounded-full ${h.tint}`}>
+                    <h.icon className="h-3.5 w-3.5" />
+                  </div>
+                  <div className="mt-1 text-[10.5px] font-extrabold text-slate-900">{h.label}</div>
+                  <div className="text-[9px] text-slate-500">{h.sub}</div>
+                </div>
+              ))}
+            </div>
+          </UPCard>
+
+          <UPCard>
+            <div className="mb-2 flex items-center justify-between">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">My Rooms</div>
+              <span className="text-[10px] font-semibold" style={{ color: NAVY }}>See all (9)</span>
+            </div>
+            {[
+              { name: "সুবহানাল্লাহি ওয়া বিহামদিহী", emoji: "🌿", count: "48,200", tag: "Featured" },
+              { name: "দরুদে ইব্রাহীম", emoji: "💚", count: "31,640", tag: "Featured" },
+              { name: "Family Morning Zikr", emoji: "🏠", count: "9,310", tag: "Owner" },
+            ].map((r, i) => (
+              <div key={i} className="flex items-center gap-2.5 border-b border-slate-100 py-2 last:border-0 last:pb-0">
+                <div className="grid h-9 w-9 place-items-center rounded-xl bg-slate-50 text-base">{r.emoji}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="bn truncate text-[12px] font-bold text-slate-900">{r.name}</div>
+                  <div className="text-[10px] text-slate-500">{r.count} zikr by you</div>
+                </div>
+                <span className={`rounded-full px-2 py-0.5 text-[8.5px] font-bold ${r.tag === "Owner" ? "bg-indigo-50 text-indigo-700" : "bg-amber-50 text-amber-700"}`}>{r.tag}</span>
+              </div>
+            ))}
+          </UPCard>
+        </div>
+        <div className="mt-auto">
+          <FRTabBar active="me" />
+        </div>
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 10.2 — My Rooms tab */
+function UP2Rooms() {
+  const rooms = [
+    { name: "সুবহানাল্লাহি ওয়া বিহামদিহী", emoji: "🌿", count: "48,200", role: "Featured", rank: "#86", live: true },
+    { name: "দরুদে ইব্রাহীম", emoji: "💚", count: "31,640", role: "Featured", rank: "#212", live: false },
+    { name: "আস্তাগফিরুল্লাহ", emoji: "🤲", count: "24,118", role: "Featured", rank: "#341", live: false },
+    { name: "Family Morning Zikr", emoji: "🏠", count: "9,310", role: "Owner", rank: "#1", live: false },
+    { name: "Office Tasbih Circle", emoji: "🏢", count: "4,005", role: "Member", rank: "#7", live: false },
+  ];
+  return (
+    <FRPhoneShell>
+      <div className="flex h-full flex-col">
+        <div style={{ background: NAVY }} className="px-4 pb-3 pt-3 text-white">
+          <div className="flex items-center gap-2">
+            <ChevronRight className="h-4 w-4 rotate-180 opacity-80" />
+            <span className="text-[13px] font-bold">My Rooms</span>
+            <span className="ml-auto rounded-full bg-white/15 px-2 py-0.5 text-[9.5px] font-semibold">9 rooms</span>
+          </div>
+          <div className="mt-2.5 flex gap-1.5 text-[10px] font-bold">
+            <span className="rounded-full bg-white px-2.5 py-1" style={{ color: NAVY }}>All</span>
+            <span className="rounded-full bg-white/10 px-2.5 py-1 text-white/80">Featured</span>
+            <span className="rounded-full bg-white/10 px-2.5 py-1 text-white/80">Created by me</span>
+          </div>
+        </div>
+        <div className="flex-1 space-y-2 overflow-y-auto px-3 py-3">
+          {rooms.map((r, i) => (
+            <UPCard key={i}>
+              <div className="flex items-center gap-2.5">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-slate-50 text-lg">{r.emoji}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="bn truncate text-[12.5px] font-extrabold text-slate-900">{r.name}</span>
+                    {r.live && <span className="rounded-full bg-rose-50 px-1.5 py-0.5 text-[8px] font-bold text-rose-600 ring-1 ring-rose-200">● LIVE</span>}
+                  </div>
+                  <div className="mt-0.5 flex items-center gap-2 text-[10px] text-slate-500">
+                    <span>{r.count} zikr by you</span>
+                    <span>·</span>
+                    <span className="inline-flex items-center gap-0.5"><Trophy className="h-3 w-3" /> {r.rank}</span>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <span className={`rounded-full px-2 py-0.5 text-[8.5px] font-bold ${r.role === "Owner" ? "bg-indigo-50 text-indigo-700" : r.role === "Featured" ? "bg-amber-50 text-amber-700" : "bg-slate-100 text-slate-600"}`}>{r.role}</span>
+                  <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                </div>
+              </div>
+            </UPCard>
+          ))}
+        </div>
+        <FRTabBar active="me" />
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 10.3 — Achievements & streak */
+function UP3Achievements() {
+  const badges = [
+    { emoji: "🌙", name: "First 1K", got: true },
+    { emoji: "🔥", name: "30-day streak", got: true },
+    { emoji: "🏆", name: "Top 10 finish", got: true },
+    { emoji: "🤲", name: "100K lifetime", got: true },
+    { emoji: "⭐", name: "Session winner", got: false },
+    { emoji: "👑", name: "1M lifetime", got: false },
+  ];
+  return (
+    <FRPhoneShell>
+      <div className="flex h-full flex-col overflow-y-auto">
+        <div style={{ background: NAVY }} className="px-4 pb-8 pt-3 text-white">
+          <div className="flex items-center gap-2">
+            <ChevronRight className="h-4 w-4 rotate-180 opacity-80" />
+            <span className="text-[13px] font-bold">Achievements</span>
+          </div>
+          <div className="mt-3 flex items-center gap-3 rounded-2xl bg-white/10 p-3 ring-1 ring-white/15">
+            <div className="grid h-12 w-12 place-items-center rounded-full bg-amber-400/20 ring-1 ring-amber-300/40">
+              <Flame className="h-6 w-6 text-amber-300" />
+            </div>
+            <div>
+              <div className="text-[16px] font-extrabold">42-day streak</div>
+              <div className="text-[10.5px] text-white/70">Best: 42 · Keep going to unlock 60-day badge</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="-mt-4 space-y-2.5 px-3 pb-3">
+          <UPCard>
+            <div className="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-500">This week</div>
+            <div className="flex justify-between">
+              {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
+                <div key={i} className="flex flex-col items-center gap-1">
+                  <div className={`grid h-8 w-8 place-items-center rounded-full text-[10px] font-bold ${i < 5 ? "text-white" : "bg-slate-100 text-slate-400"}`} style={i < 5 ? { background: NAVY } : undefined}>
+                    {i < 5 ? "✓" : d}
+                  </div>
+                  <span className="text-[8.5px] text-slate-500">{d}</span>
+                </div>
+              ))}
+            </div>
+          </UPCard>
+
+          <UPCard>
+            <div className="mb-2 flex items-center justify-between">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Badges · 12 earned</div>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {badges.map((b, i) => (
+                <div key={i} className={`rounded-xl p-2 text-center ring-1 ${b.got ? "bg-amber-50/60 ring-amber-200" : "bg-slate-50 ring-slate-100 opacity-50"}`}>
+                  <div className="text-[20px]">{b.emoji}</div>
+                  <div className="mt-0.5 text-[9.5px] font-bold text-slate-800">{b.name}</div>
+                  <div className="text-[8.5px] text-slate-500">{b.got ? "Earned" : "Locked"}</div>
+                </div>
+              ))}
+            </div>
+          </UPCard>
+
+          <UPCard>
+            <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">Session history</div>
+            {[
+              { name: "Wizlife Ramadan Session", res: "Rank #7 · ৳1,500", win: true },
+              { name: "ACI Pure Friday Challenge", res: "Rank #84", win: false },
+            ].map((s, i) => (
+              <div key={i} className="flex items-center gap-2 border-b border-slate-100 py-1.5 last:border-0 last:pb-0">
+                <Trophy className={`h-4 w-4 ${s.win ? "text-amber-500" : "text-slate-300"}`} />
+                <div className="flex-1">
+                  <div className="text-[11px] font-bold text-slate-900">{s.name}</div>
+                  <div className="text-[9.5px] text-slate-500">{s.res}</div>
+                </div>
+              </div>
+            ))}
+          </UPCard>
+        </div>
+        <div className="mt-auto">
+          <FRTabBar active="me" />
+        </div>
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 10.4 — Other user · public view */
+function UP4Public() {
+  return (
+    <FRPhoneShell>
+      <div className="flex h-full flex-col overflow-y-auto">
+        <div style={{ background: NAVY }} className="px-4 pb-10 pt-3 text-white">
+          <div className="flex items-center justify-between">
+            <ChevronRight className="h-4 w-4 rotate-180 opacity-80" />
+            <Share2 className="h-4 w-4 opacity-80" />
+          </div>
+          <div className="mt-3 flex flex-col items-center text-center">
+            <div className="grid h-16 w-16 place-items-center rounded-full bg-white/15 text-[22px] font-extrabold ring-2 ring-white/30">F</div>
+            <div className="mt-2 flex items-center gap-1.5">
+              <span className="text-[16px] font-extrabold">Fatema Khatun</span>
+              <BadgeCheck className="h-4 w-4 text-amber-300" />
+            </div>
+            <div className="text-[11px] text-white/70">@fatema_ctg · Chattogram, BD</div>
+            <div className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-amber-400/20 px-2 py-0.5 text-[9.5px] font-bold text-amber-200 ring-1 ring-amber-300/40">
+              <Flame className="h-3 w-3" /> 108-day streak
+            </div>
+          </div>
+          <div className="mt-3.5 grid grid-cols-3 rounded-2xl bg-white/10 py-2.5 ring-1 ring-white/15">
+            <UPStat value="4,902" label="Followers" />
+            <UPStat value="201" label="Following" />
+            <UPStat value="612K" label="Lifetime Zikr" />
+          </div>
+        </div>
+
+        <div className="-mt-5 space-y-2.5 px-3 pb-3">
+          <div className="flex gap-2">
+            <button className="flex-1 rounded-xl py-2.5 text-[12px] font-bold text-white shadow" style={{ background: NAVY }}>
+              <UserPlus className="mr-1 inline h-3.5 w-3.5" /> Follow
+            </button>
+            <button className="grid w-11 place-items-center rounded-xl bg-white text-slate-600 ring-1 ring-slate-200">
+              <Bell className="h-4 w-4" />
+            </button>
+          </div>
+
+          <UPCard>
+            <div className="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-500">You vs Fatema · this week</div>
+            {[
+              { label: "You", count: "3,420", pct: 38, me: true },
+              { label: "Fatema", count: "8,960", pct: 100, me: false },
+            ].map((r, i) => (
+              <div key={i} className="mb-2 last:mb-0">
+                <div className="flex justify-between text-[10px] font-bold text-slate-700">
+                  <span>{r.label}</span><span>{r.count}</span>
+                </div>
+                <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-100">
+                  <div className={`h-full rounded-full ${r.me ? "" : "bg-amber-400"}`} style={{ width: `${r.pct}%`, ...(r.me ? { background: NAVY } : {}) }} />
+                </div>
+              </div>
+            ))}
+            <button className="mt-2 w-full rounded-xl bg-slate-100 py-2 text-[11px] font-bold text-slate-700">
+              <Swords className="mr-1 inline h-3.5 w-3.5" /> Challenge to 1v1
+            </button>
+          </UPCard>
+
+          <UPCard>
+            <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">Public rooms · 4</div>
+            {[
+              { name: "সুবহানাল্লাহি ওয়া বিহামদিহী", emoji: "🌿", mutual: true },
+              { name: "লা ইলাহা ইল্লাল্লাহ", emoji: "✨", mutual: false },
+            ].map((r, i) => (
+              <div key={i} className="flex items-center gap-2.5 border-b border-slate-100 py-2 last:border-0 last:pb-0">
+                <div className="grid h-9 w-9 place-items-center rounded-xl bg-slate-50 text-base">{r.emoji}</div>
+                <div className="bn min-w-0 flex-1 truncate text-[12px] font-bold text-slate-900">{r.name}</div>
+                {r.mutual && <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[8.5px] font-bold text-emerald-700">You're both here</span>}
+              </div>
+            ))}
+          </UPCard>
+
+          <div className="rounded-xl bg-slate-50 p-2.5 ring-1 ring-slate-200">
+            <div className="flex items-start gap-1.5">
+              <Lock className="mt-0.5 h-3.5 w-3.5 text-slate-500" />
+              <p className="text-[10px] leading-snug text-slate-600">
+                Daily activity and private rooms are hidden. Users control what's public in privacy settings.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 10.5 — Followers / Following */
+function UP5Followers() {
+  const people = [
+    { name: "Fatema Khatun", handle: "@fatema_ctg", streak: 108, following: true },
+    { name: "Karim Sheikh", handle: "@karim_bd", streak: 21, following: false },
+    { name: "Nusrat Jahan", handle: "@nusrat_j", streak: 64, following: true },
+    { name: "Abdul Malik", handle: "@malik_syl", streak: 9, following: false },
+    { name: "Sadia Islam", handle: "@sadia_isl", streak: 35, following: true },
+  ];
+  return (
+    <FRPhoneShell>
+      <div className="flex h-full flex-col">
+        <div style={{ background: NAVY }} className="px-4 pb-0 pt-3 text-white">
+          <div className="flex items-center gap-2">
+            <ChevronRight className="h-4 w-4 rotate-180 opacity-80" />
+            <span className="text-[13px] font-bold">Rahim Uddin</span>
+          </div>
+          <div className="mt-3 flex text-center text-[11.5px] font-bold">
+            <div className="flex-1 border-b-2 border-amber-300 pb-2 text-amber-300">Followers · 1,248</div>
+            <div className="flex-1 border-b-2 border-transparent pb-2 text-white/60">Following · 312</div>
+          </div>
+        </div>
+        <div className="border-b border-slate-200 bg-white px-3 py-2">
+          <div className="flex items-center gap-2 rounded-xl bg-slate-100 px-2.5 py-1.5 text-[11px] text-slate-400">
+            <Search className="h-3.5 w-3.5" /> Search followers
+          </div>
+        </div>
+        <div className="flex-1 space-y-1.5 overflow-y-auto px-3 py-2.5">
+          {people.map((p, i) => (
+            <div key={i} className="flex items-center gap-2.5 rounded-2xl bg-white p-2.5 ring-1 ring-slate-200">
+              <div className="grid h-10 w-10 place-items-center rounded-full text-[13px] font-extrabold text-white" style={{ background: NAVY }}>
+                {p.name[0]}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-[12px] font-bold text-slate-900">{p.name}</div>
+                <div className="flex items-center gap-1.5 text-[9.5px] text-slate-500">
+                  <span>{p.handle}</span>
+                  <span className="inline-flex items-center gap-0.5 text-orange-500"><Flame className="h-2.5 w-2.5" /> {p.streak}d</span>
+                </div>
+              </div>
+              {p.following ? (
+                <button className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-bold text-slate-600">Following</button>
+              ) : (
+                <button className="rounded-full px-3 py-1 text-[10px] font-bold text-white" style={{ background: NAVY }}>Follow back</button>
+              )}
+            </div>
+          ))}
+        </div>
+        <FRTabBar active="me" />
+      </div>
+    </FRPhoneShell>
+  );
+}
+
+/* 10.6 — Edit profile & verification */
+function UP6Edit() {
+  return (
+    <FRPhoneShell>
+      <div className="flex h-full flex-col overflow-y-auto">
+        <div style={{ background: NAVY }} className="px-4 pb-6 pt-3 text-white">
+          <div className="flex items-center gap-2">
+            <ChevronRight className="h-4 w-4 rotate-180 opacity-80" />
+            <span className="text-[13px] font-bold">Edit Profile</span>
+          </div>
+          <div className="mt-3 flex flex-col items-center">
+            <div className="relative">
+              <div className="grid h-16 w-16 place-items-center rounded-full bg-white/15 text-[22px] font-extrabold ring-2 ring-white/30">R</div>
+              <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-amber-400 text-slate-900">
+                <Pencil className="h-3 w-3" />
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="-mt-3 space-y-2.5 px-3 pb-3">
+          <UPCard>
+            <div className="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-500">Basic info</div>
+            {[
+              { label: "Display name", value: "Rahim Uddin" },
+              { label: "Username", value: "@rahim_dhaka" },
+              { label: "City", value: "Dhaka, Bangladesh" },
+              { label: "Bio", value: "Alhamdulillah for everything 🤲" },
+            ].map((f, i) => (
+              <div key={i} className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0 last:pb-0">
+                <div>
+                  <div className="text-[9.5px] text-slate-500">{f.label}</div>
+                  <div className="text-[11.5px] font-bold text-slate-900">{f.value}</div>
+                </div>
+                <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+              </div>
+            ))}
+          </UPCard>
+
+          <UPCard>
+            <div className="mb-2 flex items-center justify-between">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Verification</div>
+              <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[8.5px] font-bold text-amber-700 ring-1 ring-amber-200">2 of 4 done</span>
+            </div>
+            {[
+              { label: "Email verified", done: true },
+              { label: "Phone verified", done: true },
+              { label: "Age group set", done: false },
+              { label: "Profile photo", done: false },
+            ].map((v, i) => (
+              <div key={i} className="flex items-center gap-2 border-b border-slate-100 py-2 last:border-0 last:pb-0">
+                {v.done ? (
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                ) : (
+                  <div className="h-4 w-4 rounded-full border-2 border-slate-300" />
+                )}
+                <span className={`flex-1 text-[11.5px] font-semibold ${v.done ? "text-slate-900" : "text-slate-600"}`}>{v.label}</span>
+                {!v.done && <span className="text-[10px] font-bold" style={{ color: NAVY }}>Complete</span>}
+              </div>
+            ))}
+            <div className="mt-2 rounded-xl bg-slate-50 p-2 ring-1 ring-slate-100">
+              <div className="flex items-start gap-1.5">
+                <ShieldCheck className="mt-0.5 h-3.5 w-3.5 text-slate-500" />
+                <p className="text-[9.5px] leading-snug text-slate-600">
+                  A fully verified profile is required to join <b>prize sessions</b> in Featured Rooms.
+                </p>
+              </div>
+            </div>
+          </UPCard>
+
+          <UPCard>
+            <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">Privacy</div>
+            {[
+              { label: "Show lifetime zikr publicly", on: true },
+              { label: "Show my rooms publicly", on: true },
+              { label: "Allow 1v1 challenges", on: false },
+            ].map((p, i) => (
+              <div key={i} className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0 last:pb-0">
+                <span className="text-[11.5px] font-semibold text-slate-800">{p.label}</span>
+                <div className={`flex h-5 w-9 items-center rounded-full p-0.5 ${p.on ? "justify-end" : "justify-start bg-slate-200"}`} style={p.on ? { background: NAVY } : undefined}>
+                  <div className="h-4 w-4 rounded-full bg-white shadow" />
+                </div>
+              </div>
+            ))}
+          </UPCard>
+
+          <button className="w-full rounded-xl py-2.5 text-[12px] font-bold text-white shadow" style={{ background: NAVY }}>
+            Save changes
+          </button>
+        </div>
+      </div>
+    </FRPhoneShell>
+  );
+}
