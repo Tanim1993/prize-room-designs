@@ -49,6 +49,8 @@ import {
   Building2,
   Globe,
   Filter,
+  Settings,
+  Pencil,
 } from "lucide-react";
 import sponsorLogo from "@/assets/sponsor-logo.png";
 import bannerBaby from "@/assets/banner-baby.png";
@@ -1984,6 +1986,25 @@ export default function SponsorCards() {
           <DetailFrame label="9.6 · Enrolled · You're in"><FR6Enrolled /></DetailFrame>
           <DetailFrame label="9.7 · Dual leaderboard (Prize / Lifetime)"><FR7Leaderboard /></DetailFrame>
           <DetailFrame label="9.8 · Session ended · winners"><FR8Ended /></DetailFrame>
+        </div>
+
+        {/* ============== Flow 10 · User Profile ============== */}
+        <header id="sec-flow10" className="mt-20 mb-8 scroll-mt-24 text-center">
+          <h2 className="text-[20px] font-extrabold text-slate-900">
+            Flow 10 · User Profile <span className="bn text-slate-500">— ইউজার প্রোফাইল</span>
+          </h2>
+          <p className="mt-1 max-w-3xl text-[12.5px] text-slate-600 mx-auto">
+            Navy-pattern profile screens: identity + social (followers), spiritual stats (streak, lifetime
+            zikr), rooms, achievements, and the verification status that powers session eligibility.
+          </p>
+        </header>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <DetailFrame label="10.1 · My Profile · overview"><UP1Overview /></DetailFrame>
+          <DetailFrame label="10.2 · My Rooms tab"><UP2Rooms /></DetailFrame>
+          <DetailFrame label="10.3 · Achievements &amp; streak"><UP3Achievements /></DetailFrame>
+          <DetailFrame label="10.4 · Other user · public view"><UP4Public /></DetailFrame>
+          <DetailFrame label="10.5 · Followers / Following"><UP5Followers /></DetailFrame>
+          <DetailFrame label="10.6 · Edit profile &amp; verification"><UP6Edit /></DetailFrame>
         </div>
 
 
@@ -6755,6 +6776,7 @@ const SECTION_LINKS: { id: string; label: string }[] = [
   { id: "sec-flow7a", label: "Flow 7 · Connect with Facebook" },
   { id: "sec-flow8", label: "Flow 8 · Communities tab" },
   { id: "sec-flow9", label: "Flow 9 · Featured Room (User)" },
+  { id: "sec-flow10", label: "Flow 10 · User Profile" },
 ];
 
 function SectionNav() {
